@@ -2,26 +2,37 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
 import NotFound from "./NotFound";
-import PrivateRoute from "./PrivateRoute";
+import Middleware from "./middleware";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Login />} />
-
-        {/* Protected route */}
+        {/* Apply middleware logic */}
+        <Route
+          path="/"
+          element={
+            <Middleware>
+              <div /> {/* Empty route for middleware redirection */}
+            </Middleware>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Middleware>
+              <Login />
+            </Middleware>
+          }
+        />
         <Route
           path="/home"
           element={
-            <PrivateRoute>
+            <Middleware>
               <Home />
-            </PrivateRoute>
+            </Middleware>
           }
         />
-
-        {/* 404 page for unknown routes */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

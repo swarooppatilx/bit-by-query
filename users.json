@@ -1,0 +1,12 @@
+[
+  {
+    "username": "acm123",
+    "name": "Vilgax",
+    "passwordHash": "$2b$10$kEKb9xPzE28Sa1BA7hgKqel.NLLbBTW8dQsWZGo.irGsJuSm9ld0e"
+  },
+  {
+    "username": "user456",
+    "name": "Ben Tennyson",
+    "passwordHash": "$2b$10$kEKb9xPzE28Sa1BA7hgKqel.NLLbBTW8dQsWZGo.irGsJuSm9ld0e"
+  }
+]
