@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import apiClient from "./apiClient"; // Import the configured Axios instance
 import Editor from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import { MdDesktopMac } from "react-icons/md";
+import { useNavigate } from "react-router-dom"; // For page redirection
 
 function Home() {
   const [problems, setProblems] = useState([]);
@@ -13,9 +14,10 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sqlError, setSqlError] = useState(null);
-
-  // Track screen size to display message on smaller screens
   const [isMobile, setIsMobile] = useState(false);
+  const [userInfo, setUserInfo] = useState(null); // New state for user information
+
+  const navigate = useNavigate(); // To redirect after logout
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -30,8 +32,22 @@ function Home() {
     };
   }, []);
 
+  // Fetch user info on component mount
   useEffect(() => {
-    axios
+    apiClient
+      .get("/api/userinfo")
+      .then((response) => {
+        setUserInfo(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user info:", error);
+        setError("Failed to load user information. Please try again.");
+      });
+  }, []);
+
+  // Fetch problems list on component mount
+  useEffect(() => {
+    apiClient
       .get("/api/problems")
       .then((response) => {
         setProblems(response.data);
@@ -43,11 +59,12 @@ function Home() {
       });
   }, []);
 
+  // Fetch problem details when a problem is selected
   useEffect(() => {
     if (problemId) {
       setProblemDetails(null);
       setError(null);
-      axios
+      apiClient
         .get(`/api/problems/${problemId}`)
         .then((response) => setProblemDetails(response.data))
         .catch((error) => {
@@ -68,7 +85,7 @@ function Home() {
     setSqlError(null);
     setQueryResult(null);
 
-    axios
+    apiClient
       .post(`/api/problems/${problemId}/evaluate`, { userQuery })
       .then((response) => {
         setQueryResult(response.data);
@@ -87,6 +104,12 @@ function Home() {
         }
         setLoading(false);
       });
+  };
+
+  // Logout function to clear authToken and navigate to login page
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Clear authToken from localStorage
+    navigate("/login"); // Redirect to login page (modify based on your route)
   };
 
   const renderTable = (data, isCorrect) => {
@@ -129,7 +152,6 @@ function Home() {
 
   return (
     <div className="bg-gray-800 w-full h-screen text-white">
-      
       {/* Message for smaller screens */}
       {isMobile && (
         <div className="w-full h-full flex flex-col items-center justify-center bg-gray-900 text-white">
@@ -144,8 +166,33 @@ function Home() {
       {!isMobile && (
         <>
           {/* Header */}
-          <header className="w-full p-6 bg-gray-800 text-center border-b border-gray-700">
-            <h1 className="text-4xl font-bold text-green-400">Bit By Query</h1>
+          <header className="w-full p-6 bg-gray-800 text-center border-b border-gray-700 relative">
+            {/* Display user name and ACM ID in the top-left corner */}
+            {userInfo && (
+              <div className="absolute top-6 left-6 text-sm font-medium text-gray-200">
+                <div className="text-lg font-semibold text-green-400">
+                  {userInfo.name}
+                </div>
+                <div className="text-xs">{`ACM ID: ${userInfo.username}`}</div>
+              </div>
+            )}
+
+            {/* Main Title */}
+            <div className="flex justify-center items-center space-x-4">
+              <h1 className="text-3xl font-extrabold text-green-400">
+                Bit By Query
+              </h1>
+            </div>
+
+            {/* Logout Button */}
+            <div className="absolute top-6 right-6">
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center space-x-2"
+              >
+                <span className="font-semibold">Logout</span>
+              </button>
+            </div>
           </header>
           <div className="flex h-screen bg-gray-900 text-white">
             {/* Sidebar */}
@@ -207,7 +254,7 @@ function Home() {
                 onChange={(value) => setUserQuery(value)}
                 options={{
                   minimap: { enabled: false },
-                  fontSize: 16,
+                  fontSize: 22,
                   theme: "vs-dark",
                 }}
                 className="border border-gray-700 rounded-md shadow-md m-4"
