@@ -1,0 +1,44 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+.vscode/
+.idea/
+
+# React and Vite build outputs
+/dist
+/build
+/.vite
+
+# Tailwind CSS files (if you have any generated files)
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# dotenv environment files
+.env
+.env.local
+.env.*.local
+
+# Next.js build output (if applicable)
+.next/
+
+# Typescript output
+*.tsbuildinfo
+
+# Test Coverage
+coverage/
+
+# VS Code settings
+.vscode/
