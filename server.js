@@ -18,14 +18,6 @@ const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 app.use(bodyParser.json());
 app.use(cors({ origin: "*" }));
 
-// Load users from users.json
-const usersFile = "users.json";
-let users = [];
-
-if (fs.existsSync(usersFile)) {
-  users = JSON.parse(fs.readFileSync(usersFile, "utf-8"));
-}
-
 // Load problems from JSON file
 const problemsFile = "problems.json";
 let problems = [];
@@ -68,12 +60,12 @@ const dbConfig = {
   database: process.env.DB_NAME,
 };
 
-let db;
+let mysqldb;
 
 // Connect to MySQL Database
 async function connectToDatabase() {
   try {
-    db = await mysql.createConnection(dbConfig);
+    mysqldb = await mysql.createConnection(dbConfig);
     console.log("Connected to MySQL database.");
   } catch (err) {
     console.error("Failed to connect to MySQL database:", err.message);
@@ -93,7 +85,7 @@ app.post("/api/login", async (req, res) => {
 
   try {
     // Fetch user from MySQL database
-    const [rows] = await db.execute("SELECT * FROM users WHERE username = ?", [
+    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
       username,
     ]);
 
@@ -125,7 +117,7 @@ app.post("/api/login", async (req, res) => {
 
 app.get("/api/userinfo", authenticateToken, async (req, res) => {
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE username = ?", [
+    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
       req.user.username,
     ]);
 
@@ -163,10 +155,9 @@ app.get("/api/problems/:id", authenticateToken, (req, res) => {
   res.json(problem);
 });
 
-// Route: Evaluate user query (protected)
-app.post("/api/problems/:id/evaluate", authenticateToken, (req, res) => {
+app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   const problemId = req.params.id;
-  const { userQuery } = req.body;
+  const { userQuery, elapsedTime } = req.body;
 
   if (!userQuery) {
     return res.status(400).json({ error: "User query is required" });
@@ -204,7 +195,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, (req, res) => {
       }
     });
 
-    db.all(parsedUserQuery, [], (err, rows) => {
+    db.all(parsedUserQuery, [], async (err, rows) => {
       db.close();
 
       if (err) {
@@ -218,6 +209,47 @@ app.post("/api/problems/:id/evaluate", authenticateToken, (req, res) => {
         JSON.stringify(rows) === JSON.stringify(problem.expectedOutput);
       const duration = Date.now() - start;
 
+      if (isCorrect) {
+        try {
+          // Check for existing submission to prevent duplicates
+          const [existingSubmission] = await mysqldb.execute(
+            "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
+            [req.user.username, problemId]
+          );
+
+          if (existingSubmission.length > 0) {
+            return res.status(400).json({
+              error: "Duplicate submission",
+              details: "You have already solved this problem",
+            });
+          }
+
+          // Fetch the user's name from the database
+          const [userRows] = await mysqldb.execute(
+            "SELECT name FROM users WHERE username = ?",
+            [req.user.username]
+          );
+
+          if (userRows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+          }
+
+          const userName = userRows[0].name;
+
+          // Insert the submission with the user's name
+          await mysqldb.execute(
+            "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
+            [req.user.username, userName, problemId, `${elapsedTime}`]
+          );
+        } catch (dbErr) {
+          console.error("Error saving submission:", dbErr.message);
+          return res.status(500).json({
+            error: "Failed to save submission",
+            details: dbErr.message,
+          });
+        }
+      }
+
       res.json({
         correct: isCorrect,
         userOutput: rows,
@@ -227,6 +259,40 @@ app.post("/api/problems/:id/evaluate", authenticateToken, (req, res) => {
     });
   });
 });
+
+// Route: Leaderboard (public)
+app.get("/api/leaderboard", async (req, res) => {
+  try {
+    // Query to find the leaderboard
+    const query = `
+      SELECT 
+        username,
+        name,
+        COUNT(DISTINCT problem_id) AS problems_solved, 
+        SUM(time_taken) AS total_time
+      FROM 
+        submissions
+      GROUP BY 
+        username
+      ORDER BY 
+        problems_solved DESC, 
+        SUM(time_taken) ASC
+      LIMIT 10;`;
+
+    const [rows] = await mysqldb.execute(query);
+
+    // Directly return the rows array
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching leaderboard:", err.message);
+    res.status(500).json({
+      error: "Failed to fetch leaderboard",
+      details: err.message,
+    });
+  }
+});
+
+
 
 // 404 handler
 app.use((req, res) => {

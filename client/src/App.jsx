@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
+import LeaderBoard from "./LeaderBoard";
 import NotFound from "./NotFound";
 import Middleware from "./middleware";
 
@@ -33,6 +34,7 @@ function App() {
             </Middleware>
           }
         />
+        <Route path="/leaderboard" element={<LeaderBoard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
