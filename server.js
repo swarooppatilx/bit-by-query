@@ -324,8 +324,7 @@ app.get("/api/leaderboard", async (req, res) => {
         username
       ORDER BY 
         problems_solved DESC, 
-        SUM(time_taken) ASC
-      LIMIT 10;`;
+        SUM(time_taken) ASC;`;
 
     const [rows] = await mysqldb.execute(query);
 
