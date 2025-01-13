@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
+const mysql = require("mysql2/promise"); // Use mysql2 for async/await support
 const fs = require("fs");
 const mysqlToSQLiteParser = require("./lib/mysqlToSQLiteParser");
 const cors = require("cors");
@@ -59,23 +60,52 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// MySQL Database Connection
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+};
+
+let db;
+
+// Connect to MySQL Database
+async function connectToDatabase() {
+  try {
+    db = await mysql.createConnection(dbConfig);
+    console.log("Connected to MySQL database.");
+  } catch (err) {
+    console.error("Failed to connect to MySQL database:", err.message);
+    process.exit(1);
+  }
+}
+
+connectToDatabase();
+
 // Route: User login
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ error: "ACM ID and password are required" });
-  }
-
-  const user = users.find((u) => u.username === username);
-  if (!user) {
-    return res.status(400).json({ error: "User ID not found" });
+    return res.status(400).json({ error: "Username and password are required" });
   }
 
   try {
+    // Fetch user from MySQL database
+    const [rows] = await db.execute("SELECT * FROM users WHERE username = ?", [
+      username,
+    ]);
+
+    if (rows.length === 0) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    const user = rows[0];
+
     // Compare the password with the stored hash
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid password" });
     }
@@ -84,25 +114,34 @@ app.post("/api/login", async (req, res) => {
     const token = jwt.sign({ username: user.username }, JWT_SECRET, {
       expiresIn: "1h",
     });
-    
+
     res.json({ token });
   } catch (err) {
-    console.error("Error comparing password:", err);
+    console.error("Error during login:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
 
-// Route: Fetch user information (protected)
-app.get("/api/userinfo", authenticateToken, (req, res) => {
-  const user = users.find((u) => u.username === req.user.username);
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
+app.get("/api/userinfo", authenticateToken, async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM users WHERE username = ?", [
+      req.user.username,
+    ]);
 
-  // Exclude the password hash for security
-  const { passwordHash, ...userInfo } = user;
-  res.json(userInfo);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = rows[0];
+    // Exclude the password hash for security
+    const { password_hash, ...userInfo } = user;
+
+    res.json(userInfo);
+  } catch (err) {
+    console.error("Error fetching user info:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // Route: Fetch all problems (protected)
