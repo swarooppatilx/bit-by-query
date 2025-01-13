@@ -16,8 +16,21 @@ function Home() {
   const [sqlError, setSqlError] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [userInfo, setUserInfo] = useState(null); // New state for user information
+  const [startTime, setStartTime] = useState(null); // Start time of the current problem
+  const [elapsedTime, setElapsedTime] = useState(0); // Elapsed time as float
 
   const navigate = useNavigate(); // To redirect after logout
+
+function formatTime(ms) {
+  if (isNaN(ms) || ms < 0) return "00:00"; // Return default time if ms is invalid or negative
+
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000)
+    .toString()
+    .padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -74,6 +87,29 @@ function Home() {
     }
   }, [problemId]);
 
+  // Timer Logic
+  useEffect(() => {
+    let timerInterval;
+
+    if (startTime) {
+      timerInterval = setInterval(() => {
+        const now = new Date();
+        const duration = Math.floor((now - startTime) / 1000); // Get duration in seconds
+        setElapsedTime(duration * 1000); // Store the elapsed time in milliseconds
+      }, 1000);
+    }
+
+    return () => clearInterval(timerInterval); // Cleanup interval on unmount
+  }, [startTime]);
+
+  // Reset timer when a new problem is selected
+  useEffect(() => {
+    if (problemId) {
+      setStartTime(new Date()); // Set start time to the current time
+      setElapsedTime("00:00:00"); // Reset elapsed time display
+    }
+  }, [problemId]);
+
   const handleEvaluate = () => {
     if (!problemId || !userQuery.trim()) {
       alert("Please provide both problem ID and query.");
@@ -86,7 +122,10 @@ function Home() {
     setQueryResult(null);
 
     apiClient
-      .post(`/api/problems/${problemId}/evaluate`, { userQuery })
+      .post(`/api/problems/${problemId}/evaluate`, {
+        userQuery,
+        elapsedTime,
+      })
       .then((response) => {
         setQueryResult(response.data);
         setLoading(false);
@@ -169,11 +208,17 @@ function Home() {
           <header className="w-full p-6 bg-gray-800 text-center border-b border-gray-700 relative">
             {/* Display user name and ACM ID in the top-left corner */}
             {userInfo && (
-              <div className="absolute top-6 left-6 text-sm font-medium text-gray-200">
+              <div className="absolute top-2 left-6 text-sm font-medium text-gray-200">
                 <div className="text-lg font-semibold text-green-400">
                   {userInfo.name}
                 </div>
                 <div className="text-xs">{`ACM ID: ${userInfo.username}`}</div>
+                {problemId && (
+                  <div className="mt-1 text-sm">
+                    Time Spent:{" "}
+                    <span className="text-green-300">{formatTime(elapsedTime)}</span>
+                  </div>
+                )}
               </div>
             )}
 
