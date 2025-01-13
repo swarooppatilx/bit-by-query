@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
 function Middleware({ children }) {
   const token = localStorage.getItem("authToken");
   const location = useLocation();
@@ -23,5 +23,8 @@ function Middleware({ children }) {
 
   return children;
 }
+Middleware.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Middleware;
