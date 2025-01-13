@@ -64,14 +64,27 @@ let mysqldb;
 
 // Connect to MySQL Database
 async function connectToDatabase() {
-  try {
-    mysqldb = await mysql.createConnection(dbConfig);
-    console.log("Connected to MySQL database.");
-  } catch (err) {
-    console.error("Failed to connect to MySQL database:", err.message);
-    process.exit(1);
+  const maxRetries = 5;
+  let attempts = 0;
+  while (attempts < maxRetries) {
+    try {
+      mysqldb = await mysql.createConnection(dbConfig);
+      console.log("Connected to MySQL database.");
+      break;
+    } catch (err) {
+      attempts++;
+      console.error(
+        `Failed to connect to MySQL database (Attempt ${attempts}):`,
+        err.message
+      );
+      if (attempts === maxRetries) {
+        process.exit(1); // Exit if max retries exceeded
+      }
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds before retrying
+    }
   }
 }
+
 
 connectToDatabase();
 
@@ -113,6 +126,41 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// Route: User Registration
+app.post("/api/register", async (req, res) => {
+  const { username, password, name } = req.body;
+
+  if (!username || !password || !name) {
+    return res.status(400).json({ error: "Username, password, and name are required" });
+  }
+
+  try {
+    // Check if the user already exists
+    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
+      username,
+    ]);
+
+    if (rows.length > 0) {
+      return res.status(400).json({ error: "Username is already taken" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user into the database
+    await mysqldb.execute(
+      "INSERT INTO users (username, password_hash, name) VALUES (?, ?, ?)",
+      [username, hashedPassword, name]
+    );
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    console.error("Error during registration:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 
 app.get("/api/userinfo", authenticateToken, async (req, res) => {

@@ -3,18 +3,18 @@ import Login from "./Login";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
 import NotFound from "./NotFound";
+import Register from "./Register";
 import Middleware from "./middleware";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Apply middleware logic */}
         <Route
           path="/"
           element={
             <Middleware>
-              <div /> {/* Empty route for middleware redirection */}
+              <div />
             </Middleware>
           }
         />
@@ -23,6 +23,14 @@ function App() {
           element={
             <Middleware>
               <Login />
+            </Middleware>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Middleware>
+              <Register />
             </Middleware>
           }
         />
