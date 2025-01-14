@@ -13,9 +13,7 @@ function LeaderBoard() {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(
-          "https://bit-by-query-server.vercel.app/api/leaderboard"
-        );
+        const response = await axios.get("/api/leaderboard");
 
         // Log response for debugging
         console.log("Leaderboard Data:", response.data);
