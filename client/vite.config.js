@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "http://localhost:5000", // Forward requests from /api to backend server
+      "/api": "https://bit-by-query-server.vercel.app/api/", // Forward requests from /api to backend server
     },
   },
 });
