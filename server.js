@@ -52,41 +52,24 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// MySQL Database Connection
-const dbConfig = {
+// MySQL Connection Pool
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-};
+  waitForConnections: true,
+  connectionLimit: 200, // Maximum number of connections in the pool
+  queueLimit: 0, // Unlimited queue length
+});
 
-let mysqldb;
-
-// Connect to MySQL Database
-async function connectToDatabase() {
-  const maxRetries = 5;
-  let attempts = 0;
-  while (attempts < maxRetries) {
-    try {
-      mysqldb = await mysql.createConnection(dbConfig);
-      console.log("Connected to MySQL database.");
-      break;
-    } catch (err) {
-      attempts++;
-      console.error(
-        `Failed to connect to MySQL database (Attempt ${attempts}):`,
-        err.message
-      );
-      if (attempts === maxRetries) {
-        process.exit(1); // Exit if max retries exceeded
-      }
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds before retrying
-    }
-  }
-}
+// Middleware to attach pool to req object
+app.use((req, res, next) => {
+  req.db = pool;
+  next();
+});
 
 
-connectToDatabase();
 
 // Route: User login
 app.post("/api/login", async (req, res) => {
@@ -98,7 +81,7 @@ app.post("/api/login", async (req, res) => {
 
   try {
     // Fetch user from MySQL database
-    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
+    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
       username,
     ]);
 
@@ -137,7 +120,7 @@ app.post("/api/register", async (req, res) => {
 
   try {
     // Check if the user already exists
-    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
+    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
       username,
     ]);
 
@@ -149,7 +132,7 @@ app.post("/api/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
-    await mysqldb.execute(
+    await pool.execute(
       "INSERT INTO users (username, password_hash, name) VALUES (?, ?, ?)",
       [username, hashedPassword, name]
     );
@@ -165,7 +148,7 @@ app.post("/api/register", async (req, res) => {
 
 app.get("/api/userinfo", authenticateToken, async (req, res) => {
   try {
-    const [rows] = await mysqldb.execute("SELECT * FROM users WHERE username = ?", [
+    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
       req.user.username,
     ]);
 
@@ -260,7 +243,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
       if (isCorrect) {
         try {
           // Check for existing submission to prevent duplicates
-          const [existingSubmission] = await mysqldb.execute(
+          const [existingSubmission] = await pool.execute(
             "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
             [req.user.username, problemId]
           );
@@ -273,7 +256,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
           }
 
           // Fetch the user's name from the database
-          const [userRows] = await mysqldb.execute(
+          const [userRows] = await pool.execute(
             "SELECT name FROM users WHERE username = ?",
             [req.user.username]
           );
@@ -285,7 +268,7 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
           const userName = userRows[0].name;
 
           // Insert the submission with the user's name
-          await mysqldb.execute(
+          await pool.execute(
             "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
             [req.user.username, userName, problemId, `${elapsedTime}`]
           );
@@ -326,7 +309,7 @@ app.get("/api/leaderboard", async (req, res) => {
         problems_solved DESC, 
         SUM(time_taken) ASC;`;
 
-    const [rows] = await mysqldb.execute(query);
+    const [rows] = await pool.execute(query);
 
     // Directly return the rows array
     res.json(rows);
@@ -352,4 +335,16 @@ app.use(handleErrors);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+});
+
+// Gracefully close the pool on app termination
+process.on("SIGINT", async () => {
+  try {
+    await pool.end();
+    console.log("MySQL connection pool closed.");
+    process.exit(0);
+  } catch (err) {
+    console.error("Error closing MySQL connection pool:", err.message);
+    process.exit(1);
+  }
 });
