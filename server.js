@@ -4,7 +4,6 @@ const sqlite3 = require("sqlite3").verbose();
 const mysql = require("mysql2/promise"); // Use mysql2 for async/await support
 const fs = require("fs");
 const mysqlToSQLiteParser = require("./lib/mysqlToSQLiteParser");
-const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -16,7 +15,6 @@ const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors({ origin: "*" }));
 
 // Load problems from JSON file
 const problemsFile = "problems.json";
