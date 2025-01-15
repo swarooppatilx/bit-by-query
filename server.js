@@ -6,6 +6,7 @@ const fs = require("fs");
 const mysqlToSQLiteParser = require("./lib/mysqlToSQLiteParser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -15,6 +16,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
 // Middleware
 app.use(bodyParser.json());
+
+// Serve the Vite build (client/dist)
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 // Load problems from JSON file
 const problemsFile = "problems.json";
@@ -320,6 +324,10 @@ app.get("/api/leaderboard", async (req, res) => {
   }
 });
 
+// Fallback to serve `index.html` for non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
 
 
 // 404 handler
