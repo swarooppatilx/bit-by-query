@@ -52,6 +52,10 @@ function Home() {
     if (problemId) {
       setProblemDetails(null);
       setError(null);
+      setUserQuery("");
+      setQueryResult(null);
+      setSqlError(null);
+      setLoading(false);
       apiClient
         .get(`/api/problems/${problemId}`)
         .then((response) => setProblemDetails(response.data))
