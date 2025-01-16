@@ -1,7 +1,41 @@
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import Table from "./Table";
+import confetti from "canvas-confetti";
 
 const QueryResult = ({ queryResult }) => {
+  useEffect(() => {
+    if (queryResult?.correct) {
+      const end = Date.now() + 500;
+      const colors = ["#bb0000", "#ffffff", "#00bb00", "#0000bb", "#ffbb00"];
+
+      const frame = () => {
+        confetti({
+          particleCount: 10,
+          angle: 60,
+          spread: 100,
+          origin: { x: 0 },
+          colors: colors,
+        });
+
+        confetti({
+          particleCount: 10,
+          angle: 120,
+          spread: 100,
+          origin: { x: 1 },
+          colors: colors,
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+
+      frame();
+    }
+  }, [queryResult?.correct]);
+
+
   if (!queryResult) return null;
 
   return (
@@ -9,6 +43,7 @@ const QueryResult = ({ queryResult }) => {
       <h3 className="text-2xl font-semibold text-green-400 mb-4">
         Evaluation Result
       </h3>
+      
       <p className="text-lg text-gray-300 mb-4">
         Correct:{" "}
         <span
