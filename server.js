@@ -18,7 +18,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 app.use(bodyParser.json());
 
 // Serve the Vite build (client/dist)
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Load problems from JSON file
 const problemsFile = "problems.json";
@@ -71,21 +71,22 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 // Route: User login
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ error: "Username and password are required" });
+    return res
+      .status(400)
+      .json({ error: "Username and password are required" });
   }
 
   try {
     // Fetch user from MySQL database
-    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
-      username,
-    ]);
+    const [rows] = await pool.execute(
+      "SELECT * FROM users WHERE username = ?",
+      [username]
+    );
 
     if (rows.length === 0) {
       return res.status(400).json({ error: "User not found" });
@@ -117,14 +118,17 @@ app.post("/api/register", async (req, res) => {
   const { username, password, name } = req.body;
 
   if (!username || !password || !name) {
-    return res.status(400).json({ error: "Username, password, and name are required" });
+    return res
+      .status(400)
+      .json({ error: "Username, password, and name are required" });
   }
 
   try {
     // Check if the user already exists
-    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
-      username,
-    ]);
+    const [rows] = await pool.execute(
+      "SELECT * FROM users WHERE username = ?",
+      [username]
+    );
 
     if (rows.length > 0) {
       return res.status(400).json({ error: "Username is already taken" });
@@ -146,13 +150,12 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-
-
 app.get("/api/userinfo", authenticateToken, async (req, res) => {
   try {
-    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
-      req.user.username,
-    ]);
+    const [rows] = await pool.execute(
+      "SELECT * FROM users WHERE username = ?",
+      [req.user.username]
+    );
 
     if (rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -205,7 +208,6 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   const db = new sqlite3.Database(":memory:");
   const parsedSchema = mysqlToSQLiteParser(problem.schema);
   const parsedSampleData = mysqlToSQLiteParser(problem.sampleData);
-  const parsedUserQuery = mysqlToSQLiteParser(userQuery);
 
   db.serialize(() => {
     db.run(parsedSchema, (err) => {
@@ -228,68 +230,85 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
       }
     });
 
-    db.all(parsedUserQuery, [], async (err, rows) => {
-      db.close();
+    const queries = userQuery
+      .split(";")
+      .map((q) => q.trim())
+      .filter((q) => q);
 
-      if (err) {
+    let lastResult;
+    const executeQueries = async () => {
+      try {
+        for (const query of queries) {
+          lastResult = await new Promise((resolve, reject) => {
+            db.all(query, [], (err, rows) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(rows);
+              }
+            });
+          });
+        }
+        db.close();
+
+        const isCorrect =
+          JSON.stringify(lastResult) === JSON.stringify(problem.expectedOutput);
+        const duration = Date.now() - start;
+
+        if (isCorrect) {
+          try {
+            const [existingSubmission] = await pool.execute(
+              "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
+              [req.user.username, problemId]
+            );
+
+            if (existingSubmission.length > 0) {
+              return res.status(400).json({
+                error: "Duplicate submission",
+                details: "You have already solved this problem",
+              });
+            }
+
+            const [userRows] = await pool.execute(
+              "SELECT name FROM users WHERE username = ?",
+              [req.user.username]
+            );
+
+            if (userRows.length === 0) {
+              return res.status(404).json({ error: "User not found" });
+            }
+
+            const userName = userRows[0].name;
+
+            await pool.execute(
+              "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
+              [req.user.username, userName, problemId, `${elapsedTime}`]
+            );
+          } catch (dbErr) {
+            console.error("Error saving submission:", dbErr.message);
+            return res.status(500).json({
+              error: "Failed to save submission",
+              details: dbErr.message,
+            });
+          }
+        }
+
+        res.json({
+          correct: isCorrect,
+          userOutput: lastResult,
+          expectedOutput: problem.expectedOutput,
+          duration: `${duration}ms`,
+        });
+      } catch (err) {
+        db.close();
         return res.status(400).json({
           error: "Query execution failed",
           details: err.message,
         });
       }
+    };
 
-      const isCorrect =
-        JSON.stringify(rows) === JSON.stringify(problem.expectedOutput);
-      const duration = Date.now() - start;
-
-      if (isCorrect) {
-        try {
-          // Check for existing submission to prevent duplicates
-          const [existingSubmission] = await pool.execute(
-            "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
-            [req.user.username, problemId]
-          );
-
-          if (existingSubmission.length > 0) {
-            return res.status(400).json({
-              error: "Duplicate submission",
-              details: "You have already solved this problem",
-            });
-          }
-
-          // Fetch the user's name from the database
-          const [userRows] = await pool.execute(
-            "SELECT name FROM users WHERE username = ?",
-            [req.user.username]
-          );
-
-          if (userRows.length === 0) {
-            return res.status(404).json({ error: "User not found" });
-          }
-
-          const userName = userRows[0].name;
-
-          // Insert the submission with the user's name
-          await pool.execute(
-            "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
-            [req.user.username, userName, problemId, `${elapsedTime}`]
-          );
-        } catch (dbErr) {
-          console.error("Error saving submission:", dbErr.message);
-          return res.status(500).json({
-            error: "Failed to save submission",
-            details: dbErr.message,
-          });
-        }
-      }
-
-      res.json({
-        correct: isCorrect,
-        userOutput: rows,
-        expectedOutput: problem.expectedOutput,
-        duration: `${duration}ms`,
-      });
-    });
+    executeQueries();
   });
 });
 
@@ -325,10 +344,9 @@ app.get("/api/leaderboard", async (req, res) => {
 });
 
 // Fallback to serve `index.html` for non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/dist/index.html"));
 });
-
 
 // 404 handler
 app.use((req, res) => {
