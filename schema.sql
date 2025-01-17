@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS `submissions`;
+Terminal close -- exit!
+bmissions`;
 CREATE TABLE `submissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
