@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -17,14 +18,15 @@ const Header = ({ userInfo, problemId, elapsedTime, formatTime }) => {
             {userInfo.name}
           </div>
           <div className="text-xs">{`ACM ID: ${userInfo.username}`}</div>
-          {problemId && (
+          {/* If someone finds this they can cheat the system by switching the question before submitting which resets the timer for each question */}
+          {/* {problemId && (
             <div className="mt-1 text-sm">
               Time Spent:{" "}
               <span className="text-green-300">
                 {formatTime(elapsedTime)}
               </span>
             </div>
-          )}
+          )} */}
         </div>
       )}
 

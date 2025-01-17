@@ -8,6 +8,8 @@ import QueryEditor from "./components/QueryEditor";
 import QueryResult from "./components/QueryResult";
 import ErrorDisplay from "./components/ErrorDisplay";
 import MobileWarning from "./components/MobileWarning";
+import { endTime } from "./config/date";
+import { Navigate } from "react-router-dom";
 
 function Home() {
   const [problems, setProblems] = useState([]);
@@ -109,6 +111,11 @@ function Home() {
   if (isMobile) {
     return <MobileWarning />;
   }
+
+   const currentTime = new Date().getTime();
+    if (currentTime > endTime) {
+      return <Navigate to="/countdown" replace />;
+    }
 
 
   return (

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
+import CountDown from "./CountDown";
 import NotFound from "./NotFound";
 import Register from "./Register";
 import Middleware from "./middleware";
@@ -14,7 +15,7 @@ function App() {
           path="/"
           element={
             <Middleware>
-              <div />
+              <Home />
             </Middleware>
           }
         />
@@ -43,6 +44,7 @@ function App() {
           }
         />
         <Route path="/leaderboard" element={<LeaderBoard />} />
+        <Route path="/countdown" element={<CountDown />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
