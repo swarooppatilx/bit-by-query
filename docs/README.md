@@ -1,3 +1,4 @@
+```plaintext
 docs/
 ├── CONTRIBUTING.md          # Guidelines for contributing to the project
 ├── INSTALLATION.md          # Detailed installation and setup instructions
@@ -10,3 +11,4 @@ docs/
 └── README.md                # Overview of the documentation folder
 
 Todo: add more docs after project is open sourced
+```
