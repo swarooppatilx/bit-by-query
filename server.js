@@ -20,16 +20,16 @@ app.use(bodyParser.json());
 // Serve the Vite build (client/dist)
 app.use(express.static(path.join(__dirname, "client/dist")));
 
-const problemsDirectory = path.join(__dirname, 'problems');
-const problemsFile = path.join(problemsDirectory, 'virtual_contest.json');
+const problemsDirectory = path.join(__dirname, "problems");
+const problemsFile = path.join(problemsDirectory, "virtual_contest.json");
 
 let problems = [];
 
 // Check if the file exists and load the problems
 if (fs.existsSync(problemsFile)) {
-  problems = JSON.parse(fs.readFileSync(problemsFile, 'utf-8'));
+  problems = JSON.parse(fs.readFileSync(problemsFile, "utf-8"));
 } else {
-  console.error('Problems file not found.');
+  console.error("Problems file not found.");
 }
 
 // Middleware to handle errors
@@ -214,7 +214,7 @@ app.get("/api/problems/:id", authenticateToken, (req, res) => {
 
 app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   const problemId = req.params.id;
-  const { userQuery, elapsedTime } = req.body;
+  const { userQuery } = req.body;
 
   if (!userQuery) {
     return res.status(400).json({ error: "User query is required" });
@@ -256,10 +256,19 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
       .map((q) => q.trim())
       .filter((q) => q);
 
+    const parsedQueries = queries.map((query) => {
+      try {
+        return mysqlToSQLiteParser(query);
+      } catch (err) {
+        console.error("Error parsing query:", err);
+        throw new Error("Failed to parse query");
+      }
+    });
+
     let lastResult;
     const executeQueries = async () => {
       try {
-        for (const query of queries) {
+        for (const query of parsedQueries) {
           lastResult = await new Promise((resolve, reject) => {
             db.all(query, [], (err, rows) => {
               if (err) {
@@ -301,9 +310,10 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
 
             const userName = userRows[0].name;
 
+            // Insert the problem ID, user name, and the marks for the problem
             await pool.execute(
-              "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
-              [req.user.username, userName, problemId, `${elapsedTime}`]
+              "INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
+              [req.user.username, userName, problemId, problem.marks]
             );
           } catch (dbErr) {
             console.error("Error saving submission:", dbErr.message);
@@ -333,23 +343,23 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   });
 });
 
-// Route: Leaderboard (public)
 app.get("/api/leaderboard", async (req, res) => {
   try {
-    // Query to find the leaderboard
+    // Query to find the leaderboard including total marks
     const query = `
       SELECT 
         username,
         name,
         COUNT(DISTINCT problem_id) AS problems_solved, 
-        SUM(time_taken) AS total_time
+        SUM(marks) AS score,
+        MAX(timestamp) AS last_submission
       FROM 
         submissions
       GROUP BY 
-        username
+        username, name
       ORDER BY 
-        problems_solved DESC, 
-        SUM(time_taken) ASC;`;
+        score DESC,
+        last_submission ASC;`;
 
     const [rows] = await pool.execute(query);
 

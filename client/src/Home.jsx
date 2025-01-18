@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import apiClient from "./apiClient";
 import { useScreenSize } from "./hooks/useScreenSize";
-import { useTimer } from "./hooks/useTimer";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import QueryEditor from "./components/QueryEditor";
@@ -24,7 +23,6 @@ function Home() {
   const [solvedProblems, setSolvedProblems] = useState([]); // New state for solved problems
 
   const isMobile = useScreenSize();
-  const elapsedTime = useTimer(problemId);
 
   useEffect(() => {
     apiClient
@@ -112,7 +110,6 @@ useEffect(() => {
     apiClient
       .post(`/api/problems/${problemId}/evaluate`, {
         userQuery,
-        elapsedTime,
       })
       .then((response) => {
         setQueryResult(response.data);
@@ -129,15 +126,6 @@ useEffect(() => {
       });
   };
 
-  const formatTime = (ms) => {
-    if (isNaN(ms) || ms < 0) return "00:00";
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
-
   if (isMobile) {
     return <MobileWarning />;
   }
@@ -151,9 +139,6 @@ useEffect(() => {
     <div className="flex flex-col h-screen">
       <Header
         userInfo={userInfo}
-        problemId={problemId}
-        elapsedTime={elapsedTime}
-        formatTime={formatTime}
       />
       <div className="flex flex-1 overflow-hidden bg-gray-900">
         <Sidebar

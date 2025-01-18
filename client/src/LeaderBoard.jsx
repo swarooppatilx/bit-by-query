@@ -44,15 +44,6 @@ function LeaderBoard() {
     return () => clearInterval(intervalId);
   }, []);
 
-  function formatTime(ms) {
-    if (isNaN(ms) || ms < 0) return "00:00"; // Return default time if ms is invalid or negative
-
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  }
 
   function formatDate(date) {
     const options = {
@@ -103,8 +94,9 @@ function LeaderBoard() {
                   <th className="border border-gray-700 p-3 text-lg">
                     Problems Solved
                   </th>
+                  <th className="border border-gray-700 p-3 text-lg">Score</th>
                   <th className="border border-gray-700 p-3 text-lg">
-                    Total Time
+                    Last Submission
                   </th>
                 </tr>
               </thead>
@@ -131,7 +123,12 @@ function LeaderBoard() {
                       {player.problems_solved}
                     </td>
                     <td className="border border-gray-700 p-3 text-center">
-                      {formatTime(player.total_time)}
+                      {player.score}
+                    </td>
+                    <td className="border border-gray-700 p-3 text-center">
+                      {player.last_submission
+                        ? formatDate(new Date(player.last_submission * 1000)) // Convert Unix timestamp to Date
+                        : "N/A"}
                     </td>
                   </tr>
                 ))}

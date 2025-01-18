@@ -9,7 +9,8 @@
       { "name": "Alice", "grade": 85 },
       { "name": "Bob", "grade": 92 },
       { "name": "Charlie", "grade": 78 }
-    ]
+    ],
+    "marks": 10
   },
   {
     "id": 2,
@@ -17,7 +18,8 @@
     "description": "Write a query to find the name of the student with the highest grade.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "name": "Bob" }]
+    "expectedOutput": [{ "name": "Bob" }],
+    "marks": 8
   },
   {
     "id": 3,
@@ -25,7 +27,8 @@
     "description": "Write a query to count the total number of orders in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "count": 3 }]
+    "expectedOutput": [{ "count": 3 }],
+    "marks": 6
   },
   {
     "id": 4,
@@ -33,7 +36,8 @@
     "description": "Write a query to calculate the total sales amount from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "total_sales": 650.5 }]
+    "expectedOutput": [{ "total_sales": 650.5 }],
+    "marks": 7
   },
   {
     "id": 5,
@@ -44,7 +48,8 @@
     "expectedOutput": [
       { "department": "Engineering", "employees": 2 },
       { "department": "HR", "employees": 2 }
-    ]
+    ],
+    "marks": 9
   },
   {
     "id": 6,
@@ -52,7 +57,8 @@
     "description": "Write a query to find the average grade of all students in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "average_grade": 85 }]
+    "expectedOutput": [{ "average_grade": 85 }],
+    "marks": 5
   },
   {
     "id": 7,
@@ -63,7 +69,8 @@
     "expectedOutput": [
       { "customer": "Alice", "amount": 200.5 },
       { "customer": "Charlie", "amount": 300.0 }
-    ]
+    ],
+    "marks": 6
   },
   {
     "id": 8,
@@ -71,7 +78,8 @@
     "description": "Write a query to find the customer who has placed the most orders.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
-    "expectedOutput": [{ "customer": "Alice" }]
+    "expectedOutput": [{ "customer": "Alice" }],
+    "marks": 8
   },
   {
     "id": 9,
@@ -79,7 +87,8 @@
     "description": "Write a query to find the department with the highest number of employees.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
     "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
-    "expectedOutput": [{ "department": "HR", "employees": 3 }]
+    "expectedOutput": [{ "department": "HR", "employees": 3 }],
+    "marks": 7
   },
   {
     "id": 10,
@@ -90,6 +99,7 @@
     "expectedOutput": [
       { "name": "Alice", "grade": 85 },
       { "name": "Bob", "grade": 92 }
-    ]
+    ],
+    "marks": 9
   }
 ]

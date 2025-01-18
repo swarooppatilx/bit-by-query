@@ -4,7 +4,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 
-const Header = ({ userInfo, problemId, elapsedTime, formatTime }) => {
+const Header = ({ userInfo }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -26,12 +26,6 @@ const Header = ({ userInfo, problemId, elapsedTime, formatTime }) => {
 
       <div className="flex flex-col items-center space-y-2">
         <h1 className="text-3xl font-extrabold text-green-400">Bit By Query</h1>
-        {/* {problemId && (
-          <div className="text-sm text-gray-300">
-            Time Spent:{" "}
-            <span className="text-green-300">{formatTime(elapsedTime)}</span>
-          </div>
-        )} */}
       </div>
 
       <div className="absolute top-6 right-6 flex flex-wrap gap-3">
@@ -60,9 +54,6 @@ Header.propTypes = {
     name: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }),
-  problemId: PropTypes.string,
-  elapsedTime: PropTypes.number,
-  formatTime: PropTypes.func.isRequired,
 };
 
 export default Header;
