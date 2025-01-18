@@ -69,7 +69,16 @@ function Home() {
     }
   }, [problemId]);
 
-  useEffect(() => {
+useEffect(() => {
+  if (problemId) {
+    setProblemDetails(null);
+    setError(null);
+    setUserQuery("");
+    setQueryResult(null);
+    setSqlError(null);
+    setLoading(false);
+
+    // Fetch and update the list of solved problems
     apiClient
       .get("/api/submissions")
       .then((response) => {
@@ -81,7 +90,9 @@ function Home() {
       .catch((error) => {
         console.error("Error fetching solved problems:", error);
       });
-  }, []);
+  }
+}, [problemId]);
+
 
   const handleEvaluate = () => {
     if (!problemId || !userQuery.trim()) {
