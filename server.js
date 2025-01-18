@@ -20,12 +20,16 @@ app.use(bodyParser.json());
 // Serve the Vite build (client/dist)
 app.use(express.static(path.join(__dirname, "client/dist")));
 
-// Load problems from JSON file
-const problemsFile = "problems.json";
+const problemsDirectory = path.join(__dirname, 'problems');
+const problemsFile = path.join(problemsDirectory, 'virtual_contest.json');
+
 let problems = [];
 
+// Check if the file exists and load the problems
 if (fs.existsSync(problemsFile)) {
-  problems = JSON.parse(fs.readFileSync(problemsFile, "utf-8"));
+  problems = JSON.parse(fs.readFileSync(problemsFile, 'utf-8'));
+} else {
+  console.error('Problems file not found.');
 }
 
 // Middleware to handle errors
@@ -178,6 +182,23 @@ app.get("/api/problems", authenticateToken, (req, res) => {
     return res.status(404).json({ error: "No problems available" });
   }
   res.json(problems);
+});
+
+app.get("/api/submissions", authenticateToken, async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      "SELECT * FROM submissions WHERE username = ?",
+      [req.user.username]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching submissions:", err.message);
+    res.status(500).json({
+      error: "Failed to fetch submissions",
+      details: err.message,
+    });
+  }
 });
 
 // Route: Fetch a specific problem by ID (protected)

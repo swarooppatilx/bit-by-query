@@ -21,6 +21,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [sqlError, setSqlError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [solvedProblems, setSolvedProblems] = useState([]); // New state for solved problems
 
   const isMobile = useScreenSize();
   const elapsedTime = useTimer(problemId);
@@ -68,6 +69,20 @@ function Home() {
     }
   }, [problemId]);
 
+  useEffect(() => {
+    apiClient
+      .get("/api/submissions")
+      .then((response) => {
+        const solvedIds = response.data.map(
+          (submission) => submission.problem_id
+        );
+        setSolvedProblems(solvedIds);
+      })
+      .catch((error) => {
+        console.error("Error fetching solved problems:", error);
+      });
+  }, []);
+
   const handleEvaluate = () => {
     if (!problemId || !userQuery.trim()) {
       alert("Please provide both problem ID and query.");
@@ -112,11 +127,10 @@ function Home() {
     return <MobileWarning />;
   }
 
-   const currentTime = new Date().getTime();
-    if (currentTime > endTime) {
-      return <Navigate to="/countdown" replace />;
-    }
-
+  const currentTime = new Date().getTime();
+  if (currentTime > endTime) {
+    return <Navigate to="/countdown" replace />;
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -132,6 +146,7 @@ function Home() {
           problemId={problemId}
           setProblemId={setProblemId}
           problemDetails={problemDetails}
+          solvedProblems={solvedProblems}
           className="w-full md:w-1/3 min-h-0"
         />
         <main className="flex-1 p-6 overflow-y-auto min-h-0">
