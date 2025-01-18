@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "./components/Modal";
 import { startTime, endTime } from "./config/date";
 
 function CountDown() {
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [message, setMessage] = useState("");
   const [showStartButton, setShowStartButton] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,15 +67,28 @@ function CountDown() {
             </div>
           </div>
         )}
-        {showStartButton && (
-          <button
-            className="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 transition"
-            onClick={() => navigate("/home")}
-          >
-            Start
-          </button>
-        )}
+        <div className="flex justify-center gap-4">
+          {showStartButton && (
+            <button
+              className="px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 transition"
+              onClick={() => navigate("/home")}
+            >
+              Start
+            </button>
+          )}
+          {!showStartButton && (
+            <button
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg font-bold hover:bg-blue-600 transition"
+              onClick={() => setShowModal(true)}
+            >
+              Instructions
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Instructions Modal */}
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }
