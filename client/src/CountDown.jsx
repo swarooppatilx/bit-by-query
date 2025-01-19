@@ -33,13 +33,14 @@ function CountDown() {
   }, []);
 
   const formatTime = (time) => {
+    const days = Math.floor(time / (1000 * 60 * 60 * 24));
     const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((time % (1000 * 60)) / 1000);
-    return { hours, minutes, seconds };
+    return { days, hours, minutes, seconds };
   };
 
-  const { hours, minutes, seconds } = formatTime(timeRemaining);
+  const { days, hours, minutes, seconds } = formatTime(timeRemaining);
 
   return (
     <div className="w-full h-screen bg-gray-800 text-white flex items-center justify-center">
@@ -47,6 +48,12 @@ function CountDown() {
         <h2 className="text-3xl font-bold text-green-400 mb-6">{message}</h2>
         {timeRemaining >= 0 && (
           <div className="flex justify-center gap-6 mb-6">
+            <div className="flex flex-col items-center">
+              <div className="text-6xl font-bold text-gray-300">
+                {days.toString().padStart(2, "0")}
+              </div>
+              <div className="text-lg text-gray-500">Days</div>
+            </div>
             <div className="flex flex-col items-center">
               <div className="text-6xl font-bold text-gray-300">
                 {hours.toString().padStart(2, "0")}
