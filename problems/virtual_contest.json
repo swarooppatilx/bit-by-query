@@ -14,7 +14,7 @@
   {
     "id": 2,
     "title": "Top Scorer From Students",
-    "description": "Write a query to find the name of the student with the highest grade.",
+    "description": "Write a query to find the name of the student with the highest grade from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [{ "name": "Bob" }]
@@ -38,7 +38,7 @@
   {
     "id": 5,
     "title": "Employees by Department",
-    "description": "Write a query to list all employees grouped by their department.",
+    "description": "Write a query to list all employees grouped by their department in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
     "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering');",
     "expectedOutput": [
@@ -57,7 +57,7 @@
   {
     "id": 7,
     "title": "Orders Above Threshold",
-    "description": "Write a query to retrieve all orders where the amount is greater than 200.",
+    "description": "Write a query to retrieve all orders where the amount is greater than 200 from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
     "expectedOutput": [
@@ -68,7 +68,7 @@
   {
     "id": 8,
     "title": "Customer with Most Orders",
-    "description": "Write a query to find the customer who has placed the most orders.",
+    "description": "Write a query to find the customer who has placed the most orders in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
     "expectedOutput": [{ "customer": "Alice" }]
@@ -76,7 +76,7 @@
   {
     "id": 9,
     "title": "Department with Most Employees",
-    "description": "Write a query to find the department with the highest number of employees.",
+    "description": "Write a query to find the department with the highest number of employees in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
     "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
     "expectedOutput": [{ "department": "HR", "employees": 3 }]
@@ -84,7 +84,7 @@
   {
     "id": 10,
     "title": "Students Above Average",
-    "description": "Write a query to list all students who scored above the average grade.",
+    "description": "Write a query to list all students who scored above the average grade in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [

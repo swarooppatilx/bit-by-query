@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Get All Students",
-    "description": "Write a query to retrieve all students' names and grades from the `students` table.",
+    "description": "Using the `students` table, write a query to retrieve all students' names and grades.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [
@@ -14,7 +14,7 @@
   {
     "id": 2,
     "title": "Top Scorer From Students",
-    "description": "Write a query to find the name of the student with the highest grade.",
+    "description": "Using the `students` table, write a query to find the name of the student with the highest grade.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [{ "name": "Bob" }]
@@ -22,7 +22,7 @@
   {
     "id": 3,
     "title": "Count of Orders",
-    "description": "Write a query to count the total number of orders in the `orders` table.",
+    "description": "Using the `orders` table, write a query to count the total number of orders.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
     "expectedOutput": [{ "count": 3 }]
@@ -30,7 +30,7 @@
   {
     "id": 4,
     "title": "Total Sales from Orders",
-    "description": "Write a query to calculate the total sales amount from the `orders` table.",
+    "description": "Using the `orders` table, write a query to calculate the total sales amount.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
     "expectedOutput": [{ "total_sales": 650.5 }]
@@ -38,7 +38,7 @@
   {
     "id": 5,
     "title": "Employees by Department",
-    "description": "Write a query to list all employees grouped by their department.",
+    "description": "Using the `employees` table, write a query to list all employees grouped by their department.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
     "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering');",
     "expectedOutput": [
@@ -49,7 +49,7 @@
   {
     "id": 6,
     "title": "Average Grade",
-    "description": "Write a query to find the average grade of all students in the `students` table.",
+    "description": "Using the `students` table, write a query to find the average grade of all students.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [{ "average_grade": 85 }]
@@ -57,7 +57,7 @@
   {
     "id": 7,
     "title": "Orders Above Threshold",
-    "description": "Write a query to retrieve all orders where the amount is greater than 200.",
+    "description": "Using the `orders` table, write a query to retrieve all orders where the amount is greater than 200.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
     "expectedOutput": [
@@ -68,7 +68,7 @@
   {
     "id": 8,
     "title": "Customer with Most Orders",
-    "description": "Write a query to find the customer who has placed the most orders.",
+    "description": "Using the `orders` table, write a query to find the customer who has placed the most orders.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
     "expectedOutput": [{ "customer": "Alice" }]
@@ -76,7 +76,7 @@
   {
     "id": 9,
     "title": "Department with Most Employees",
-    "description": "Write a query to find the department with the highest number of employees.",
+    "description": "Using the `employees` table, write a query to find the department with the highest number of employees.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
     "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
     "expectedOutput": [{ "department": "HR", "employees": 3 }]
@@ -84,7 +84,7 @@
   {
     "id": 10,
     "title": "Students Above Average",
-    "description": "Write a query to list all students who scored above the average grade.",
+    "description": "Using the `students` table, write a query to list all students who scored above the average grade.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
     "expectedOutput": [
@@ -95,7 +95,7 @@
   {
     "id": 11,
     "title": "Products Low in Stock",
-    "description": "Write a query to find all products with inventory less than 10 units.",
+    "description": "Using the `products` table, write a query to find all products with inventory less than 10 units.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, inventory INTEGER);",
     "sampleData": "INSERT INTO products (name, price, inventory) VALUES ('Laptop', 999.99, 5), ('Mouse', 29.99, 15), ('Keyboard', 89.99, 8);",
     "expectedOutput": [
@@ -106,7 +106,7 @@
   {
     "id": 12,
     "title": "Recent Customer Orders",
-    "description": "Write a query to get all orders from the last 7 days.",
+    "description": "Using the `orders` table, write a query to get all orders from the last 7 days.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, order_date DATE, amount REAL);",
     "sampleData": "INSERT INTO orders (customer, order_date, amount) VALUES ('Alice', '2024-01-15', 200.50), ('Bob', '2024-01-10', 150.00), ('Charlie', '2024-01-16', 300.00);",
     "expectedOutput": [
@@ -117,7 +117,7 @@
   {
     "id": 13,
     "title": "Employee Salary Statistics",
-    "description": "Write a query to calculate the minimum, maximum, and average salary by department.",
+    "description": "Using the `employees` table, write a query to calculate the minimum, maximum, and average salary by department.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
     "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'HR', 60000), ('Bob', 'HR', 65000), ('Charlie', 'Engineering', 80000);",
     "expectedOutput": [
@@ -138,7 +138,7 @@
   {
     "id": 14,
     "title": "Customer Categories",
-    "description": "Write a query to categorize customers based on their total purchase amount (High > 1000, Medium > 500, Low <= 500).",
+    "description": "Using the `customer_purchases` table, write a query to categorize customers based on their total purchase amount (High > 1000, Medium > 500, Low <= 500).",
     "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, total_amount REAL);",
     "sampleData": "INSERT INTO customer_purchases (customer, total_amount) VALUES ('Alice', 1200), ('Bob', 600), ('Charlie', 300);",
     "expectedOutput": [
@@ -150,7 +150,7 @@
   {
     "id": 15,
     "title": "Product Price History",
-    "description": "Write a query to show the price change history for each product.",
+    "description": "Using the `price_history` table, write a query to show the price change history for each product.",
     "schema": "CREATE TABLE price_history (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, price REAL, change_date DATE);",
     "sampleData": "INSERT INTO price_history (product_id, price, change_date) VALUES (1, 99.99, '2024-01-01'), (1, 89.99, '2024-01-15'), (2, 49.99, '2024-01-01');",
     "expectedOutput": [
@@ -160,7 +160,7 @@
   {
     "id": 16,
     "title": "Active Projects",
-    "description": "Write a query to list all active projects with their current status and team size.",
+    "description": "Using the `projects` table, write a query to list all active projects with their current status and team size.",
     "schema": "CREATE TABLE projects (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, status TEXT, team_size INTEGER);",
     "sampleData": "INSERT INTO projects (name, status, team_size) VALUES ('Project A', 'Active', 5), ('Project B', 'Completed', 3), ('Project C', 'Active', 4);",
     "expectedOutput": [
@@ -171,7 +171,7 @@
   {
     "id": 17,
     "title": "Monthly Sales Report",
-    "description": "Write a query to generate a monthly sales report showing total sales and number of orders.",
+    "description": "Using the `sales` table, write a query to generate a monthly sales report showing total sales and number of orders.",
     "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, sale_date DATE, amount REAL);",
     "sampleData": "INSERT INTO sales (sale_date, amount) VALUES ('2024-01-15', 200), ('2024-01-16', 300), ('2024-02-01', 400);",
     "expectedOutput": [
@@ -182,7 +182,7 @@
   {
     "id": 18,
     "title": "Customer Retention",
-    "description": "Write a query to find customers who have made purchases in consecutive months.",
+    "description": "Using the `purchases` table, write a query to find customers who have made purchases in consecutive months.",
     "schema": "CREATE TABLE purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, purchase_date DATE);",
     "sampleData": "INSERT INTO purchases (customer, purchase_date) VALUES ('Alice', '2024-01-15'), ('Alice', '2024-02-15'), ('Bob', '2024-01-15');",
     "expectedOutput": [{ "customer": "Alice" }]
@@ -190,7 +190,7 @@
   {
     "id": 19,
     "title": "Product Categories Summary",
-    "description": "Write a query to show the number of products and average price in each category.",
+    "description": "Using the `products` table, write a query to show the number of products and average price in each category.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
     "sampleData": "INSERT INTO products (name, category, price) VALUES ('Laptop', 'Electronics', 999.99), ('Mouse', 'Electronics', 29.99), ('Desk', 'Furniture', 199.99);",
     "expectedOutput": [
@@ -201,7 +201,7 @@
   {
     "id": 20,
     "title": "Employee Performance",
-    "description": "Write a query to rank employees based on their performance scores.",
+    "description": "Using the `employee_performance` table, write a query to rank employees based on their performance scores.",
     "schema": "CREATE TABLE employee_performance (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER);",
     "sampleData": "INSERT INTO employee_performance (name, score) VALUES ('Alice', 95), ('Bob', 88), ('Charlie', 92);",
     "expectedOutput": [
@@ -213,7 +213,7 @@
   {
     "id": 21,
     "title": "Product Inventory Value",
-    "description": "Write a query to calculate the total value of inventory for each product.",
+    "description": "Using the `inventory` table, write a query to calculate the total value of inventory for each product.",
     "schema": "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, quantity INTEGER, unit_price REAL);",
     "sampleData": "INSERT INTO inventory (product, quantity, unit_price) VALUES ('Laptop', 10, 999.99), ('Mouse', 50, 29.99);",
     "expectedOutput": [
@@ -224,7 +224,7 @@
   {
     "id": 22,
     "title": "Customer Spending Patterns",
-    "description": "Write a query to analyze customer spending patterns by quarter.",
+    "description": "Using the `customer_transactions` table, write a query to analyze customer spending patterns by quarter.",
     "schema": "CREATE TABLE customer_transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, transaction_date DATE);",
     "sampleData": "INSERT INTO customer_transactions (customer, amount, transaction_date) VALUES ('Alice', 100, '2024-01-15'), ('Alice', 200, '2024-04-15');",
     "expectedOutput": [
@@ -235,7 +235,7 @@
   {
     "id": 23,
     "title": "Project Timeline",
-    "description": "Write a query to calculate the duration of each project in days.",
+    "description": "Using the `project_timeline` table, write a query to calculate the duration of each project in days.",
     "schema": "CREATE TABLE project_timeline (id INTEGER PRIMARY KEY AUTOINCREMENT, project TEXT, start_date DATE, end_date DATE);",
     "sampleData": "INSERT INTO project_timeline (project, start_date, end_date) VALUES ('Project A', '2024-01-01', '2024-01-15'), ('Project B', '2024-01-15', '2024-02-15');",
     "expectedOutput": [
@@ -246,7 +246,7 @@
   {
     "id": 24,
     "title": "Department Budget Analysis",
-    "description": "Write a query to compare actual spending against budget for each department.",
+    "description": "Using the `department_finance` table, write a query to compare actual spending against budget for each department.",
     "schema": "CREATE TABLE department_finance (id INTEGER PRIMARY KEY AUTOINCREMENT, department TEXT, budget REAL, actual_spend REAL);",
     "sampleData": "INSERT INTO department_finance (department, budget, actual_spend) VALUES ('HR', 100000, 95000), ('IT', 150000, 160000);",
     "expectedOutput": [
@@ -257,7 +257,7 @@
   {
     "id": 25,
     "title": "Customer Feedback Analysis",
-    "description": "Write a query to summarize customer feedback ratings by product category.",
+    "description": "Using the `feedback` table, write a query to summarize customer feedback ratings by product category.",
     "schema": "CREATE TABLE feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, product_category TEXT, rating INTEGER);",
     "sampleData": "INSERT INTO feedback (product_category, rating) VALUES ('Electronics', 4), ('Electronics', 5), ('Furniture', 3);",
     "expectedOutput": [
@@ -268,7 +268,7 @@
   {
     "id": 26,
     "title": "Employee Attendance",
-    "description": "Write a query to calculate attendance percentage for each employee.",
+    "description": "Using the `attendance` table, write a query to calculate attendance percentage for each employee.",
     "schema": "CREATE TABLE attendance (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, present BOOLEAN, date DATE);",
     "sampleData": "INSERT INTO attendance (employee, present, date) VALUES ('Alice', 1, '2024-01-15'), ('Alice', 0, '2024-01-16'), ('Bob', 1, '2024-01-15');",
     "expectedOutput": [
@@ -279,7 +279,7 @@
   {
     "id": 27,
     "title": "Product Stock Alerts",
-    "description": "Write a query to generate alerts for products that need reordering.",
+    "description": "Using the `inventory` table, write a query to generate alerts for products that need reordering.",
     "schema": "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, current_stock INTEGER, reorder_point INTEGER);",
     "sampleData": "INSERT INTO inventory (product, current_stock, reorder_point) VALUES ('Laptop', 5, 10), ('Mouse', 15, 10);",
     "expectedOutput": [
@@ -289,7 +289,7 @@
   {
     "id": 28,
     "title": "Sales Growth",
-    "description": "Write a query to calculate year-over-year sales growth percentage.",
+    "description": "Using the `yearly_sales` table, write a query to calculate year-over-year sales growth percentage.",
     "schema": "CREATE TABLE yearly_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, year INTEGER, total_sales REAL);",
     "sampleData": "INSERT INTO yearly_sales (year, total_sales) VALUES (2023, 100000), (2024, 120000);",
     "expectedOutput": [{ "year": 2024, "growth_percentage": 20 }]
@@ -297,7 +297,7 @@
   {
     "id": 29,
     "title": "Customer Segmentation",
-    "description": "Write a query to segment customers based on their purchase frequency.",
+    "description": "Using the `customer_purchases` table, write a query to segment customers based on their purchase frequency.",
     "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, purchase_count INTEGER);",
     "sampleData": "INSERT INTO customer_purchases (customer, purchase_count) VALUES ('Alice', 12), ('Bob', 3), ('Charlie', 6);",
     "expectedOutput": [
@@ -309,7 +309,7 @@
   {
     "id": 30,
     "title": "Product Bundle Analysis",
-    "description": "Write a query to find commonly purchased product combinations.",
+    "description": "Using the `order_items` table, write a query to find commonly purchased product combinations.",
     "schema": "CREATE TABLE order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, product TEXT);",
     "sampleData": "INSERT INTO order_items (order_id, product) VALUES (1, 'Laptop'), (1, 'Mouse'), (2, 'Laptop'), (2, 'Mouse');",
     "expectedOutput": [
@@ -319,7 +319,7 @@
   {
     "id": 31,
     "title": "Employee Skills Matrix",
-    "description": "Write a query to create a matrix of employees and their skills.",
+    "description": "Using the `employee_skills` table, write a query to create a matrix of employees and their skills.",
     "schema": "CREATE TABLE employee_skills (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, skill TEXT, proficiency INTEGER);",
     "sampleData": "INSERT INTO employee_skills (employee, skill, proficiency) VALUES ('Alice', 'SQL', 4), ('Alice', 'Python', 3), ('Bob', 'SQL', 5);",
     "expectedOutput": [
@@ -330,7 +330,7 @@
   {
     "id": 32,
     "title": "Project Resource Allocation",
-    "description": "Write a query to show resource allocation across different projects.",
+    "description": "Using the `resources` table, write a query to show resource allocation across different projects.",
     "schema": "CREATE TABLE resources (id INTEGER PRIMARY KEY AUTOINCREMENT, project TEXT, resource_type TEXT, hours_allocated INTEGER);",
     "sampleData": "INSERT INTO resources (project, resource_type, hours_allocated) VALUES ('Project A', 'Developer', 40), ('Project A', 'Designer', 20);",
     "expectedOutput": [
@@ -344,7 +344,7 @@
   {
     "id": 33,
     "title": "Customer Churn Analysis",
-    "description": "Write a query to identify customers who have not made purchases in the last 3 months.",
+    "description": "Using the `customer_purchases` table, write a query to identify customers who have not made purchases in the last 3 months.",
     "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, last_purchase_date DATE);",
     "sampleData": "INSERT INTO customer_purchases (customer, last_purchase_date) VALUES ('Alice', '2024-01-15'), ('Bob', '2024-02-15'), ('Charlie', '2024-03-15');",
     "expectedOutput": [{ "customer": "Alice" }]
@@ -352,7 +352,7 @@
   {
     "id": 34,
     "title": "Product Performance Metrics",
-    "description": "Write a query to calculate performance metrics for each product (sales, profit margin, inventory turnover).",
+    "description": "Using the `products` table, write a query to calculate performance metrics for each product (sales, profit margin, inventory turnover).",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, sales INTEGER, cost REAL, price REAL, inventory INTEGER);",
     "sampleData": "INSERT INTO products (name, sales, cost, price, inventory) VALUES ('Laptop', 100, 800, 999, 10), ('Mouse', 200, 20, 30, 50);",
     "expectedOutput": [
@@ -373,7 +373,7 @@
   {
     "id": 35,
     "title": "Employee Training Needs",
-    "description": "Write a query to identify employees who need additional training based on their skill proficiency.",
+    "description": "Using the `employee_skills` table, write a query to identify employees who need additional training based on their skill proficiency.",
     "schema": "CREATE TABLE employee_skills (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, skill TEXT, proficiency INTEGER);",
     "sampleData": "INSERT INTO employee_skills (employee, skill, proficiency) VALUES ('Alice', 'SQL', 2), ('Alice', 'Python', 3), ('Bob', 'SQL', 4);",
     "expectedOutput": [{ "employee": "Alice", "skills_to_improve": "SQL" }]
