@@ -29,7 +29,7 @@ const Sidebar = ({
               }`}
               onClick={() => setProblemId(problem.id)}
               aria-label={`Problem ${problem.id}`}
-              title={`Problem ${problem.id}`}
+              title={`Marks ${problem.marks}`}
             >
               {`Q${problem.id}`}
             </button>
