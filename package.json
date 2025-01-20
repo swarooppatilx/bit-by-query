@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "cd client && npm install && npm run build"
+    "build": "cd client && npm install && npm run build",
+    "local": "cd client && npm run build && cd .. && npm run dev"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
