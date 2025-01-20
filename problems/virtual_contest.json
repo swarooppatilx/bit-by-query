@@ -217,7 +217,7 @@
   {
     "id": 11,
     "title": "Insert New Students",
-    "description": "Write an INSERT query to add two new students: 'John' with grade 88 and 'Sarah' with grade 94 to the students table. Your query should work even if the table already contains other students.",
+    "description": "Write an INSERT query to add two new students: 'John' with grade 88 and 'Sarah' with grade 94 to the `students` table. Your query should work even if the table already contains other students.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "testCases": [
       {
@@ -243,7 +243,7 @@
   {
     "id": 12,
     "title": "Update Low Grades",
-    "description": "Write an UPDATE query to increase all grades below 60 by 5 points in the students table.",
+    "description": "Write an UPDATE query to increase all grades below 60 by 5 points in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "testCases": [
       {
@@ -270,7 +270,7 @@
   {
     "id": 13,
     "title": "Delete Failed Students",
-    "description": "Write a DELETE query to remove all students who have a grade below 50 from the students table.",
+    "description": "Write a DELETE query to remove all students who have a grade below 50 from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "testCases": [
       {
@@ -295,7 +295,7 @@
   {
     "id": 14,
     "title": "Update Student Names",
-    "description": "Write an UPDATE query to add the prefix 'Dr. ' to the names of all students who scored 90 or above.",
+    "description": "Write an UPDATE query to add the prefix 'Dr. ' to the names of all students who scored 90 or above in the `students` table",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "testCases": [
       {
@@ -322,7 +322,7 @@
   {
     "id": 15,
     "title": "Delete Duplicate Names",
-    "description": "Write a DELETE query to remove duplicate student names, keeping only the entry with the highest grade for each name.",
+    "description": "Write a DELETE query to remove duplicate student names, keeping only the entry with the highest grade for each name in the `students` table",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
     "testCases": [
       {
@@ -348,7 +348,7 @@
   {
     "id": 16,
     "title": "Insert or Update Grades",
-    "description": "Write a query to insert new students or update their grades if they already exist. For: ('Alice', 95), ('Bob', 88). If a student exists, update their grade; if they don't exist, insert them as new students.",
+    "description": "Write a query to insert new students or update their grades if they already exist. For: ('Alice', 95), ('Bob', 88). If a student exists, update their grade; if they don't exist, insert them as new students in `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, grade INTEGER);",
     "testCases": [
       {
