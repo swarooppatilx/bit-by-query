@@ -93,7 +93,7 @@ function LeaderBoard() {
               {lastRefreshed ? formatDate(lastRefreshed) : "N/A"}
             </div>
             <div className="overflow-y-auto max-h-[700px]">
-              <table className="w-full text-center border-collapse border border-gray-700 mt-4">
+              <table className="w-full text-center border-collapse border border-gray-700">
                 <thead>
                   <tr className="bg-gray-800 sticky top-0 shadow-md z-10">
                     <th className="border border-gray-700 p-4 text-lg text-white">

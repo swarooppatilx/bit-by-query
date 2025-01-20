@@ -321,55 +321,28 @@
   },
   {
     "id": 15,
-    "title": "Delete Duplicate Names",
-    "description": "Write a DELETE query to remove duplicate student names, keeping only the entry with the highest grade for each name in the `students` table",
-    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "title": "Delete Expensive Orders",
+    "description": "Write a DELETE query to remove all orders where the amount is greater than 500 from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
     "testCases": [
       {
         "id": 1,
-        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Alice', 78), ('Charlie', 88);",
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00), ('David', 600.00);",
         "expectedOutput": [
-          { "name": "Alice", "grade": 85 },
-          { "name": "Bob", "grade": 92 },
-          { "name": "Charlie", "grade": 88 }
+          { "customer": "Alice", "amount": 200.5 },
+          { "customer": "Bob", "amount": 150.0 },
+          { "customer": "Charlie", "amount": 300.0 }
         ]
       },
       {
         "id": 2,
-        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 90), ('David', 95), ('David', 85), ('Eve', 88);",
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Eve', 500.00), ('Frank', 499.99), ('Grace', 501.00);",
         "expectedOutput": [
-          { "name": "David", "grade": 95 },
-          { "name": "Eve", "grade": 88 }
+          { "customer": "Eve", "amount": 500.0 },
+          { "customer": "Frank", "amount": 499.99 }
         ]
       }
     ],
-    "marks": 10
-  },
-  {
-    "id": 16,
-    "title": "Insert or Update Grades",
-    "description": "Write a query to insert new students or update their grades if they already exist. For: ('Alice', 95), ('Bob', 88). If a student exists, update their grade; if they don't exist, insert them as new students in `students` table.",
-    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, grade INTEGER);",
-    "testCases": [
-      {
-        "id": 1,
-        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Charlie', 78);",
-        "expectedOutput": [
-          { "name": "Alice", "grade": 95 },
-          { "name": "Bob", "grade": 88 },
-          { "name": "Charlie", "grade": 78 }
-        ]
-      },
-      {
-        "id": 2,
-        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 90);",
-        "expectedOutput": [
-          { "name": "Alice", "grade": 95 },
-          { "name": "Bob", "grade": 88 },
-          { "name": "David", "grade": 90 }
-        ]
-      }
-    ],
-    "marks": 8
+    "marks": 7
   }
 ]
