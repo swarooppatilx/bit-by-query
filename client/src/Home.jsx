@@ -20,7 +20,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [sqlError, setSqlError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [solvedProblems, setSolvedProblems] = useState([]); // New state for solved problems
+  const [solvedProblems, setSolvedProblems] = useState([]);
 
   const isMobile = useScreenSize();
 

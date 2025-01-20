@@ -226,120 +226,123 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   }
 
   const start = Date.now();
-  const db = new sqlite3.Database(":memory:");
-  const parsedSchema = mysqlToSQLiteParser(problem.schema);
-  const parsedSampleData = mysqlToSQLiteParser(problem.sampleData);
+  let allTestCasesPassed = true;
+  const testResults = [];
 
-  db.serialize(() => {
-    db.run(parsedSchema, (err) => {
-      if (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Schema creation failed",
-          details: err.message,
-        });
-      }
-    });
+  // Parse user queries once
+  const queries = userQuery
+    .split(";")
+    .map((q) => q.trim())
+    .filter((q) => q);
 
-    db.exec(parsedSampleData, (err) => {
-      if (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Sample data insertion failed",
-          details: err.message,
-        });
-      }
-    });
+  const parsedQueries = queries.map((query) => {
+    try {
+      return mysqlToSQLiteParser(query);
+    } catch (err) {
+      console.error("Error parsing query:", err);
+      throw new Error("Failed to parse query");
+    }
+  });
 
-    const queries = userQuery
-      .split(";")
-      .map((q) => q.trim())
-      .filter((q) => q);
+  // Run each test case
+  for (let i = 0; i < problem.testCases.length; i++) {
+    const testCase = problem.testCases[i];
+    const db = new sqlite3.Database(":memory:");
+    const parsedSchema = mysqlToSQLiteParser(problem.schema);
+    const parsedSampleData = mysqlToSQLiteParser(testCase.sampleData);
 
-    const parsedQueries = queries.map((query) => {
-      try {
-        return mysqlToSQLiteParser(query);
-      } catch (err) {
-        console.error("Error parsing query:", err);
-        throw new Error("Failed to parse query");
-      }
-    });
-
-    let lastResult;
-    const executeQueries = async () => {
-      try {
-        for (const query of parsedQueries) {
-          lastResult = await new Promise((resolve, reject) => {
-            db.all(query, [], (err, rows) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(rows);
-              }
+    try {
+      // Set up database for this test case
+      await new Promise((resolve, reject) => {
+        db.serialize(() => {
+          db.run(parsedSchema, (err) => {
+            if (err) reject(err);
+            db.exec(parsedSampleData, (err) => {
+              if (err) reject(err);
+              resolve();
             });
           });
-        }
-        db.close();
-
-        const isCorrect =
-          JSON.stringify(lastResult) === JSON.stringify(problem.expectedOutput);
-        const duration = Date.now() - start;
-
-        if (isCorrect) {
-          try {
-            const [existingSubmission] = await pool.execute(
-              "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
-              [req.user.username, problemId]
-            );
-
-            if (existingSubmission.length > 0) {
-              return res.status(400).json({
-                error: "Duplicate submission",
-                details: "You have already solved this problem",
-              });
-            }
-
-            const [userRows] = await pool.execute(
-              "SELECT name FROM users WHERE username = ?",
-              [req.user.username]
-            );
-
-            if (userRows.length === 0) {
-              return res.status(404).json({ error: "User not found" });
-            }
-
-            const userName = userRows[0].name;
-
-            // Insert the problem ID, user name, and the marks for the problem
-            await pool.execute(
-              "INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
-              [req.user.username, userName, problemId, problem.marks]
-            );
-          } catch (dbErr) {
-            console.error("Error saving submission:", dbErr.message);
-            return res.status(500).json({
-              error: "Failed to save submission",
-              details: dbErr.message,
-            });
-          }
-        }
-
-        res.json({
-          correct: isCorrect,
-          userOutput: lastResult,
-          expectedOutput: problem.expectedOutput,
-          duration: `${duration}ms`,
         });
-      } catch (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Query execution failed",
-          details: err.message,
+      });
+
+      // Execute user queries
+      let lastResult;
+      for (const query of parsedQueries) {
+        lastResult = await new Promise((resolve, reject) => {
+          db.all(query, [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
         });
       }
-    };
 
-    executeQueries();
+      const isCorrect =
+        JSON.stringify(lastResult) === JSON.stringify(testCase.expectedOutput);
+      if (!isCorrect) allTestCasesPassed = false;
+
+      testResults.push({
+        testCaseNumber: i + 1,
+        passed: isCorrect,
+        userOutput: lastResult,
+        expectedOutput: testCase.expectedOutput,
+      });
+    } catch (err) {
+      testResults.push({
+        testCaseNumber: i + 1,
+        passed: false,
+        error: err.message,
+      });
+      allTestCasesPassed = false;
+    } finally {
+      db.close();
+    }
+  }
+
+  const duration = Date.now() - start;
+
+  // Handle submission if all test cases passed
+  if (allTestCasesPassed) {
+    try {
+      const [existingSubmission] = await pool.execute(
+        "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
+        [req.user.username, problemId]
+      );
+
+      if (existingSubmission.length > 0) {
+        return res.status(400).json({
+          error: "Duplicate submission",
+          details: "You have already solved this problem",
+        });
+      }
+
+      const [userRows] = await pool.execute(
+        "SELECT name FROM users WHERE username = ?",
+        [req.user.username]
+      );
+
+      if (userRows.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const userName = userRows[0].name;
+
+      await pool.execute(
+        "INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
+        [req.user.username, userName, problemId, problem.marks]
+      );
+    } catch (dbErr) {
+      console.error("Error saving submission:", dbErr.message);
+      return res.status(500).json({
+        error: "Failed to save submission",
+        details: dbErr.message,
+      });
+    }
+  }
+
+  res.json({
+    correct: allTestCasesPassed,
+    testResults,
+    duration: `${duration}ms`,
   });
 });
 

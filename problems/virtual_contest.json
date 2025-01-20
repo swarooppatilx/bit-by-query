@@ -4,11 +4,26 @@
     "title": "Get All Students",
     "description": "Write a query to retrieve all students' names and grades from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [
-      { "name": "Alice", "grade": 85 },
-      { "name": "Bob", "grade": 92 },
-      { "name": "Charlie", "grade": 78 }
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 85 },
+          { "name": "Bob", "grade": 92 },
+          { "name": "Charlie", "grade": 78 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 95), ('Eve', 88), ('Frank', 91), ('Grace', 76);",
+        "expectedOutput": [
+          { "name": "David", "grade": 95 },
+          { "name": "Eve", "grade": 88 },
+          { "name": "Frank", "grade": 91 },
+          { "name": "Grace", "grade": 76 }
+        ]
+      }
     ],
     "marks": 10
   },
@@ -17,8 +32,18 @@
     "title": "Top Scorer From Students",
     "description": "Write a query to find the name of the student with the highest grade from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "name": "Bob" }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
+        "expectedOutput": [{ "name": "Bob" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 95), ('Eve', 95), ('Frank', 91);",
+        "expectedOutput": [{ "name": "David" }]
+      }
+    ],
     "marks": 8
   },
   {
@@ -26,8 +51,18 @@
     "title": "Count of Orders",
     "description": "Write a query to count the total number of orders in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "count": 3 }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [{ "count": 3 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50);",
+        "expectedOutput": [{ "count": 1 }]
+      }
+    ],
     "marks": 6
   },
   {
@@ -35,8 +70,18 @@
     "title": "Total Sales from Orders",
     "description": "Write a query to calculate the total sales amount from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "total_sales": 650.5 }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [{ "total_sales": 650.5 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 1000.00), ('Bob', 2000.00);",
+        "expectedOutput": [{ "total_sales": 3000.0 }]
+      }
+    ],
     "marks": 7
   },
   {
@@ -44,10 +89,24 @@
     "title": "Employees by Department",
     "description": "Write a query to list all employees grouped by their department in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
-    "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering');",
-    "expectedOutput": [
-      { "department": "Engineering", "employees": 2 },
-      { "department": "HR", "employees": 2 }
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering');",
+        "expectedOutput": [
+          { "department": "Engineering", "employees": 2 },
+          { "department": "HR", "employees": 2 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'Sales'), ('Bob', 'Sales'), ('Charlie', 'Marketing'), ('Dave', 'IT'), ('Eve', 'IT');",
+        "expectedOutput": [
+          { "department": "IT", "employees": 2 },
+          { "department": "Marketing", "employees": 1 },
+          { "department": "Sales", "employees": 2 }
+        ]
+      }
     ],
     "marks": 9
   },
@@ -56,8 +115,18 @@
     "title": "Average Grade",
     "description": "Write a query to find the average grade of all students in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "average_grade": 85 }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
+        "expectedOutput": [{ "average_grade": 85 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 100), ('Eve', 100), ('Frank', 100);",
+        "expectedOutput": [{ "average_grade": 100 }]
+      }
+    ],
     "marks": 5
   },
   {
@@ -65,10 +134,20 @@
     "title": "Orders Above Threshold",
     "description": "Write a query to retrieve all orders where the amount is greater than 200 from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [
-      { "customer": "Alice", "amount": 200.5 },
-      { "customer": "Charlie", "amount": 300.0 }
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5 },
+          { "customer": "Charlie", "amount": 300.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 199.99), ('Eve', 200.00), ('Frank', 200.01);",
+        "expectedOutput": [{ "customer": "Frank", "amount": 200.01 }]
+      }
     ],
     "marks": 6
   },
@@ -77,8 +156,18 @@
     "title": "Customer with Most Orders",
     "description": "Write a query to find the customer who has placed the most orders in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
-    "expectedOutput": [{ "customer": "Alice" }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
+        "expectedOutput": [{ "customer": "Alice" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Charlie', 100.00), ('David', 200.00), ('Charlie', 300.00), ('David', 400.00), ('David', 500.00);",
+        "expectedOutput": [{ "customer": "David" }]
+      }
+    ],
     "marks": 8
   },
   {
@@ -86,8 +175,18 @@
     "title": "Department with Most Employees",
     "description": "Write a query to find the department with the highest number of employees in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
-    "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
-    "expectedOutput": [{ "department": "HR", "employees": 3 }],
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
+        "expectedOutput": [{ "department": "HR", "employees": 3 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'Sales'), ('Bob', 'IT'), ('Charlie', 'Sales'), ('Dave', 'IT'), ('Eve', 'IT'), ('Frank', 'Sales');",
+        "expectedOutput": [{ "department": "Sales", "employees": 3 }]
+      }
+    ],
     "marks": 7
   },
   {
@@ -95,11 +194,182 @@
     "title": "Students Above Average",
     "description": "Write a query to list all students who scored above the average grade in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [
-      { "name": "Alice", "grade": 85 },
-      { "name": "Bob", "grade": 92 }
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 85 },
+          { "name": "Bob", "grade": 92 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 70), ('Eve', 80), ('Frank', 90), ('Grace', 100);",
+        "expectedOutput": [
+          { "name": "Frank", "grade": 90 },
+          { "name": "Grace", "grade": 100 }
+        ]
+      }
     ],
     "marks": 9
+  },
+  {
+    "id": 11,
+    "title": "Insert New Students",
+    "description": "Write an INSERT query to add two new students: 'John' with grade 88 and 'Sarah' with grade 94 to the students table. Your query should work even if the table already contains other students.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 85 },
+          { "name": "John", "grade": 88 },
+          { "name": "Sarah", "grade": 94 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "",
+        "expectedOutput": [
+          { "name": "John", "grade": 88 },
+          { "name": "Sarah", "grade": 94 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 12,
+    "title": "Update Low Grades",
+    "description": "Write an UPDATE query to increase all grades below 60 by 5 points in the students table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 55), ('Bob', 62), ('Charlie', 58);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 60 },
+          { "name": "Bob", "grade": 62 },
+          { "name": "Charlie", "grade": 63 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 45), ('Eve', 59), ('Frank', 60);",
+        "expectedOutput": [
+          { "name": "David", "grade": 50 },
+          { "name": "Eve", "grade": 64 },
+          { "name": "Frank", "grade": 60 }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 13,
+    "title": "Delete Failed Students",
+    "description": "Write a DELETE query to remove all students who have a grade below 50 from the students table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 45), ('Bob', 72), ('Charlie', 48), ('David', 65);",
+        "expectedOutput": [
+          { "name": "Bob", "grade": 72 },
+          { "name": "David", "grade": 65 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eve', 50), ('Frank', 49), ('Grace', 51);",
+        "expectedOutput": [
+          { "name": "Eve", "grade": 50 },
+          { "name": "Grace", "grade": 51 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 14,
+    "title": "Update Student Names",
+    "description": "Write an UPDATE query to add the prefix 'Dr. ' to the names of all students who scored 90 or above.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 92), ('Bob', 85), ('Charlie', 95);",
+        "expectedOutput": [
+          { "name": "Dr. Alice", "grade": 92 },
+          { "name": "Bob", "grade": 85 },
+          { "name": "Dr. Charlie", "grade": 95 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 90), ('Eve', 89), ('Frank', 100);",
+        "expectedOutput": [
+          { "name": "Dr. David", "grade": 90 },
+          { "name": "Eve", "grade": 89 },
+          { "name": "Dr. Frank", "grade": 100 }
+        ]
+      }
+    ],
+    "marks": 9
+  },
+  {
+    "id": 15,
+    "title": "Delete Duplicate Names",
+    "description": "Write a DELETE query to remove duplicate student names, keeping only the entry with the highest grade for each name.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Alice', 78), ('Charlie', 88);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 85 },
+          { "name": "Bob", "grade": 92 },
+          { "name": "Charlie", "grade": 88 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 90), ('David', 95), ('David', 85), ('Eve', 88);",
+        "expectedOutput": [
+          { "name": "David", "grade": 95 },
+          { "name": "Eve", "grade": 88 }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 16,
+    "title": "Insert or Update Grades",
+    "description": "Write a query to insert new students or update their grades if they already exist. For: ('Alice', 95), ('Bob', 88). If a student exists, update their grade; if they don't exist, insert them as new students.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Charlie', 78);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 95 },
+          { "name": "Bob", "grade": 88 },
+          { "name": "Charlie", "grade": 78 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 90);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 95 },
+          { "name": "Bob", "grade": 88 },
+          { "name": "David", "grade": 90 }
+        ]
+      }
+    ],
+    "marks": 8
   }
 ]
