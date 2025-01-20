@@ -68,21 +68,21 @@ function LeaderBoard() {
   }
 
   return (
-    <div className="w-full h-screen bg-gray-800 text-white flex items-center justify-center">
+    <div className="w-full min-h-screen bg-gray-800 text-white flex items-center justify-center py-8">
       <div className="w-full md:w-2/3 lg:w-1/2 bg-gray-900 p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-green-400 mb-4 text-center">
           Leaderboard
         </h2>
 
         {loading ? (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center space-x-4">
             <FaSpinner className="animate-spin text-4xl text-green-400" />
-            <p className="ml-4 text-white">Loading...</p>
+            <p className="text-white">Loading...</p>
           </div>
         ) : error ? (
-          <div className="flex justify-center items-center text-red-500">
-            <FaExclamationTriangle className="mr-2" />
-            <p>{error}</p>
+          <div className="flex justify-center items-center text-red-500 space-x-2">
+            <FaExclamationTriangle className="text-2xl" />
+            <p className="text-lg">{error}</p>
           </div>
         ) : leaderboard.length === 0 ? (
           <p className="text-center text-gray-400">No data available.</p>
@@ -92,51 +92,55 @@ function LeaderBoard() {
               Last Refreshed:{" "}
               {lastRefreshed ? formatDate(lastRefreshed) : "N/A"}
             </div>
-            <table className="w-full text-center border-collapse border border-gray-700 mt-4">
-              <thead>
-                <tr className="bg-gray-800">
-                  <th className="border border-gray-700 p-3 text-lg">Rank</th>
-                  <th className="border border-gray-700 p-3 text-lg">
-                    Username
-                  </th>
-                  <th className="border border-gray-700 p-3 text-lg">Name</th>
-                  <th className="border border-gray-700 p-3 text-lg">
-                    Problems Solved
-                  </th>
-                  <th className="border border-gray-700 p-3 text-lg">
-                    Total Time
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderboard.map((player, index) => (
-                  <tr
-                    key={player.username}
-                    className={`${
-                      index % 2 === 0
-                        ? "bg-gray-800"
-                        : "bg-gray-700 hover:bg-gray-600"
-                    } transition duration-300 ease-in-out`}
-                  >
-                    <td className="border border-gray-700 p-3 text-center">
-                      {index + 1}
-                    </td>
-                    <td className="border border-gray-700 p-3">
-                      {player.username}
-                    </td>
-                    <td className="border border-gray-700 p-3">
-                      {player.name}
-                    </td>
-                    <td className="border border-gray-700 p-3 text-center">
-                      {player.problems_solved}
-                    </td>
-                    <td className="border border-gray-700 p-3 text-center">
-                      {formatTime(player.total_time)}
-                    </td>
+            <div className="overflow-y-auto max-h-[700px]">
+              <table className="w-full text-center border-collapse border border-gray-700 mt-4">
+                <thead>
+                  <tr className="bg-gray-800 sticky top-0 shadow-md z-10">
+                    <th className="border border-gray-700 p-3 text-lg text-white">
+                      Rank
+                    </th>
+                    <th className="border border-gray-700 p-3 text-lg text-white">
+                      Username
+                    </th>
+                    <th className="border border-gray-700 p-3 text-lg text-white">
+                      Name
+                    </th>
+                    <th className="border border-gray-700 p-3 text-lg text-white">
+                      Problems Solved
+                    </th>
+                    <th className="border border-gray-700 p-3 text-lg text-white">
+                      Total Time
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {leaderboard.map((player, index) => (
+                    <tr
+                      key={player.username}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-700" : "bg-gray-600"
+                      } border-t border-gray-700`}
+                    >
+                      <td className="border border-gray-700 p-3 text-center">
+                        {index + 1}
+                      </td>
+                      <td className="border border-gray-700 p-3">
+                        {player.username}
+                      </td>
+                      <td className="border border-gray-700 p-3">
+                        {player.name}
+                      </td>
+                      <td className="border border-gray-700 p-3 text-center">
+                        {player.problems_solved}
+                      </td>
+                      <td className="border border-gray-700 p-3 text-center">
+                        {formatTime(player.total_time)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </>
         )}
       </div>
