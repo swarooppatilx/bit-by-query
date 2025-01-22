@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 const problemsDirectory = path.join(__dirname, "problems");
-const problemsFile = path.join(problemsDirectory, "virtual_contest.json");
+const problemsFile = path.join(problemsDirectory, "jan2025.json");
 
 let problems = [];
 

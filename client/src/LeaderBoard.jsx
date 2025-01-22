@@ -44,16 +44,6 @@ function LeaderBoard() {
     return () => clearInterval(intervalId);
   }, []);
 
-  function formatTime(ms) {
-    if (isNaN(ms) || ms < 0) return "00:00"; // Return default time if ms is invalid or negative
-
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  }
-
   function formatDate(date) {
     const options = {
       year: "numeric",
@@ -109,9 +99,6 @@ function LeaderBoard() {
                       Problems Solved
                     </th>
                     <th className="border border-gray-700 p-4 text-lg text-white">
-                      Total Time
-                    </th>
-                    <th className="border border-gray-700 p-4 text-lg text-white">
                       Score
                     </th>
                     <th className="border border-gray-700 p-4 text-lg text-white">
@@ -138,9 +125,6 @@ function LeaderBoard() {
                       </td>
                       <td className="border border-gray-700 p-4 text-center">
                         {player.problems_solved}
-                      </td>
-                      <td className="border border-gray-700 p-4 text-center">
-                        {formatTime(player.total_time)}
                       </td>
                       <td className="border border-gray-700 p-4 text-center">
                         {player.score}
