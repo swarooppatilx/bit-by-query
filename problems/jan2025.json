@@ -1,381 +1,2936 @@
 [
   {
     "id": 1,
-    "title": "Get All Students",
-    "description": "Using the `students` table, write a query to retrieve all students' names and grades.",
+    "title": "Honor Roll Students",
+    "description": "Write a query to find all students with grades above 85 and display their names in alphabetical order from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [
-      { "name": "Alice", "grade": 85 },
-      { "name": "Bob", "grade": 92 },
-      { "name": "Charlie", "grade": 78 }
-    ]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 87), ('Bob', 92), ('Charlie', 78), ('Diana', 95);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 87 },
+          { "name": "Bob", "grade": 92 },
+          { "name": "Diana", "grade": 95 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eva', 88), ('Frank', 82), ('Grace', 91), ('Henry', 76);",
+        "expectedOutput": [
+          { "name": "Eva", "grade": 88 },
+          { "name": "Grace", "grade": 91 }
+        ]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 2,
-    "title": "Top Scorer From Students",
-    "description": "Using the `students` table, write a query to find the name of the student with the highest grade.",
+    "title": "Struggling Students",
+    "description": "Write a query to find the names of students with the three lowest grades, ordered by grade ascending from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "name": "Bob" }]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 72), ('Charlie', 78), ('David', 65);",
+        "expectedOutput": [
+          { "name": "David", "grade": 65 },
+          { "name": "Bob", "grade": 72 },
+          { "name": "Charlie", "grade": 78 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eva', 88), ('Frank', 71), ('Grace', 66), ('Henry', 69);",
+        "expectedOutput": [
+          { "name": "Grace", "grade": 66 },
+          { "name": "Henry", "grade": 69 },
+          { "name": "Frank", "grade": 71 }
+        ]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 3,
-    "title": "Count of Orders",
-    "description": "Using the `orders` table, write a query to count the total number of orders.",
+    "title": "Large Orders",
+    "description": "Write a query to count how many orders have an amount greater than 200 from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "count": 3 }]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 250.50), ('Bob', 150.00), ('Charlie', 350.00), ('David', 175.00);",
+        "expectedOutput": [{ "large_orders": 2 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Eve', 450.00), ('Frank', 180.00), ('Grace', 225.00);",
+        "expectedOutput": [{ "large_orders": 2 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 4,
-    "title": "Total Sales from Orders",
-    "description": "Using the `orders` table, write a query to calculate the total sales amount.",
+    "title": "Average Order Value by Customer",
+    "description": "Write a query to calculate the average order amount for each customer from the `orders` table, only showing customers with more than one order.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [{ "total_sales": 650.5 }]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 150.00), ('Bob', 300.00), ('Charlie', 250.00), ('Charlie', 350.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "avg_amount": 175.25 },
+          { "customer": "Charlie", "avg_amount": 300.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 350.00), ('Eve', 180.00), ('Eve', 220.00), ('Eve', 200.00);",
+        "expectedOutput": [{ "customer": "Eve", "avg_amount": 200.0 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 5,
-    "title": "Employees by Department",
-    "description": "Using the `employees` table, write a query to list all employees grouped by their department.",
-    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
-    "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering');",
-    "expectedOutput": [
-      { "department": "Engineering", "employees": 2 },
-      { "department": "HR", "employees": 2 }
-    ]
+    "title": "Department Budget Tiers",
+    "description": "Write a query to classify departments into budget tiers based on total employee salaries: 'Low' (<100K), 'Medium' (100K-200K), 'High' (>200K) from the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'HR', 60000), ('Bob', 'Engineering', 80000), ('Charlie', 'HR', 55000), ('Dave', 'Engineering', 85000), ('Eve', 'Engineering', 90000), ('Frank', 'Sales', 45000);",
+        "expectedOutput": [
+          { "department": "Engineering", "budget_tier": "High" },
+          { "department": "HR", "budget_tier": "Medium" },
+          { "department": "Sales", "budget_tier": "Low" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'Marketing', 75000), ('Bob', 'Marketing', 65000), ('Charlie', 'IT', 95000), ('Dave', 'IT', 110000), ('Eve', 'IT', 88000);",
+        "expectedOutput": [
+          { "department": "IT", "budget_tier": "High" },
+          { "department": "Marketing", "budget_tier": "Medium" }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 6,
-    "title": "Average Grade",
-    "description": "Using the `students` table, write a query to find the average grade of all students.",
+    "title": "Grade Distribution",
+    "description": "Write a query to show the number of students in each grade range: 'A' (90-100), 'B' (80-89), 'C' (70-79), 'D' (60-69), 'F' (<60) from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [{ "average_grade": 85 }]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78), ('David', 55);",
+        "expectedOutput": [
+          { "grade_range": "A", "count": 1 },
+          { "grade_range": "B", "count": 1 },
+          { "grade_range": "C", "count": 1 },
+          { "grade_range": "F", "count": 1 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eve', 95), ('Frank', 91), ('Grace', 88), ('Henry', 65);",
+        "expectedOutput": [
+          { "grade_range": "A", "count": 2 },
+          { "grade_range": "B", "count": 1 },
+          { "grade_range": "D", "count": 1 }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 7,
-    "title": "Orders Above Threshold",
-    "description": "Using the `orders` table, write a query to retrieve all orders where the amount is greater than 200.",
-    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
-    "expectedOutput": [
-      { "customer": "Alice", "amount": 200.5 },
-      { "customer": "Charlie", "amount": 300.0 }
-    ]
+    "title": "Monthly Order Trends",
+    "description": "Write a query to show the average order amount and number of orders for each month of 2024 from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2024-01-15'), ('Bob', 150.00, '2024-01-20'), ('Charlie', 300.00, '2024-02-01');",
+        "expectedOutput": [
+          { "month": "January", "avg_amount": 175.25, "order_count": 2 },
+          { "month": "February", "avg_amount": 300.0, "order_count": 1 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('David', 250.00, '2024-03-01'), ('Eve', 180.00, '2024-03-15'), ('Frank', 220.00, '2024-03-20');",
+        "expectedOutput": [
+          { "month": "March", "avg_amount": 216.67, "order_count": 3 }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 8,
-    "title": "Customer with Most Orders",
-    "description": "Using the `orders` table, write a query to find the customer who has placed the most orders.",
+    "title": "Premium Customer Analysis",
+    "description": "Write a query to identify customers whose average order value is at least 50% higher than the overall average order value from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 100.00), ('Bob', 150.00);",
-    "expectedOutput": [{ "customer": "Alice" }]
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 300.50), ('Alice', 400.00), ('Bob', 150.00), ('Charlie', 180.00);",
+        "expectedOutput": [{ "customer": "Alice", "avg_order_value": 350.25 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 500.00), ('Eve', 200.00), ('Eve', 180.00), ('Frank', 600.00);",
+        "expectedOutput": [
+          { "customer": "David", "avg_order_value": 500.0 },
+          { "customer": "Frank", "avg_order_value": 600.0 }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 9,
-    "title": "Department with Most Employees",
-    "description": "Using the `employees` table, write a query to find the department with the highest number of employees.",
-    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
-    "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR'), ('Dave', 'Engineering'), ('Eve', 'HR');",
-    "expectedOutput": [{ "department": "HR", "employees": 3 }]
+    "title": "Department Diversity",
+    "description": "Write a query to find departments that have employees with at least 3 different salary levels, ordered by salary range (max - min) from the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'HR', 60000), ('Bob', 'HR', 65000), ('Charlie', 'HR', 75000), ('Dave', 'Engineering', 80000), ('Eve', 'Engineering', 80000);",
+        "expectedOutput": [
+          {
+            "department": "HR",
+            "salary_range": 15000,
+            "unique_salary_levels": 3
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'IT', 70000), ('Bob', 'IT', 85000), ('Charlie', 'IT', 100000), ('Dave', 'IT', 90000), ('Eve', 'Marketing', 65000);",
+        "expectedOutput": [
+          {
+            "department": "IT",
+            "salary_range": 30000,
+            "unique_salary_levels": 4
+          }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 10,
-    "title": "Students Above Average",
-    "description": "Using the `students` table, write a query to list all students who scored above the average grade.",
-    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
-    "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 92), ('Charlie', 78);",
-    "expectedOutput": [
-      { "name": "Alice", "grade": 85 },
-      { "name": "Bob", "grade": 92 }
-    ]
+    "title": "Cross-Functional Employees History",
+    "description": "Write a query to find employees who have worked in at least two different departments and show their department history with dates from the `employee_history` table.",
+    "schema": "CREATE TABLE employee_history (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department TEXT, start_date DATE, end_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employee_history (employee_name, department, start_date, end_date) VALUES ('Alice', 'HR', '2023-01-01', '2023-06-30'), ('Alice', 'Engineering', '2023-07-01', NULL), ('Bob', 'Engineering', '2023-01-01', NULL);",
+        "expectedOutput": [
+          {
+            "name": "Alice",
+            "departments_worked": 2,
+            "current_department": "Engineering",
+            "previous_department": "HR"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employee_history (employee_name, department, start_date, end_date) VALUES ('David', 'Sales', '2023-01-01', '2023-03-31'), ('David', 'Marketing', '2023-04-01', '2023-12-31'), ('David', 'IT', '2024-01-01', NULL), ('Eve', 'IT', '2023-01-01', NULL);",
+        "expectedOutput": [
+          {
+            "name": "David",
+            "departments_worked": 3,
+            "current_department": "IT",
+            "previous_department": "Marketing"
+          }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 11,
-    "title": "Products Low in Stock",
-    "description": "Using the `products` table, write a query to find all products with inventory less than 10 units.",
-    "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, inventory INTEGER);",
-    "sampleData": "INSERT INTO products (name, price, inventory) VALUES ('Laptop', 999.99, 5), ('Mouse', 29.99, 15), ('Keyboard', 89.99, 8);",
-    "expectedOutput": [
-      { "name": "Laptop", "inventory": 5 },
-      { "name": "Keyboard", "inventory": 8 }
-    ]
+    "title": "Total Orders by Customer",
+    "description": "Write a query to find the total number of orders placed by each customer from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Alice', 150.00), ('Bob', 100.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "total_orders": 2 },
+          { "customer": "Bob", "total_orders": 1 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 250.00), ('David', 100.00), ('Eve', 200.00);",
+        "expectedOutput": [
+          { "customer": "David", "total_orders": 2 },
+          { "customer": "Eve", "total_orders": 1 }
+        ]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 12,
-    "title": "Recent Customer Orders",
-    "description": "Using the `orders` table, write a query to get all orders from the last 7 days.",
-    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, order_date DATE, amount REAL);",
-    "sampleData": "INSERT INTO orders (customer, order_date, amount) VALUES ('Alice', '2024-01-15', 200.50), ('Bob', '2024-01-10', 150.00), ('Charlie', '2024-01-16', 300.00);",
-    "expectedOutput": [
-      { "customer": "Alice", "order_date": "2024-01-15", "amount": 200.5 },
-      { "customer": "Charlie", "order_date": "2024-01-16", "amount": 300.0 }
-    ]
+    "title": "Highest Sales in a Month",
+    "description": "Write a query to find the month with the highest sales from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2025-01-05'), ('Bob', 150.00, '2025-01-15'), ('Charlie', 300.00, '2025-01-25');",
+        "expectedOutput": [{ "month": "2025-01", "highest_sales": 650.5 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('David', 250.00, '2025-02-01'), ('Eve', 100.00, '2025-02-15'), ('Frank', 180.00, '2025-02-25');",
+        "expectedOutput": [{ "month": "2025-02", "highest_sales": 530.0 }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 13,
-    "title": "Employee Salary Statistics",
-    "description": "Using the `employees` table, write a query to calculate the minimum, maximum, and average salary by department.",
-    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
-    "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'HR', 60000), ('Bob', 'HR', 65000), ('Charlie', 'Engineering', 80000);",
-    "expectedOutput": [
+    "title": "Average Amount of Orders",
+    "description": "Write a query to calculate the average order amount from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
       {
-        "department": "HR",
-        "min_salary": 60000,
-        "max_salary": 65000,
-        "avg_salary": 62500
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [{ "average_amount": 216.83 }]
       },
       {
-        "department": "Engineering",
-        "min_salary": 80000,
-        "max_salary": 80000,
-        "avg_salary": 80000
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 350.00), ('Eve', 180.00);",
+        "expectedOutput": [{ "average_amount": 265.0 }]
       }
-    ]
+    ],
+    "marks": 6
   },
   {
     "id": 14,
-    "title": "Customer Categories",
-    "description": "Using the `customer_purchases` table, write a query to categorize customers based on their total purchase amount (High > 1000, Medium > 500, Low <= 500).",
-    "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, total_amount REAL);",
-    "sampleData": "INSERT INTO customer_purchases (customer, total_amount) VALUES ('Alice', 1200), ('Bob', 600), ('Charlie', 300);",
-    "expectedOutput": [
-      { "customer": "Alice", "category": "High" },
-      { "customer": "Bob", "category": "Medium" },
-      { "customer": "Charlie", "category": "Low" }
-    ]
+    "title": "Customers with No Orders",
+    "description": "Write a query to find customers who have not placed any orders from the `orders` table.",
+    "schema": "CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT); CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO customers (name) VALUES ('Alice'), ('Bob'), ('Charlie'); INSERT INTO orders (customer_id, amount) VALUES (1, 200.50), (2, 150.00);",
+        "expectedOutput": [{ "name": "Charlie" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO customers (name) VALUES ('David'), ('Eve'), ('Frank'); INSERT INTO orders (customer_id, amount) VALUES (1, 250.00), (3, 180.00);",
+        "expectedOutput": [{ "name": "Eve" }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 15,
-    "title": "Product Price History",
-    "description": "Using the `price_history` table, write a query to show the price change history for each product.",
-    "schema": "CREATE TABLE price_history (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, price REAL, change_date DATE);",
-    "sampleData": "INSERT INTO price_history (product_id, price, change_date) VALUES (1, 99.99, '2024-01-01'), (1, 89.99, '2024-01-15'), (2, 49.99, '2024-01-01');",
-    "expectedOutput": [
-      { "product_id": 1, "price_change": -10.0, "change_date": "2024-01-15" }
-    ]
+    "title": "Find Duplicate Employees",
+    "description": "Write a query to find employees who have the same name and belong to the same department in the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Alice', 'HR');",
+        "expectedOutput": [{ "name": "Alice", "department": "HR" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('David', 'HR'), ('Eve', 'Engineering'), ('David', 'HR');",
+        "expectedOutput": [{ "name": "David", "department": "HR" }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 16,
-    "title": "Active Projects",
-    "description": "Using the `projects` table, write a query to list all active projects with their current status and team size.",
-    "schema": "CREATE TABLE projects (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, status TEXT, team_size INTEGER);",
-    "sampleData": "INSERT INTO projects (name, status, team_size) VALUES ('Project A', 'Active', 5), ('Project B', 'Completed', 3), ('Project C', 'Active', 4);",
-    "expectedOutput": [
-      { "name": "Project A", "team_size": 5 },
-      { "name": "Project C", "team_size": 4 }
-    ]
+    "title": "Orders Over a Threshold",
+    "description": "Write a query to find all orders where the total amount is greater than a given threshold (200) from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5 },
+          { "customer": "Charlie", "amount": 300.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 250.00), ('Eve', 180.00);",
+        "expectedOutput": [{ "customer": "David", "amount": 250.0 }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 17,
-    "title": "Monthly Sales Report",
-    "description": "Using the `sales` table, write a query to generate a monthly sales report showing total sales and number of orders.",
-    "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, sale_date DATE, amount REAL);",
-    "sampleData": "INSERT INTO sales (sale_date, amount) VALUES ('2024-01-15', 200), ('2024-01-16', 300), ('2024-02-01', 400);",
-    "expectedOutput": [
-      { "month": "2024-01", "total_sales": 500, "order_count": 2 },
-      { "month": "2024-02", "total_sales": 400, "order_count": 1 }
-    ]
+    "title": "Most Expensive Order",
+    "description": "Write a query to find the most expensive order from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 300.00);",
+        "expectedOutput": [{ "customer": "Charlie", "amount": 300.0 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 350.00), ('Eve', 180.00);",
+        "expectedOutput": [{ "customer": "David", "amount": 350.0 }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 18,
-    "title": "Customer Retention",
-    "description": "Using the `purchases` table, write a query to find customers who have made purchases in consecutive months.",
-    "schema": "CREATE TABLE purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, purchase_date DATE);",
-    "sampleData": "INSERT INTO purchases (customer, purchase_date) VALUES ('Alice', '2024-01-15'), ('Alice', '2024-02-15'), ('Bob', '2024-01-15');",
-    "expectedOutput": [{ "customer": "Alice" }]
+    "title": "Find Oldest Employee",
+    "description": "Write a query to find the oldest employee by their hire date from the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, hire_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, hire_date) VALUES ('Alice', '2015-06-01'), ('Bob', '2017-03-15'), ('Charlie', '2010-08-23');",
+        "expectedOutput": [{ "name": "Charlie", "hire_date": "2010-08-23" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, hire_date) VALUES ('David', '2018-01-01'), ('Eve', '2015-06-10');",
+        "expectedOutput": [{ "name": "Eve", "hire_date": "2015-06-10" }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 19,
-    "title": "Product Categories Summary",
-    "description": "Using the `products` table, write a query to show the number of products and average price in each category.",
-    "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, price REAL);",
-    "sampleData": "INSERT INTO products (name, category, price) VALUES ('Laptop', 'Electronics', 999.99), ('Mouse', 'Electronics', 29.99), ('Desk', 'Furniture', 199.99);",
-    "expectedOutput": [
-      { "category": "Electronics", "product_count": 2, "avg_price": 514.99 },
-      { "category": "Furniture", "product_count": 1, "avg_price": 199.99 }
-    ]
+    "title": "Find Orders by Customer",
+    "description": "Write a query to find all orders placed by a specific customer from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2025-01-01'), ('Alice', 150.00, '2025-01-15');",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5, "order_date": "2025-01-01" },
+          { "customer": "Alice", "amount": 150.0, "order_date": "2025-01-15" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Bob', 100.00, '2025-01-05'), ('Bob', 200.00, '2025-01-10');",
+        "expectedOutput": [
+          { "customer": "Bob", "amount": 100.0, "order_date": "2025-01-05" },
+          { "customer": "Bob", "amount": 200.0, "order_date": "2025-01-10" }
+        ]
+      }
+    ],
+    "marks": 10
   },
   {
     "id": 20,
-    "title": "Employee Performance",
-    "description": "Using the `employee_performance` table, write a query to rank employees based on their performance scores.",
-    "schema": "CREATE TABLE employee_performance (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER);",
-    "sampleData": "INSERT INTO employee_performance (name, score) VALUES ('Alice', 95), ('Bob', 88), ('Charlie', 92);",
-    "expectedOutput": [
-      { "name": "Alice", "score": 95, "rank": 1 },
-      { "name": "Charlie", "score": 92, "rank": 2 },
-      { "name": "Bob", "score": 88, "rank": 3 }
-    ]
+    "title": "Find Orders by Date",
+    "description": "Write a query to find all orders placed on a specific date from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2025-01-01'), ('Bob', 150.00, '2025-01-02'), ('Charlie', 300.00, '2025-01-02'), ('Charlie', 300.00, '2025-01-01');",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5, "order_date": "2025-01-01" },
+          { "customer": "Charlie", "amount": 300.0, "order_date": "2025-01-01" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Bob', 150.00, '2025-01-02'), ('Charlie', 300.00, '2025-01-02'), ('Charlie', 300.00, '2025-01-01');",
+        "expectedOutput": [
+          { "customer": "Charlie", "amount": 300.0, "order_date": "2025-01-01" }
+        ]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 21,
-    "title": "Product Inventory Value",
-    "description": "Using the `inventory` table, write a query to calculate the total value of inventory for each product.",
-    "schema": "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, quantity INTEGER, unit_price REAL);",
-    "sampleData": "INSERT INTO inventory (product, quantity, unit_price) VALUES ('Laptop', 10, 999.99), ('Mouse', 50, 29.99);",
-    "expectedOutput": [
-      { "product": "Laptop", "total_value": 9999.9 },
-      { "product": "Mouse", "total_value": 1499.5 }
-    ]
+    "title": "Find Total Sales Per Day",
+    "description": "Write a query to calculate the total sales per day from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2025-01-01'), ('Bob', 150.00, '2025-01-01'), ('Charlie', 300.00, '2025-01-02');",
+        "expectedOutput": [
+          { "order_date": "2025-01-01", "total_sales": 350.5 },
+          { "order_date": "2025-01-02", "total_sales": 300.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('David', 250.00, '2025-02-01'), ('Eve', 100.00, '2025-02-01');",
+        "expectedOutput": [{ "order_date": "2025-02-01", "total_sales": 350.0 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 22,
-    "title": "Customer Spending Patterns",
-    "description": "Using the `customer_transactions` table, write a query to analyze customer spending patterns by quarter.",
-    "schema": "CREATE TABLE customer_transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, transaction_date DATE);",
-    "sampleData": "INSERT INTO customer_transactions (customer, amount, transaction_date) VALUES ('Alice', 100, '2024-01-15'), ('Alice', 200, '2024-04-15');",
-    "expectedOutput": [
-      { "customer": "Alice", "quarter": "Q1", "total_spent": 100 },
-      { "customer": "Alice", "quarter": "Q2", "total_spent": 200 }
-    ]
+    "title": "Find Customers with Maximum Order Amount",
+    "description": "Write a query to find customers who have placed the maximum amount order in the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 250.00), ('Charlie', 300.00);",
+        "expectedOutput": [{ "customer": "Charlie", "amount": 300.0 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 350.00), ('Eve', 300.00);",
+        "expectedOutput": [{ "customer": "David", "amount": 350.0 }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 23,
-    "title": "Project Timeline",
-    "description": "Using the `project_timeline` table, write a query to calculate the duration of each project in days.",
-    "schema": "CREATE TABLE project_timeline (id INTEGER PRIMARY KEY AUTOINCREMENT, project TEXT, start_date DATE, end_date DATE);",
-    "sampleData": "INSERT INTO project_timeline (project, start_date, end_date) VALUES ('Project A', '2024-01-01', '2024-01-15'), ('Project B', '2024-01-15', '2024-02-15');",
-    "expectedOutput": [
-      { "project": "Project A", "duration_days": 14 },
-      { "project": "Project B", "duration_days": 31 }
-    ]
+    "title": "Find Duplicate Orders",
+    "description": "Write a query to find duplicate orders placed by the same customer in the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('Alice', 200.50, '2025-01-01'), ('Alice', 200.50, '2025-01-01'), ('Bob', 150.00, '2025-01-02');",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5, "order_date": "2025-01-01" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount, order_date) VALUES ('David', 250.00, '2025-01-01'), ('David', 250.00, '2025-01-01');",
+        "expectedOutput": [
+          { "customer": "David", "amount": 250.0, "order_date": "2025-01-01" }
+        ]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 24,
-    "title": "Department Budget Analysis",
-    "description": "Using the `department_finance` table, write a query to compare actual spending against budget for each department.",
-    "schema": "CREATE TABLE department_finance (id INTEGER PRIMARY KEY AUTOINCREMENT, department TEXT, budget REAL, actual_spend REAL);",
-    "sampleData": "INSERT INTO department_finance (department, budget, actual_spend) VALUES ('HR', 100000, 95000), ('IT', 150000, 160000);",
-    "expectedOutput": [
-      { "department": "HR", "variance": 5000, "status": "Under Budget" },
-      { "department": "IT", "variance": -10000, "status": "Over Budget" }
-    ]
+    "title": "Count Employees in Each Department",
+    "description": "Write a query to find the number of employees in each department from the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('Alice', 'HR'), ('Bob', 'Engineering'), ('Charlie', 'HR');",
+        "expectedOutput": [
+          { "department": "HR", "employee_count": 2 },
+          { "department": "Engineering", "employee_count": 1 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department) VALUES ('David', 'Engineering'), ('Eve', 'HR'), ('Frank', 'Marketing');",
+        "expectedOutput": [
+          { "department": "Engineering", "employee_count": 1 },
+          { "department": "HR", "employee_count": 1 },
+          { "department": "Marketing", "employee_count": 1 }
+        ]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 25,
-    "title": "Customer Feedback Analysis",
-    "description": "Using the `feedback` table, write a query to summarize customer feedback ratings by product category.",
-    "schema": "CREATE TABLE feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, product_category TEXT, rating INTEGER);",
-    "sampleData": "INSERT INTO feedback (product_category, rating) VALUES ('Electronics', 4), ('Electronics', 5), ('Furniture', 3);",
-    "expectedOutput": [
-      { "product_category": "Electronics", "avg_rating": 4.5 },
-      { "product_category": "Furniture", "avg_rating": 3.0 }
-    ]
+    "title": "Find Orders with Discounts",
+    "description": "Write a query to find all orders that are eligible for discounts (greater than $100) from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 50.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "amount": 200.5 },
+          { "customer": "Bob", "amount": 150.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 120.00), ('Eve', 90.00);",
+        "expectedOutput": [{ "customer": "David", "amount": 120.0 }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 26,
-    "title": "Employee Attendance",
-    "description": "Using the `attendance` table, write a query to calculate attendance percentage for each employee.",
-    "schema": "CREATE TABLE attendance (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, present BOOLEAN, date DATE);",
-    "sampleData": "INSERT INTO attendance (employee, present, date) VALUES ('Alice', 1, '2024-01-15'), ('Alice', 0, '2024-01-16'), ('Bob', 1, '2024-01-15');",
-    "expectedOutput": [
-      { "employee": "Alice", "attendance_percentage": 50 },
-      { "employee": "Bob", "attendance_percentage": 100 }
-    ]
+    "title": "Find Customers with Total Purchase Greater Than 500",
+    "description": "Write a query to find customers who have made total purchases greater than $500 from the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('Alice', 200.50), ('Bob', 150.00), ('Charlie', 350.00);",
+        "expectedOutput": [
+          { "customer": "Alice", "total_purchase": 200.5 },
+          { "customer": "Charlie", "total_purchase": 350.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer, amount) VALUES ('David', 500.00), ('Eve', 400.00);",
+        "expectedOutput": [{ "customer": "David", "total_purchase": 500.0 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 27,
-    "title": "Product Stock Alerts",
-    "description": "Using the `inventory` table, write a query to generate alerts for products that need reordering.",
-    "schema": "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, current_stock INTEGER, reorder_point INTEGER);",
-    "sampleData": "INSERT INTO inventory (product, current_stock, reorder_point) VALUES ('Laptop', 5, 10), ('Mouse', 15, 10);",
-    "expectedOutput": [
-      { "product": "Laptop", "status": "Reorder Required", "units_needed": 5 }
-    ]
+    "title": "Get Students with Grades Above 80",
+    "description": "Write a query to retrieve the names of students whose grades are greater than 80 from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 70), ('Charlie', 92);",
+        "expectedOutput": [{ "name": "Alice" }, { "name": "Charlie" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 60), ('Eve', 88), ('Frank', 75);",
+        "expectedOutput": [{ "name": "Eve" }]
+      }
+    ],
+    "marks": 6
   },
   {
     "id": 28,
-    "title": "Sales Growth",
-    "description": "Using the `yearly_sales` table, write a query to calculate year-over-year sales growth percentage.",
-    "schema": "CREATE TABLE yearly_sales (id INTEGER PRIMARY KEY AUTOINCREMENT, year INTEGER, total_sales REAL);",
-    "sampleData": "INSERT INTO yearly_sales (year, total_sales) VALUES (2023, 100000), (2024, 120000);",
-    "expectedOutput": [{ "year": 2024, "growth_percentage": 20 }]
+    "title": "Increase Grades by 5",
+    "description": "Write a query to increase the grades of all students by 5 points from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 90), ('Charlie', 70);",
+        "expectedOutput": [
+          { "name": "Alice", "grade": 90 },
+          { "name": "Bob", "grade": 95 },
+          { "name": "Charlie", "grade": 75 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 80), ('Eve', 85);",
+        "expectedOutput": [
+          { "name": "David", "grade": 85 },
+          { "name": "Eve", "grade": 90 }
+        ]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 29,
-    "title": "Customer Segmentation",
-    "description": "Using the `customer_purchases` table, write a query to segment customers based on their purchase frequency.",
-    "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, purchase_count INTEGER);",
-    "sampleData": "INSERT INTO customer_purchases (customer, purchase_count) VALUES ('Alice', 12), ('Bob', 3), ('Charlie', 6);",
-    "expectedOutput": [
-      { "customer": "Alice", "segment": "Frequent" },
-      { "customer": "Bob", "segment": "Occasional" },
-      { "customer": "Charlie", "segment": "Regular" }
-    ]
+    "title": "Remove Students with Grades Below 60",
+    "description": "Write a query to delete students who have grades below 60 from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 55), ('Bob', 75), ('Charlie', 50);",
+        "expectedOutput": [{ "name": "Bob", "grade": 75 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 60), ('Eve', 58);",
+        "expectedOutput": [{ "name": "David", "grade": 60 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 30,
-    "title": "Product Bundle Analysis",
-    "description": "Using the `order_items` table, write a query to find commonly purchased product combinations.",
-    "schema": "CREATE TABLE order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, product TEXT);",
-    "sampleData": "INSERT INTO order_items (order_id, product) VALUES (1, 'Laptop'), (1, 'Mouse'), (2, 'Laptop'), (2, 'Mouse');",
-    "expectedOutput": [
-      { "product1": "Laptop", "product2": "Mouse", "frequency": 2 }
-    ]
+    "title": "Get Students Not in a List",
+    "description": "Write a query to retrieve the names of students whose grades are not in (50, 60, 70) from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 50), ('Bob', 80), ('Charlie', 60), ('David', 90);",
+        "expectedOutput": [{ "name": "Bob" }, { "name": "David" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eve', 70), ('Frank', 85), ('Grace', 95);",
+        "expectedOutput": [{ "name": "Frank" }, { "name": "Grace" }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 31,
-    "title": "Employee Skills Matrix",
-    "description": "Using the `employee_skills` table, write a query to create a matrix of employees and their skills.",
-    "schema": "CREATE TABLE employee_skills (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, skill TEXT, proficiency INTEGER);",
-    "sampleData": "INSERT INTO employee_skills (employee, skill, proficiency) VALUES ('Alice', 'SQL', 4), ('Alice', 'Python', 3), ('Bob', 'SQL', 5);",
-    "expectedOutput": [
-      { "employee": "Alice", "skills": "SQL(4),Python(3)" },
-      { "employee": "Bob", "skills": "SQL(5)" }
-    ]
+    "title": "Find Students with Missing Grades",
+    "description": "Write a query to retrieve the names of students whose grades are NULL from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', NULL), ('Bob', 75), ('Charlie', NULL);",
+        "expectedOutput": [{ "name": "Alice" }, { "name": "Charlie" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 60), ('Eve', NULL);",
+        "expectedOutput": [{ "name": "Eve" }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 32,
-    "title": "Project Resource Allocation",
-    "description": "Using the `resources` table, write a query to show resource allocation across different projects.",
-    "schema": "CREATE TABLE resources (id INTEGER PRIMARY KEY AUTOINCREMENT, project TEXT, resource_type TEXT, hours_allocated INTEGER);",
-    "sampleData": "INSERT INTO resources (project, resource_type, hours_allocated) VALUES ('Project A', 'Developer', 40), ('Project A', 'Designer', 20);",
-    "expectedOutput": [
+    "title": "Find Average Grade",
+    "description": "Write a query to calculate the average grade of all students from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
       {
-        "project": "Project A",
-        "total_hours": 60,
-        "resource_breakdown": "Developer:40,Designer:20"
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 80), ('Bob', 90), ('Charlie', 70);",
+        "expectedOutput": [{ "average_grade": 80.0 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 85), ('Eve', 95);",
+        "expectedOutput": [{ "average_grade": 90.0 }]
       }
-    ]
+    ],
+    "marks": 8
   },
   {
     "id": 33,
-    "title": "Customer Churn Analysis",
-    "description": "Using the `customer_purchases` table, write a query to identify customers who have not made purchases in the last 3 months.",
-    "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, last_purchase_date DATE);",
-    "sampleData": "INSERT INTO customer_purchases (customer, last_purchase_date) VALUES ('Alice', '2024-01-15'), ('Bob', '2024-02-15'), ('Charlie', '2024-03-15');",
-    "expectedOutput": [{ "customer": "Alice" }]
+    "title": "Get the Top Scoring Student",
+    "description": "Write a query to find the name and grade of the student with the highest grade from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 90), ('Charlie', 70);",
+        "expectedOutput": [{ "name": "Bob", "grade": 90 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 60), ('Eve', 95);",
+        "expectedOutput": [{ "name": "Eve", "grade": 95 }]
+      }
+    ],
+    "marks": 8
   },
   {
     "id": 34,
-    "title": "Product Performance Metrics",
-    "description": "Using the `products` table, write a query to calculate performance metrics for each product (sales, profit margin, inventory turnover).",
-    "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, sales INTEGER, cost REAL, price REAL, inventory INTEGER);",
-    "sampleData": "INSERT INTO products (name, sales, cost, price, inventory) VALUES ('Laptop', 100, 800, 999, 10), ('Mouse', 200, 20, 30, 50);",
-    "expectedOutput": [
+    "title": "Rank Students by Grades",
+    "description": "Write a query to rank students based on their grades in descending order from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
       {
-        "product": "Laptop",
-        "sales": 100,
-        "profit_margin": 19.92,
-        "inventory_turnover": 10
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 90), ('Charlie', 70);",
+        "expectedOutput": [
+          { "rank": 1, "name": "Bob", "grade": 90 },
+          { "rank": 2, "name": "Alice", "grade": 85 },
+          { "rank": 3, "name": "Charlie", "grade": 70 }
+        ]
       },
       {
-        "product": "Mouse",
-        "sales": 200,
-        "profit_margin": 33.33,
-        "inventory_turnover": 4
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 75), ('Eve', 95), ('Frank', 80);",
+        "expectedOutput": [
+          { "rank": 1, "name": "Eve", "grade": 95 },
+          { "rank": 2, "name": "Frank", "grade": 80 },
+          { "rank": 3, "name": "David", "grade": 75 }
+        ]
       }
-    ]
+    ],
+    "marks": 8
   },
   {
     "id": 35,
-    "title": "Employee Training Needs",
-    "description": "Using the `employee_skills` table, write a query to identify employees who need additional training based on their skill proficiency.",
-    "schema": "CREATE TABLE employee_skills (id INTEGER PRIMARY KEY AUTOINCREMENT, employee TEXT, skill TEXT, proficiency INTEGER);",
-    "sampleData": "INSERT INTO employee_skills (employee, skill, proficiency) VALUES ('Alice', 'SQL', 2), ('Alice', 'Python', 3), ('Bob', 'SQL', 4);",
-    "expectedOutput": [{ "employee": "Alice", "skills_to_improve": "SQL" }]
+    "title": "Count Students in Grade Ranges",
+    "description": "Write a query to count the number of students in each grade range: 0-60, 61-80, and 81-100 in the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 90), ('Charlie', 70), ('David', 55);",
+        "expectedOutput": [
+          { "grade_range": "81-100", "student_count": 2 },
+          { "grade_range": "61-80", "student_count": 1 },
+          { "grade_range": "0-60", "student_count": 1 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Eve', 40), ('Frank', 95), ('Grace', 75), ('Hank', 62);",
+        "expectedOutput": [
+          { "grade_range": "81-100", "student_count": 1 },
+          { "grade_range": "61-80", "student_count": 2 },
+          { "grade_range": "0-60", "student_count": 1 }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 36,
+    "title": "Find Students with Duplicate Names",
+    "description": "Write a query to find names that are repeated in the `students` table",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', 85), ('Bob', 90), ('Alice', 70), ('Charlie', 60);",
+        "expectedOutput": [{ "name": "Alice", "occurrences": 2 }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 60), ('Eve', 95), ('David', 75), ('Grace', 85);",
+        "expectedOutput": [{ "name": "David", "occurrences": 2 }]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 37,
+    "title": "List Students Without Grades",
+    "description": "Write a query to retrieve the names of students who do not have a grade (NULL) from the `students` table.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('Alice', NULL), ('Bob', 90), ('Charlie', NULL);",
+        "expectedOutput": [{ "name": "Alice" }, { "name": "Charlie" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (name, grade) VALUES ('David', 85), ('Eve', NULL), ('Frank', 75);",
+        "expectedOutput": [{ "name": "Eve" }]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 38,
+    "title": "Find Employees Who Are in Multiple Departments",
+    "description": "Write a query to find employees who are assigned to more than one department. The `employees` table has employee names and department IDs they belong to.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department_id INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (employee_name, department_id) VALUES ('Alice', 1), ('Bob', 2), ('Charlie', 1), ('David', 3), ('Alice', 2);",
+        "expectedOutput": [{ "employee_name": "Alice" }]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (employee_name, department_id) VALUES ('Eve', 2), ('Frank', 1), ('Grace', 3), ('Eve', 3);",
+        "expectedOutput": [{ "employee_name": "Eve" }]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 39,
+    "title": "Find Employees with Same Salary",
+    "description": "Write a query to find employees who have the same salary as other employees in the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, salary REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (employee_name, salary) VALUES ('Alice', 75000), ('Bob', 85000), ('Charlie', 75000), ('David', 90000), ('Eve', 85000);",
+        "expectedOutput": [
+          { "employee_name": "Alice", "salary": 75000 },
+          { "employee_name": "Charlie", "salary": 75000 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (employee_name, salary) VALUES ('Frank', 90000), ('Grace', 85000), ('Hank', 90000), ('Ivy', 95000);",
+        "expectedOutput": [
+          { "employee_name": "Frank", "salary": 90000 },
+          { "employee_name": "Hank", "salary": 90000 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 40,
+    "title": "Find Products Not in Specific Categories",
+    "description": "Write a query to find products that are not in specific categories, such as 'Electronics' or 'Furniture'. The `products` table contains product names and their categories.",
+    "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO products (product_name, category) VALUES ('Laptop', 'Electronics'), ('Sofa', 'Furniture'), ('Blender', 'Appliances'), ('Chair', 'Furniture');",
+        "expectedOutput": [
+          { "product_name": "Blender", "category": "Appliances" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO products (product_name, category) VALUES ('Phone', 'Electronics'), ('Table', 'Furniture'), ('Washing Machine', 'Appliances');",
+        "expectedOutput": [
+          { "product_name": "Washing Machine", "category": "Appliances" }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 41,
+    "title": "Find Students With Specific Grades or Subjects",
+    "description": "Write a query to find students who have either a grade of 'A' or are enrolled in the subject 'Mathematics'. The `students` table contains student names, grades, and subjects.",
+    "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, student_name TEXT, grade TEXT, subject TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO students (student_name, grade, subject) VALUES ('John', 'A', 'Physics'), ('Jane', 'B', 'Mathematics'), ('Mark', 'C', 'Biology'), ('Emily', 'A', 'Mathematics');",
+        "expectedOutput": [
+          { "student_name": "John", "grade": "A", "subject": "Physics" },
+          { "student_name": "Jane", "grade": "B", "subject": "Mathematics" },
+          { "student_name": "Emily", "grade": "A", "subject": "Mathematics" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO students (student_name, grade, subject) VALUES ('David', 'A', 'Chemistry'), ('Sophia', 'C', 'Mathematics');",
+        "expectedOutput": [
+          { "student_name": "David", "grade": "A", "subject": "Chemistry" },
+          { "student_name": "Sophia", "grade": "C", "subject": "Mathematics" }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 42,
+    "title": "Exclude Products Sold to Specific Customers",
+    "description": "Write a query to find products that have not been sold to specific customers. Exclude sales to customers with IDs 1 and 3 from the results. The `sales` table contains the product names and customer IDs.",
+    "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, customer_id INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO sales (product_name, customer_id) VALUES ('Product A', 1), ('Product B', 2), ('Product C', 3), ('Product D', 4);",
+        "expectedOutput": [
+          { "product_name": "Product B", "customer_id": 2 },
+          { "product_name": "Product D", "customer_id": 4 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO sales (product_name, customer_id) VALUES ('Product X', 3), ('Product Y', 4), ('Product Z', 5);",
+        "expectedOutput": [
+          { "product_name": "Product Y", "customer_id": 4 },
+          { "product_name": "Product Z", "customer_id": 5 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 43,
+    "title": "Employee Department Analysis",
+    "description": "Find departments where the average salary is above the company-wide average salary, ordered by department average salary descending in the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('John', 'IT', 75000), ('Alice', 'IT', 85000), ('Bob', 'HR', 65000), ('Carol', 'HR', 62000), ('David', 'Finance', 90000);",
+        "expectedOutput": [
+          { "department": "IT", "avg_salary": 80000.0 },
+          { "department": "Finance", "avg_salary": 90000.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, department, salary) VALUES ('Sarah', 'Sales', 95000), ('Mike', 'Sales', 88000), ('Emma', 'Marketing', 70000), ('Tom', 'Marketing', 72000), ('Lisa', 'IT', 82000);",
+        "expectedOutput": [
+          { "department": "Sales", "avg_salary": 91500.0 },
+          { "department": "IT", "avg_salary": 82000.0 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 44,
+    "title": "Product Sales Rankings",
+    "description": "Rank products by their total sales amount and show only the top 3 products in each category from the `sales` table.",
+    "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, sale_amount REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO sales (product_name, category, sale_amount) VALUES ('Laptop', 'Electronics', 2000), ('Phone', 'Electronics', 1500), ('Tablet', 'Electronics', 1000), ('Desk', 'Furniture', 500), ('Chair', 'Furniture', 300), ('Lamp', 'Furniture', 200);",
+        "expectedOutput": [
+          {
+            "category": "Electronics",
+            "product_name": "Laptop",
+            "total_sales": 2000
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Phone",
+            "total_sales": 1500
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Tablet",
+            "total_sales": 1000
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Desk",
+            "total_sales": 500
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Chair",
+            "total_sales": 300
+          },
+          {
+            "category": "Furniture",
+            "product_name": "Lamp",
+            "total_sales": 200
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO sales (product_name, category, sale_amount) VALUES ('Book', 'Media', 50), ('Movie', 'Media', 30), ('Game', 'Media', 60), ('Headphones', 'Electronics', 100), ('Speaker', 'Electronics', 150), ('Monitor', 'Electronics', 800);",
+        "expectedOutput": [
+          {
+            "category": "Electronics",
+            "product_name": "Monitor",
+            "total_sales": 800
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Speaker",
+            "total_sales": 150
+          },
+          {
+            "category": "Electronics",
+            "product_name": "Headphones",
+            "total_sales": 100
+          },
+          { "category": "Media", "product_name": "Game", "total_sales": 60 },
+          { "category": "Media", "product_name": "Book", "total_sales": 50 },
+          { "category": "Media", "product_name": "Movie", "total_sales": 30 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 45,
+    "title": "Customer Purchase Analysis",
+    "description": "Find the total purchase amount and number of orders for each customer who has made at least 2 orders, ordered by total purchase amount descending in the `orders` table.",
+    "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, order_amount REAL, order_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO orders (customer_name, order_amount, order_date) VALUES ('John', 100, '2024-01-01'), ('John', 150, '2024-01-15'), ('Mary', 200, '2024-01-01'), ('Mary', 250, '2024-01-15'), ('Mary', 300, '2024-02-01');",
+        "expectedOutput": [
+          { "customer_name": "Mary", "total_amount": 750.0, "order_count": 3 },
+          { "customer_name": "John", "total_amount": 250.0, "order_count": 2 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO orders (customer_name, order_amount, order_date) VALUES ('Alice', 500, '2024-01-01'), ('Alice', 600, '2024-02-01'), ('Bob', 400, '2024-01-15'), ('Charlie', 300, '2024-02-01'), ('Charlie', 350, '2024-02-15');",
+        "expectedOutput": [
+          {
+            "customer_name": "Alice",
+            "total_amount": 1100.0,
+            "order_count": 2
+          },
+          {
+            "customer_name": "Charlie",
+            "total_amount": 650.0,
+            "order_count": 2
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 46,
+    "title": "Monthly Revenue Comparison",
+    "description": "Calculate the monthly revenue and compare it with the previous month's revenue, showing the percentage change for each month in the `monthly_revenue` table.",
+    "schema": "CREATE TABLE monthly_revenue (id INTEGER PRIMARY KEY AUTOINCREMENT, month DATE, revenue REAL);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO monthly_revenue (month, revenue) VALUES ('2024-01-01', 10000), ('2024-02-01', 12000), ('2024-03-01', 11000), ('2024-04-01', 13000);",
+        "expectedOutput": [
+          {
+            "month": "2024-02",
+            "revenue": 12000,
+            "prev_month_revenue": 10000,
+            "percent_change": 20.0
+          },
+          {
+            "month": "2024-03",
+            "revenue": 11000,
+            "prev_month_revenue": 12000,
+            "percent_change": -8.33
+          },
+          {
+            "month": "2024-04",
+            "revenue": 13000,
+            "prev_month_revenue": 11000,
+            "percent_change": 18.18
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO monthly_revenue (month, revenue) VALUES ('2024-01-01', 15000), ('2024-02-01', 14000), ('2024-03-01', 16000), ('2024-04-01', 15500);",
+        "expectedOutput": [
+          {
+            "month": "2024-02",
+            "revenue": 14000,
+            "prev_month_revenue": 15000,
+            "percent_change": -6.67
+          },
+          {
+            "month": "2024-03",
+            "revenue": 16000,
+            "prev_month_revenue": 14000,
+            "percent_change": 14.29
+          },
+          {
+            "month": "2024-04",
+            "revenue": 15500,
+            "prev_month_revenue": 16000,
+            "percent_change": -3.13
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 47,
+    "title": "Product Inventory Analysis",
+    "description": "Find products with inventory levels below the average inventory level and calculate the percentage of total inventory they represent in the `product_inventory` table.",
+    "schema": "CREATE TABLE product_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, inventory INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO product_inventory (product_name, inventory) VALUES ('Laptop', 100), ('Phone', 50), ('Tablet', 75), ('Desk', 25), ('Chair', 30);",
+        "expectedOutput": [
+          {
+            "product_name": "Desk",
+            "inventory": 25,
+            "avg_inventory": 56.0,
+            "percent_total_inventory": 8.93
+          },
+          {
+            "product_name": "Chair",
+            "inventory": 30,
+            "avg_inventory": 56.0,
+            "percent_total_inventory": 10.71
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO product_inventory (product_name, inventory) VALUES ('Lamp', 40), ('Bookshelf', 60), ('Sofa', 45), ('Cabinet', 35), ('Mirror', 20);",
+        "expectedOutput": [
+          {
+            "product_name": "Mirror",
+            "inventory": 20,
+            "avg_inventory": 44.0,
+            "percent_total_inventory": 6.67
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 48,
+    "title": "Employee Performance Analysis",
+    "description": "Find employees who have received a performance rating of 'Excellent' and have a salary above the company-wide average salary in the `employees` table.",
+    "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, salary REAL, performance_rating TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO employees (name, salary, performance_rating) VALUES ('John', 75000, 'Excellent'), ('Alice', 85000, 'Good'), ('Bob', 65000, 'Excellent'), ('Carol', 62000, 'Excellent'), ('David', 90000, 'Excellent');",
+        "expectedOutput": [
+          { "name": "David", "salary": 90000, "performance_rating": "Excellent" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO employees (name, salary, performance_rating) VALUES ('Sarah', 95000, 'Excellent'), ('Mike', 88000, 'Excellent'), ('Emma', 70000, 'Good'), ('Tom', 72000, 'Excellent'), ('Lisa', 82000, 'Excellent');",
+        "expectedOutput": [
+          { "name": "Sarah", "salary": 95000, "performance_rating": "Excellent" },
+          { "name": "Mike", "salary": 88000, "performance_rating": "Excellent" },
+          { "name": "Tom", "salary": 72000, "performance_rating": "Excellent" },
+          { "name": "Lisa", "salary": 82000, "performance_rating": "Excellent" }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 49,
+    "title": "Customer Loyalty Analysis",
+    "description": "Identify customers who have made purchases in consecutive months and calculate the total amount spent by each customer in the `customer_purchases` table.",
+    "schema": "CREATE TABLE customer_purchases (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, purchase_amount REAL, purchase_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO customer_purchases (customer_name, purchase_amount, purchase_date) VALUES ('John', 100, '2024-01-01'), ('John', 150, '2024-02-01'), ('Mary', 200, '2024-01-01'), ('Mary', 250, '2024-02-01'), ('Mary', 300, '2024-03-01');",
+        "expectedOutput": [
+          { "customer_name": "Mary", "total_amount": 750.0 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO customer_purchases (customer_name, purchase_amount, purchase_date) VALUES ('Alice', 500, '2024-01-01'), ('Alice', 600, '2024-02-01'), ('Bob', 400, '2024-01-15'), ('Charlie', 300, '2024-02-01'), ('Charlie', 350, '2024-02-15');",
+        "expectedOutput": [
+          { "customer_name": "Alice", "total_amount": 1100.0 }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+
+  {
+    "id": 50,
+    "title": "E-commerce Shopping Cart Analysis",
+    "description": "Find abandoned shopping carts (created but not purchased within 24 hours) and calculate the total potential lost revenue by product category in the `shopping_carts` table.",
+    "schema": "CREATE TABLE shopping_carts (id INTEGER PRIMARY KEY AUTOINCREMENT, cart_id INTEGER, product_category TEXT, total_amount REAL, created_at DATETIME, purchased_at DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO shopping_carts (cart_id, product_category, total_amount, created_at, purchased_at) VALUES (1, 'Electronics', 599.99, '2024-01-01 10:00:00', NULL), (2, 'Electronics', 799.99, '2024-01-01 11:00:00', '2024-01-01 12:00:00'), (3, 'Clothing', 149.99, '2024-01-01 09:00:00', NULL), (4, 'Clothing', 99.99, '2024-01-01 14:00:00', NULL);",
+        "expectedOutput": [
+          {
+            "product_category": "Electronics",
+            "abandoned_carts": 1,
+            "lost_revenue": 599.99
+          },
+          {
+            "product_category": "Clothing",
+            "abandoned_carts": 2,
+            "lost_revenue": 249.98
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO shopping_carts (cart_id, product_category, total_amount, created_at, purchased_at) VALUES (5, 'Books', 49.99, '2024-02-01 10:00:00', NULL), (6, 'Books', 79.99, '2024-02-01 11:00:00', NULL), (7, 'Electronics', 1299.99, '2024-02-01 09:00:00', NULL), (8, 'Electronics', 899.99, '2024-02-01 14:00:00', '2024-02-01 15:00:00');",
+        "expectedOutput": [
+          {
+            "product_category": "Electronics",
+            "abandoned_carts": 1,
+            "lost_revenue": 1299.99
+          },
+          {
+            "product_category": "Books",
+            "abandoned_carts": 2,
+            "lost_revenue": 129.98
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 51,
+    "title": "Get All Hogwarts Students",
+    "description": "Write a query to retrieve all students' names and their house points from the `hogwarts_students` table in ascending order of house points.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (name, house_points) VALUES ('Harry Potter', 150), ('Hermione Granger', 200), ('Ron Weasley', 120);",
+        "expectedOutput": [
+          { "name": "Harry Potter", "house_points": 150 },
+          { "name": "Hermione Granger", "house_points": 200 },
+          { "name": "Ron Weasley", "house_points": 120 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (name, house_points) VALUES ('Draco Malfoy', 180), ('Luna Lovegood', 160), ('Neville Longbottom', 140);",
+        "expectedOutput": [
+          { "name": "Draco Malfoy", "house_points": 180 },
+          { "name": "Luna Lovegood", "house_points": 160 },
+          { "name": "Neville Longbottom", "house_points": 140 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 52,
+    "title": "Insert New Characters",
+    "description": "Write a query to insert new characters into the `marvel_characters` table and return the inserted values.",
+    "schema": "CREATE TABLE marvel_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO marvel_characters (name, power_level) VALUES ('Black Panther', 90), ('Doctor Strange', 95) RETURNING *;",
+        "expectedOutput": [
+          { "id": 1, "name": "Black Panther", "power_level": 90 },
+          { "id": 2, "name": "Doctor Strange", "power_level": 95 },
+          {"id": 5, "name": "Iron Man", "power_level": 100},
+          {"id": 6, "name": "Thor", "power_level": 100}
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO marvel_characters (name, power_level) VALUES ('Captain Marvel', 100), ('Spider-Man', 85) RETURNING *;",
+        "expectedOutput": [
+          { "id": 1, "name": "Captain Marvel", "power_level": 100 },
+          { "id": 2, "name": "Spider-Man", "power_level": 85 },
+          { "id": 5, "name": "Iron Man", "power_level": 100 },
+          { "id": 6, "name": "Thor", "power_level": 100 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 53,
+    "title": "Select Characters with Specific Affiliation",
+    "description": "Write a query to retrieve all characters from the `star_wars_characters` table who are part of the 'Jedi' affiliation.",
+    "schema": "CREATE TABLE star_wars_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, affiliation TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO star_wars_characters (name, affiliation) VALUES ('Luke Skywalker', 'Jedi'), ('Darth Vader', 'Sith'), ('Yoda', 'Jedi');",
+        "expectedOutput": [
+          { "name": "Luke Skywalker", "affiliation": "Jedi" },
+          { "name": "Yoda", "affiliation": "Jedi" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO star_wars_characters (name, affiliation) VALUES ('Obi-Wan Kenobi', 'Jedi'), ('Ahsoka Tano', 'Jedi');",
+        "expectedOutput": [
+          { "name": "Luke Skywalker", "affiliation": "Jedi" },
+          { "name": "Yoda", "affiliation": "Jedi" },
+          { "name": "Obi-Wan Kenobi", "affiliation": "Jedi" },
+          { "name": "Ahsoka Tano", "affiliation": "Jedi" }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 54,
+    "title": "Select Characters Not in a List",
+    "description": "Write a query to retrieve all characters from the `marvel_characters` table who are not 'Iron Man' or 'Thor'.",
+    "schema": "CREATE TABLE marvel_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO marvel_characters (name, power_level) VALUES ('Iron Man', 95), ('Thor', 100), ('Hulk', 98), ('Black Widow', 80);",
+        "expectedOutput": [
+          { "name": "Hulk", "power_level": 98 },
+          { "name": "Black Widow", "power_level": 80 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO marvel_characters (name, power_level) VALUES ('Spider-Man', 85), ('Doctor Strange', 95);",
+        "expectedOutput": [
+          { "name": "Spider-Man", "power_level": 85 },
+          { "name": "Doctor Strange", "power_level": 95 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 55,
+    "title": "Select Characters with NULL Power Level",
+    "description": "Write a query to retrieve all characters from the `dc_characters` table who have a NULL power level.",
+    "schema": "CREATE TABLE dc_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO dc_characters (name, power_level) VALUES ('Batman', NULL), ('Superman', 100), ('Wonder Woman', NULL);",
+        "expectedOutput": [
+          { "name": "Batman", "power_level": null },
+          { "name": "Wonder Woman", "power_level": null }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO dc_characters (name, power_level) VALUES ('Flash', 90), ('Green Lantern', NULL);",
+        "expectedOutput": [
+          { "name": "Green Lantern", "power_level": null }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 56,
+    "title": "Find All Professors with More Than 10 Years of Experience",
+    "description": "Write a query to retrieve all professors' names and their years of experience from the `hogwarts_professors` table, but only for professors with more than 10 years of experience.",
+    "schema": "CREATE TABLE hogwarts_professors (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, years_of_experience INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_professors (name, years_of_experience) VALUES ('Minerva McGonagall', 20), ('Severus Snape', 15), ('Gilderoy Lockhart', 5);",
+        "expectedOutput": [
+          { "name": "Minerva McGonagall", "years_of_experience": 20 },
+          { "name": "Severus Snape", "years_of_experience": 15 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_professors (name, years_of_experience) VALUES ('Filius Flitwick', 25), ('Pomona Sprout', 30), ('Sybill Trelawney', 8);",
+        "expectedOutput": [
+          { "name": "Filius Flitwick", "years_of_experience": 25 },
+          { "name": "Pomona Sprout", "years_of_experience": 30 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 57,
+    "title": "Get All House Points Total for Each House",
+    "description": "Write a query to calculate the total house points for each house from the `hogwarts_students` table and show the house name alongside the total points.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Harry Potter', 'Gryffindor', 150), ('Hermione Granger', 'Gryffindor', 200), ('Ron Weasley', 'Gryffindor', 120), ('Draco Malfoy', 'Slytherin', 180);",
+        "expectedOutput": [
+          { "house": "Gryffindor", "total_house_points": 470 },
+          { "house": "Slytherin", "total_house_points": 180 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Luna Lovegood', 'Ravenclaw', 160), ('Neville Longbottom', 'Gryffindor', 140), ('Cedric Diggory', 'Hufflepuff', 150);",
+        "expectedOutput": [
+          { "house": "Gryffindor", "total_house_points": 310 },
+          { "house": "Ravenclaw", "total_house_points": 160 },
+          { "house": "Hufflepuff", "total_house_points": 150 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 58,
+    "title": "Get All Students with More Than 100 House Points",
+    "description": "Write a query to retrieve all students' names and house points from the `hogwarts_students` table, but only for students with more than 100 house points.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Harry Potter', 'Gryffindor', 150), ('Hermione Granger', 'Gryffindor', 200), ('Ron Weasley', 'Gryffindor', 50);",
+        "expectedOutput": [
+          { "name": "Harry Potter", "house_points": 150 },
+          { "name": "Hermione Granger", "house_points": 200 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Draco Malfoy', 'Slytherin', 180), ('Luna Lovegood', 'Ravenclaw', 160), ('Neville Longbottom', 'Gryffindor', 60);",
+        "expectedOutput": [
+          { "name": "Draco Malfoy", "house_points": 180 },
+          { "name": "Luna Lovegood", "house_points": 160 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 59,
+    "title": "Find All Items with Prices Above a Specific Threshold",
+    "description": "Write a query to find all magical items from the `hogwarts_store` table where the price is above a given threshold (e.g., 50 Galleons).",
+    "schema": "CREATE TABLE hogwarts_store (id INTEGER PRIMARY KEY AUTOINCREMENT, item_name TEXT, price INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_store (item_name, price) VALUES ('Invisibility Cloak', 100), ('Wand', 30), ('Time-Turner', 120);",
+        "expectedOutput": [
+          { "item_name": "Invisibility Cloak", "price": 100 },
+          { "item_name": "Time-Turner", "price": 120 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_store (item_name, price) VALUES ('Felix Felicis', 50), ('Nimbus 2000', 200), ('Polyjuice Potion', 150);",
+        "expectedOutput": [
+          { "item_name": "Nimbus 2000", "price": 200 },
+          { "item_name": "Polyjuice Potion", "price": 150 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 60,
+    "title": "Calculate the Average House Points per Student",
+    "description": "Write a query to calculate the average number of house points earned per student for each house from the `hogwarts_students` table.",
+    "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Harry Potter', 'Gryffindor', 150), ('Hermione Granger', 'Gryffindor', 200), ('Ron Weasley', 'Gryffindor', 120);",
+        "expectedOutput": [
+          { "house": "Gryffindor", "average_house_points": 156.67 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hogwarts_students (name, house, house_points) VALUES ('Draco Malfoy', 'Slytherin', 180), ('Luna Lovegood', 'Ravenclaw', 160), ('Neville Longbottom', 'Gryffindor', 140);",
+        "expectedOutput": [
+          { "house": "Slytherin", "average_house_points": 180 },
+          { "house": "Ravenclaw", "average_house_points": 160 },
+          { "house": "Gryffindor", "average_house_points": 140 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 61,
+    "title": "Get All Movies Released After a Certain Year",
+    "description": "Write a query to retrieve all movie titles and their release years from the `movies` table where the release year is after a specified year (e.g., 2009).",
+    "schema": "CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, release_year INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO movies (title, release_year) VALUES ('Inception', 2010), ('The Dark Knight', 2008), ('Avatar', 2009);",
+        "expectedOutput": [
+          { "title": "Inception", "release_year": 2010 },
+          { "title": "Avatar", "release_year": 2009 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO movies (title, release_year) VALUES ('Avengers: Endgame', 2019), ('The Lion King', 2019), ('Star Wars: The Force Awakens', 2015);",
+        "expectedOutput": [
+          { "title": "Avengers: Endgame", "release_year": 2019 },
+          { "title": "The Lion King", "release_year": 2019 },
+          { "title": "Star Wars: The Force Awakens", "release_year": 2015 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 62,
+    "title": "Get Top 3 Highest Grossing Movies",
+    "description": "Write a query to retrieve the top 3 highest-grossing movies along with their gross earnings from the `movies` table.",
+    "schema": "CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, gross_earnings INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO movies (title, gross_earnings) VALUES ('Avatar', 2788000000), ('Avengers: Endgame', 2797800000), ('Titanic', 2187000000), ('The Lion King', 1600000000);",
+        "expectedOutput": [
+          { "title": "Avengers: Endgame", "gross_earnings": 2797800000 },
+          { "title": "Avatar", "gross_earnings": 2788000000 },
+          { "title": "Titanic", "gross_earnings": 2187000000 }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO movies (title, gross_earnings) VALUES ('Jurassic World', 1670000000), ('Frozen II', 1450000000), ('The Avengers', 1510000000), ('Black Panther', 1340000000);",
+        "expectedOutput": [
+          { "title": "Jurassic World", "gross_earnings": 1670000000 },
+          { "title": "The Avengers", "gross_earnings": 1510000000 },
+          { "title": "Frozen II", "gross_earnings": 1450000000 }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 63,
+    "title": "List Actors Who Have Acted in More Than One Movie",
+    "description": "Write a query to retrieve all actor names who have acted in more than one movie from the `actors_movies` table.",
+    "schema": "CREATE TABLE actors_movies (actor_name TEXT, movie_title TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO actors_movies (actor_name, movie_title) VALUES ('Robert Downey Jr.', 'Iron Man'), ('Robert Downey Jr.', 'Avengers: Endgame'), ('Chris Hemsworth', 'Thor'), ('Chris Hemsworth', 'Avengers: Endgame');",
+        "expectedOutput": [
+          { "actor_name": "Robert Downey Jr." },
+          { "actor_name": "Chris Hemsworth" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO actors_movies (actor_name, movie_title) VALUES ('Chris Evans', 'Captain America: The First Avenger'), ('Chris Evans', 'Avengers: Endgame'), ('Scarlett Johansson', 'Black Widow'), ('Scarlett Johansson', 'Avengers: Endgame');",
+        "expectedOutput": [
+          { "actor_name": "Chris Evans" },
+          { "actor_name": "Scarlett Johansson" }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 64,
+    "title": "Find Movies with Multiple Genres",
+    "description": "Write a query to find all movies that belong to more than one genre (e.g., Action and Sci-Fi) from the `movie_genres` table.",
+    "schema": "CREATE TABLE movie_genres (movie_title TEXT, genre TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO movie_genres (movie_title, genre) VALUES ('Inception', 'Action'), ('Inception', 'Sci-Fi'), ('The Matrix', 'Action'), ('The Matrix', 'Sci-Fi');",
+        "expectedOutput": [
+          { "movie_title": "Inception" },
+          { "movie_title": "The Matrix" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO movie_genres (movie_title, genre) VALUES ('Avengers: Endgame', 'Action'), ('Avengers: Endgame', 'Adventure'), ('Titanic', 'Romance'), ('Titanic', 'Drama');",
+        "expectedOutput": [
+          { "movie_title": "Avengers: Endgame" },
+          { "movie_title": "Titanic" }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 65,
+    "title": "Find Most Prolific Directors",
+    "description": "Write a query to find the directors who have directed the most number of movies from the `directors_movie` table.",
+    "schema": "CREATE TABLE directors_movies (director_name TEXT, movie_title TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO directors_movies (director_name, movie_title) VALUES ('Steven Spielberg', 'Jurassic Park'), ('Steven Spielberg', 'E.T. the Extra-Terrestrial'), ('Christopher Nolan', 'Inception'), ('Christopher Nolan', 'The Dark Knight');",
+        "expectedOutput": [
+          { "director_name": "Steven Spielberg" },
+          { "director_name": "Christopher Nolan" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO directors_movies (director_name, movie_title) VALUES ('James Cameron', 'Avatar'), ('James Cameron', 'Titanic'), ('Martin Scorsese', 'The Irishman');",
+        "expectedOutput": [{ "director_name": "James Cameron" }]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 66,
+    "title": "Find All Episodes in a Web Series",
+    "description": "Write a query to retrieve all episode titles and their release dates from the `web_series_episodes` table for a specific web series.",
+    "schema": "CREATE TABLE web_series_episodes (id INTEGER PRIMARY KEY AUTOINCREMENT, series_name TEXT, episode_title TEXT, release_date DATE);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO web_series_episodes (series_name, episode_title, release_date) VALUES ('Stranger Things', 'Chapter One: The Vanishing of Will Byers', '2016-07-15'), ('Stranger Things', 'Chapter Two: The Weirdo on Maple Street', '2016-07-15'), ('Stranger Things', 'Chapter Three: Holly, Jolly', '2016-07-15');",
+        "expectedOutput": [
+          {
+            "episode_title": "Chapter One: The Vanishing of Will Byers",
+            "release_date": "2016-07-15"
+          },
+          {
+            "episode_title": "Chapter Two: The Weirdo on Maple Street",
+            "release_date": "2016-07-15"
+          },
+          {
+            "episode_title": "Chapter Three: Holly, Jolly",
+            "release_date": "2016-07-15"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO web_series_episodes (series_name, episode_title, release_date) VALUES ('The Mandalorian', 'Chapter 1: The Mandalorian', '2019-11-12'), ('The Mandalorian', 'Chapter 2: The Child', '2019-11-15');",
+        "expectedOutput": [
+          {
+            "episode_title": "Chapter 1: The Mandalorian",
+            "release_date": "2019-11-12"
+          },
+          {
+            "episode_title": "Chapter 2: The Child",
+            "release_date": "2019-11-15"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 67,
+    "title": "List All Web Series in a Specific Genre",
+    "description": "Write a query to retrieve all web series names that belong to a specific genre (e.g., Sci-Fi or Comedy) from the `web_series` table.",
+    "schema": "CREATE TABLE web_series (id INTEGER PRIMARY KEY AUTOINCREMENT, series_name TEXT, genre TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO web_series (series_name, genre) VALUES ('Stranger Things', 'Sci-Fi'), ('Black Mirror', 'Sci-Fi'), ('Friends', 'Comedy'), ('The Office', 'Comedy');",
+        "expectedOutput": [
+          { "series_name": "Stranger Things", "genre": "Sci-Fi" },
+          { "series_name": "Black Mirror", "genre": "Sci-Fi" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO web_series (series_name, genre) VALUES ('The Mandalorian', 'Action'), ('The Witcher', 'Fantasy'), ('Dark', 'Sci-Fi');",
+        "expectedOutput": [{ "series_name": "Dark", "genre": "Sci-Fi" }]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 68,
+    "title": "Find Major Scientific Discoveries by Year",
+    "description": "Write a query to retrieve all scientific discoveries and their corresponding years from the `scientific_discoveries` table.",
+    "schema": "CREATE TABLE scientific_discoveries (id INTEGER PRIMARY KEY AUTOINCREMENT, discovery_name TEXT, discovery_year INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO scientific_discoveries (discovery_name, discovery_year) VALUES ('Theory of Relativity', 1905), ('Penicillin', 1928), ('DNA Double Helix Structure', 1953);",
+        "expectedOutput": [
+          { "discovery_name": "Theory of Relativity", "discovery_year": 1905 },
+          { "discovery_name": "Penicillin", "discovery_year": 1928 },
+          {
+            "discovery_name": "DNA Double Helix Structure",
+            "discovery_year": 1953
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO scientific_discoveries (discovery_name, discovery_year) VALUES ('Laws of Motion', 1687), ('Periodic Table', 1869), ('Higgs Boson', 2012);",
+        "expectedOutput": [
+          { "discovery_name": "Laws of Motion", "discovery_year": 1687 },
+          { "discovery_name": "Periodic Table", "discovery_year": 1869 },
+          { "discovery_name": "Higgs Boson", "discovery_year": 2012 }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 69,
+    "title": "List Notable Scientists by Field of Study",
+    "description": "Write a query to retrieve notable scientists and their respective fields of study from the `scientists` table.",
+    "schema": "CREATE TABLE scientists (id INTEGER PRIMARY KEY AUTOINCREMENT, scientist_name TEXT, field_of_study TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO scientists (scientist_name, field_of_study) VALUES ('Albert Einstein', 'Physics'), ('Marie Curie', 'Chemistry'), ('Charles Darwin', 'Biology');",
+        "expectedOutput": [
+          { "scientist_name": "Albert Einstein", "field_of_study": "Physics" },
+          { "scientist_name": "Marie Curie", "field_of_study": "Chemistry" },
+          { "scientist_name": "Charles Darwin", "field_of_study": "Biology" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO scientists (scientist_name, field_of_study) VALUES ('Isaac Newton', 'Physics'), ('Nikola Tesla', 'Electrical Engineering');",
+        "expectedOutput": [
+          { "scientist_name": "Isaac Newton", "field_of_study": "Physics" },
+          {
+            "scientist_name": "Nikola Tesla",
+            "field_of_study": "Electrical Engineering"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 70,
+    "title": "Identify Inventions and Their Inventors",
+    "description": "Write a query to list inventions and the inventors responsible for them from the `inventions` table.",
+    "schema": "CREATE TABLE inventions (id INTEGER PRIMARY KEY AUTOINCREMENT, invention_name TEXT, inventor_name TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO inventions (invention_name, inventor_name) VALUES ('Telephone', 'Alexander Graham Bell'), ('Light Bulb', 'Thomas Edison'), ('The Airplane', 'Wright Brothers');",
+        "expectedOutput": [
+          {
+            "invention_name": "Telephone",
+            "inventor_name": "Alexander Graham Bell"
+          },
+          { "invention_name": "Light Bulb", "inventor_name": "Thomas Edison" },
+          {
+            "invention_name": "The Airplane",
+            "inventor_name": "Wright Brothers"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO inventions (invention_name, inventor_name) VALUES ('The Computer', 'Charles Babbage'), ('The Printing Press', 'Johannes Gutenberg');",
+        "expectedOutput": [
+          {
+            "invention_name": "The Computer",
+            "inventor_name": "Charles Babbage"
+          },
+          {
+            "invention_name": "The Printing Press",
+            "inventor_name": "Johannes Gutenberg"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 71,
+    "title": "List Scientific Fields and Their Founders",
+    "description": "Write a query to retrieve all scientific fields and the individuals credited with founding them from the `scientific_fields` table.",
+    "schema": "CREATE TABLE scientific_fields (id INTEGER PRIMARY KEY AUTOINCREMENT, field_name TEXT, founder_name TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO scientific_fields (field_name, founder_name) VALUES ('Physics', 'Isaac Newton'), ('Chemistry', 'Dmitri Mendeleev'), ('Psychology', 'Wilhelm Wundt');",
+        "expectedOutput": [
+          { "field_name": "Physics", "founder_name": "Isaac Newton" },
+          { "field_name": "Chemistry", "founder_name": "Dmitri Mendeleev" },
+          { "field_name": "Psychology", "founder_name": "Wilhelm Wundt" }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO scientific_fields (field_name, founder_name) VALUES ('Astronomy', 'Galileo Galilei'), ('Geology', 'James Hutton');",
+        "expectedOutput": [
+          { "field_name": "Astronomy", "founder_name": "Galileo Galilei" },
+          { "field_name": "Geology", "founder_name": "James Hutton" }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 72,
+    "title": "Find Nobel Prize Winners by Year and Category",
+    "description": "Write a query to retrieve Nobel Prize winners, their award category, and the year they received it from the `nobel_prizes` table.",
+    "schema": "CREATE TABLE nobel_prizes (id INTEGER PRIMARY KEY AUTOINCREMENT, winner_name TEXT, category TEXT, award_year INTEGER);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO nobel_prizes (winner_name, category, award_year) VALUES ('Albert Einstein', 'Physics', 1921), ('Marie Curie', 'Chemistry', 1911), ('Malala Yousafzai', 'Peace', 2014);",
+        "expectedOutput": [
+          {
+            "winner_name": "Albert Einstein",
+            "category": "Physics",
+            "award_year": 1921
+          },
+          {
+            "winner_name": "Marie Curie",
+            "category": "Chemistry",
+            "award_year": 1911
+          },
+          {
+            "winner_name": "Malala Yousafzai",
+            "category": "Peace",
+            "award_year": 2014
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO nobel_prizes (winner_name, category, award_year) VALUES ('Albert Einstein', 'Physics', 1921), ('Bob Dylan', 'Literature', 2016);",
+        "expectedOutput": [
+          {
+            "winner_name": "Albert Einstein",
+            "category": "Physics",
+            "award_year": 1921
+          },
+          {
+            "winner_name": "Bob Dylan",
+            "category": "Literature",
+            "award_year": 2016
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 73,
+    "title": "Retrieve Models and Their Accuracy",
+    "description": "Write a query to retrieve machine learning model names, their accuracy scores, and the dataset used for training from the `ml_models` table.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.95, 'Iris Dataset'), ('SVM', 0.92, 'MNIST Dataset'), ('KNN', 0.87, 'Iris Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Random Forest",
+            "accuracy": 0.95,
+            "dataset_used": "Iris Dataset"
+          },
+          {
+            "model_name": "SVM",
+            "accuracy": 0.92,
+            "dataset_used": "MNIST Dataset"
+          },
+          {
+            "model_name": "KNN",
+            "accuracy": 0.87,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Decision Tree', 0.89, 'Iris Dataset'), ('Naive Bayes', 0.78, 'Spam Detection Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Decision Tree",
+            "accuracy": 0.89,
+            "dataset_used": "Iris Dataset"
+          },
+          {
+            "model_name": "Naive Bayes",
+            "accuracy": 0.78,
+            "dataset_used": "Spam Detection Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 74,
+    "title": "Retrieve the Most Accurate Model for Each Dataset",
+    "description": "Write a query to retrieve the dataset name, model name, and the highest accuracy achieved for each dataset from the `ml_models` table.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.95, 'Iris Dataset'), ('Logistic Regression', 0.89, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "Iris Dataset",
+            "model_name": "SVM",
+            "accuracy": 0.95
+          },
+          {
+            "dataset_used": "Spam Dataset",
+            "model_name": "Logistic Regression",
+            "accuracy": 0.89
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Decision Tree', 0.82, 'MNIST Dataset'), ('KNN', 0.88, 'MNIST Dataset'), ('Random Forest', 0.91, 'Sentiment Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "MNIST Dataset",
+            "model_name": "KNN",
+            "accuracy": 0.88
+          },
+          {
+            "dataset_used": "Sentiment Dataset",
+            "model_name": "Random Forest",
+            "accuracy": 0.91
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 75,
+    "title": "Count Models per Dataset",
+    "description": "Write a query to count how many models have been trained on each dataset. The output should include the dataset name and the count of models.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.93, 'Iris Dataset'), ('Logistic Regression', 0.89, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "Iris Dataset",
+            "model_count": 2
+          },
+          {
+            "dataset_used": "Spam Dataset",
+            "model_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Naive Bayes', 0.81, 'Sentiment Dataset'), ('Random Forest', 0.88, 'Sentiment Dataset'), ('KNN', 0.77, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "Sentiment Dataset",
+            "model_count": 2
+          },
+          {
+            "dataset_used": "MNIST Dataset",
+            "model_count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 76,
+    "title": "Identify Models with Below-Average Accuracy",
+    "description": "Write a query to find all models with accuracy below the average accuracy of all models in the table. Return the model name, accuracy, and dataset.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.93, 'Iris Dataset'), ('Logistic Regression', 0.75, 'Spam Dataset'), ('Naive Bayes', 0.78, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Logistic Regression",
+            "accuracy": 0.75,
+            "dataset_used": "Spam Dataset"
+          },
+          {
+            "model_name": "Naive Bayes",
+            "accuracy": 0.78,
+            "dataset_used": "Spam Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Decision Tree', 0.82, 'Sentiment Dataset'), ('Random Forest', 0.91, 'MNIST Dataset'), ('KNN', 0.85, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Decision Tree",
+            "accuracy": 0.82,
+            "dataset_used": "Sentiment Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 77,
+    "title": "Retrieve Models by Dataset Keyword",
+    "description": "Write a query to retrieve models trained on datasets where the dataset name contains the keyword 'Dataset'. Return the model name, accuracy, and dataset.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.93, 'Iris Dataset'), ('Logistic Regression', 0.89, 'Spam Data');",
+        "expectedOutput": [
+          {
+            "model_name": "Random Forest",
+            "accuracy": 0.91,
+            "dataset_used": "Iris Dataset"
+          },
+          {
+            "model_name": "SVM",
+            "accuracy": 0.93,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Naive Bayes', 0.78, 'Sentiment Dataset'), ('Random Forest', 0.88, 'Review Data');",
+        "expectedOutput": [
+          {
+            "model_name": "Naive Bayes",
+            "accuracy": 0.78,
+            "dataset_used": "Sentiment Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 78,
+    "title": "Delete Low-Accuracy Models",
+    "description": "Write a query to delete models with an accuracy below 0.80 from the `ml_models` table.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.79, 'MNIST Dataset'), ('Logistic Regression', 0.75, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Random Forest",
+            "accuracy": 0.91,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Decision Tree', 0.82, 'Sentiment Dataset'), ('KNN', 0.78, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Decision Tree",
+            "accuracy": 0.82,
+            "dataset_used": "Sentiment Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 79,
+    "title": "Identify and Remove Overtrained Models",
+    "description": "Write a query to delete models where the difference between training accuracy and testing accuracy exceeds 0.10, indicating potential overtraining.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, training_accuracy FLOAT, testing_accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, training_accuracy, testing_accuracy, dataset_used) VALUES ('Random Forest', 0.95, 0.83, 'Iris Dataset'), ('SVM', 0.92, 0.91, 'MNIST Dataset'), ('Logistic Regression', 0.88, 0.74, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "SVM",
+            "training_accuracy": 0.92,
+            "testing_accuracy": 0.91,
+            "dataset_used": "MNIST Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, training_accuracy, testing_accuracy, dataset_used) VALUES ('Neural Network', 0.97, 0.85, 'ImageNet Dataset'), ('KNN', 0.90, 0.87, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "KNN",
+            "training_accuracy": 0.9,
+            "testing_accuracy": 0.87,
+            "dataset_used": "MNIST Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 80,
+    "title": "Flag Models with Insufficient Training Data",
+    "description": "Write a query to select models trained on datasets with less than 1000 samples and mark them as 'Insufficient Data' in the `remarks` column.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT, samples INTEGER, remarks TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, dataset_used, samples, remarks) VALUES ('Random Forest', 'Iris Dataset', 150, NULL), ('SVM', 'MNIST Dataset', 60000, NULL), ('KNN', 'Custom Dataset', 500, NULL);",
+        "expectedOutput": [
+          {
+            "model_name": "Random Forest",
+            "dataset_used": "Iris Dataset",
+            "samples": 150,
+            "remarks": "Insufficient Data"
+          },
+          {
+            "model_name": "KNN",
+            "dataset_used": "Custom Dataset",
+            "samples": 500,
+            "remarks": "Insufficient Data"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, dataset_used, samples, remarks) VALUES ('Logistic Regression', 'Spam Dataset', 800, NULL), ('Decision Tree', 'ImageNet Dataset', 10000, NULL);",
+        "expectedOutput": [
+          {
+            "model_name": "Logistic Regression",
+            "dataset_used": "Spam Dataset",
+            "samples": 800,
+            "remarks": "Insufficient Data"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 81,
+    "title": "Identify Popular Datasets",
+    "description": "Write a query to group models by the dataset used and find datasets used by more than two models.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, dataset_used) VALUES ('Random Forest', 'Iris Dataset'), ('SVM', 'MNIST Dataset'), ('Logistic Regression', 'MNIST Dataset'), ('Decision Tree', 'Iris Dataset'), ('KNN', 'Iris Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "Iris Dataset",
+            "model_count": 3
+          },
+          {
+            "dataset_used": "MNIST Dataset",
+            "model_count": 2
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, dataset_used) VALUES ('Neural Network', 'ImageNet Dataset'), ('SVM', 'CIFAR-10'), ('Logistic Regression', 'CIFAR-10'), ('Random Forest', 'CIFAR-10');",
+        "expectedOutput": [
+          {
+            "dataset_used": "CIFAR-10",
+            "model_count": 3
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 82,
+    "title": "Find Top-K Models",
+    "description": "Write a query to retrieve the top 2 models with the highest accuracy, sorted in descending order.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.92, 'MNIST Dataset'), ('Logistic Regression', 0.85, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "SVM",
+            "accuracy": 0.92,
+            "dataset_used": "MNIST Dataset"
+          },
+          {
+            "model_name": "Random Forest",
+            "accuracy": 0.91,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.80, 'CIFAR-10'), ('Decision Tree', 0.90, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Decision Tree",
+            "accuracy": 0.9,
+            "dataset_used": "MNIST Dataset"
+          },
+          {
+            "model_name": "Neural Network",
+            "accuracy": 0.88,
+            "dataset_used": "ImageNet Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 83,
+    "title": "Find Models with Missing Dataset Information",
+    "description": "Write a query to retrieve models where the `dataset_used` column is NULL.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.79, NULL), ('Logistic Regression', 0.85, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "SVM",
+            "accuracy": 0.79,
+            "dataset_used": null
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.80, NULL);",
+        "expectedOutput": [
+          {
+            "model_name": "KNN",
+            "accuracy": 0.8,
+            "dataset_used": null
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 84,
+    "title": "Update Model Performance",
+    "description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.79, 'MNIST Dataset'), ('Logistic Regression', 0.85, 'Iris Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Random Forest",
+            "accuracy": 0.96,
+            "dataset_used": "Iris Dataset"
+          },
+          {
+            "model_name": "Logistic Regression",
+            "accuracy": 0.9,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.80, 'Iris Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "KNN",
+            "accuracy": 0.85,
+            "dataset_used": "Iris Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 85,
+    "title": "Models with High Performance Across Datasets",
+    "description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`. Return the dataset and the count of such models for each dataset.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.89, 'MNIST Dataset'), ('Logistic Regression', 0.75, 'Spam Dataset'), ('Decision Tree', 0.92, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "Iris Dataset",
+            "model_count": 1
+          },
+          {
+            "dataset_used": "MNIST Dataset",
+            "model_count": 2
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.90, 'CIFAR-10'), ('Decision Tree', 0.75, 'MNIST Dataset'), ('Random Forest', 0.87, 'ImageNet Dataset');",
+        "expectedOutput": [
+          {
+            "dataset_used": "ImageNet Dataset",
+            "model_count": 2
+          },
+          {
+            "dataset_used": "CIFAR-10",
+            "model_count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 10
+  },
+  {
+    "id": 86,
+    "title": "Models with the Lowest Accuracy",
+    "description": "Write a query to retrieve the model(s) with the lowest accuracy.",
+    "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Random Forest', 0.91, 'Iris Dataset'), ('SVM', 0.79, 'MNIST Dataset'), ('Logistic Regression', 0.85, 'Spam Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "SVM",
+            "accuracy": 0.79,
+            "dataset_used": "MNIST Dataset"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.80, 'CIFAR-10'), ('Decision Tree', 0.75, 'MNIST Dataset');",
+        "expectedOutput": [
+          {
+            "model_name": "Decision Tree",
+            "accuracy": 0.75,
+            "dataset_used": "MNIST Dataset"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 87,
+    "title": "Most Active Users in a Distributed System",
+    "description": "Write a query to find the top 3 users who performed the most number of operations (insert, update, delete) on the `operations_log` table.",
+    "schema": "CREATE TABLE operations_log (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, operation_type TEXT, timestamp DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO operations_log (user_id, operation_type, timestamp) VALUES (1, 'insert', '2023-01-01 10:00:00'), (2, 'update', '2023-01-01 10:05:00'), (1, 'delete', '2023-01-01 10:10:00'), (3, 'insert', '2023-01-01 10:15:00'), (1, 'update', '2023-01-01 10:20:00'), (3, 'delete', '2023-01-01 10:25:00');",
+        "expectedOutput": [
+          {
+            "user_id": 1,
+            "operation_count": 3
+          },
+          {
+            "user_id": 3,
+            "operation_count": 2
+          },
+          {
+            "user_id": 2,
+            "operation_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO operations_log (user_id, operation_type, timestamp) VALUES (4, 'insert', '2023-02-01 10:00:00'), (5, 'update', '2023-02-01 10:05:00'), (4, 'delete', '2023-02-01 10:10:00'), (5, 'insert', '2023-02-01 10:15:00'), (4, 'update', '2023-02-01 10:20:00');",
+        "expectedOutput": [
+          {
+            "user_id": 4,
+            "operation_count": 3
+          },
+          {
+            "user_id": 5,
+            "operation_count": 2
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 88,
+    "title": "Server Load Analysis",
+    "description": "Write a query to find the server that processed the maximum number of requests in the last 24 hours.",
+    "schema": "CREATE TABLE server_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, server_id INTEGER, request_count INTEGER, log_date DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO server_logs (server_id, request_count, log_date) VALUES (1, 200, '2023-01-20 10:00:00'), (2, 300, '2023-01-20 11:00:00'), (1, 100, '2023-01-20 12:00:00'), (3, 400, '2023-01-20 13:00:00');",
+        "expectedOutput": [
+          {
+            "server_id": 3,
+            "total_request_count": 400
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO server_logs (server_id, request_count, log_date) VALUES (4, 150, '2023-01-21 14:00:00'), (5, 250, '2023-01-21 15:00:00'), (4, 350, '2023-01-21 16:00:00'), (5, 200, '2023-01-21 17:00:00');",
+        "expectedOutput": [
+          {
+            "server_id": 4,
+            "total_request_count": 500
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 89,
+    "title": "Resource Usage by Service",
+    "description": "Write a query to group resource usage by service and calculate the total CPU and memory usage, ordering results by total CPU usage in descending order.",
+    "schema": "CREATE TABLE resource_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, service_name TEXT, cpu_usage FLOAT, memory_usage FLOAT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO resource_usage (service_name, cpu_usage, memory_usage) VALUES ('Service A', 25.0, 1024), ('Service B', 30.0, 2048), ('Service A', 20.0, 512), ('Service C', 40.0, 1024);",
+        "expectedOutput": [
+          {
+            "service_name": "Service C",
+            "total_cpu_usage": 40.0,
+            "total_memory_usage": 1024
+          },
+          {
+            "service_name": "Service B",
+            "total_cpu_usage": 30.0,
+            "total_memory_usage": 2048
+          },
+          {
+            "service_name": "Service A",
+            "total_cpu_usage": 45.0,
+            "total_memory_usage": 1536
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO resource_usage (service_name, cpu_usage, memory_usage) VALUES ('Service X', 15.0, 512), ('Service Y', 50.0, 4096), ('Service X', 25.0, 1024);",
+        "expectedOutput": [
+          {
+            "service_name": "Service Y",
+            "total_cpu_usage": 50.0,
+            "total_memory_usage": 4096
+          },
+          {
+            "service_name": "Service X",
+            "total_cpu_usage": 40.0,
+            "total_memory_usage": 1536
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 90,
+    "title": "User Information Update",
+    "description": "Write a query to update the email address of a user with `user_id = 101` to 'newemail@example.com' in the `users` table.",
+    "schema": "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, date_joined DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO users (username, email, date_joined) VALUES ('JohnDoe', 'johndoe@example.com', '2022-01-01');",
+        "expectedOutput": [
+          {
+            "username": "JohnDoe",
+            "email": "newemail@example.com",
+            "date_joined": "2022-01-01"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 91,
+    "title": "Track Software Versions",
+    "description": "Write a query to retrieve the latest version of each software from the `software_versions` table.",
+    "schema": "CREATE TABLE software_versions (id INTEGER PRIMARY KEY AUTOINCREMENT, software_name TEXT, version TEXT, release_date DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO software_versions (software_name, version, release_date) VALUES ('Software A', '1.0', '2023-01-01'), ('Software A', '1.1', '2023-03-01'), ('Software B', '2.0', '2023-02-01');",
+        "expectedOutput": [
+          {
+            "software_name": "Software A",
+            "version": "1.1",
+            "release_date": "2023-03-01"
+          },
+          {
+            "software_name": "Software B",
+            "version": "2.0",
+            "release_date": "2023-02-01"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO software_versions (software_name, version, release_date) VALUES ('Software A', '1.0', '2023-01-01'), ('Software A', '1.2', '2023-04-01'), ('Software B', '2.0', '2023-02-01');",
+        "expectedOutput": [
+          {
+            "software_name": "Software A",
+            "version": "1.2",
+            "release_date": "2023-04-01"
+          },
+          {
+            "software_name": "Software B",
+            "version": "2.0",
+            "release_date": "2023-02-01"
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 92,
+    "title": "Track Failed Login Attempts by IP",
+    "description": "Write a query to retrieve the count of failed login attempts for each IP address in the `login_attempts` table.",
+    "schema": "CREATE TABLE login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, ip_address TEXT, status TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO login_attempts (ip_address, status) VALUES ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.2.2', 'successful');",
+        "expectedOutput": [
+          {
+            "ip_address": "192.168.1.1",
+            "failed_attempts": 2
+          },
+          {
+            "ip_address": "192.168.2.2",
+            "failed_attempts": 0
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO login_attempts (ip_address, status) VALUES ('192.168.1.1', 'failed'), ('192.168.2.2', 'failed'), ('192.168.2.2', 'failed');",
+        "expectedOutput": [
+          {
+            "ip_address": "192.168.1.1",
+            "failed_attempts": 1
+          },
+          {
+            "ip_address": "192.168.2.2",
+            "failed_attempts": 2
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 93,
+    "title": "Track Security Alerts by Severity",
+    "description": "Write a query to retrieve the count of security alerts for each severity level in the `security_alerts` table.",
+    "schema": "CREATE TABLE security_alerts (id INTEGER PRIMARY KEY AUTOINCREMENT, alert_type TEXT, severity TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO security_alerts (alert_type, severity) VALUES ('SQL Injection', 'High'), ('XSS', 'Medium'), ('Malware', 'High');",
+        "expectedOutput": [
+          {
+            "severity": "High",
+            "alert_count": 2
+          },
+          {
+            "severity": "Medium",
+            "alert_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO security_alerts (alert_type, severity) VALUES ('Phishing', 'Low'), ('Malware', 'High'), ('DDoS', 'Medium');",
+        "expectedOutput": [
+          {
+            "severity": "Low",
+            "alert_count": 1
+          },
+          {
+            "severity": "High",
+            "alert_count": 1
+          },
+          {
+            "severity": "Medium",
+            "alert_count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 94,
+    "title": "Track Suspicious IP Access Attempts",
+    "description": "Write a query to retrieve all IP addresses that have more than 5 failed login attempts in the `login_attempts` table.",
+    "schema": "CREATE TABLE login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, ip_address TEXT, status TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO login_attempts (ip_address, status) VALUES ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.2.2', 'failed');",
+        "expectedOutput": [
+          {
+            "ip_address": "192.168.1.1"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO login_attempts (ip_address, status) VALUES ('192.168.1.1', 'failed'), ('192.168.1.1', 'failed'), ('192.168.2.2', 'failed'), ('192.168.2.2', 'failed');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 95,
+    "title": "Track Unique Security Breaches",
+    "description": "Write a query to retrieve all unique types of security breaches reported in the `security_breach_reports` table.",
+    "schema": "CREATE TABLE security_breach_reports (id INTEGER PRIMARY KEY AUTOINCREMENT, breach_type TEXT, severity TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO security_breach_reports (breach_type, severity) VALUES ('Data Leak', 'High'), ('SQL Injection', 'Medium'), ('Malware', 'High');",
+        "expectedOutput": [
+          {
+            "breach_type": "Data Leak"
+          },
+          {
+            "breach_type": "SQL Injection"
+          },
+          {
+            "breach_type": "Malware"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO security_breach_reports (breach_type, severity) VALUES ('Phishing', 'Low'), ('Data Leak', 'High'), ('DDoS', 'Medium');",
+        "expectedOutput": [
+          {
+            "breach_type": "Phishing"
+          },
+          {
+            "breach_type": "Data Leak"
+          },
+          {
+            "breach_type": "DDoS"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 96,
+    "title": "Track Multiple Failed Login Attempts",
+    "description": "Write a query to retrieve all users who have made more than 3 failed login attempts in the `user_login_attempts` table.",
+    "schema": "CREATE TABLE user_login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, status TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO user_login_attempts (username, status) VALUES ('user1', 'failed'), ('user1', 'failed'), ('user1', 'failed'), ('user1', 'failed'), ('user2', 'failed');",
+        "expectedOutput": [
+          {
+            "username": "user1"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO user_login_attempts (username, status) VALUES ('user1', 'failed'), ('user2', 'failed'), ('user3', 'failed');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 97,
+    "title": "Track Top 5 Most Common Vulnerabilities",
+    "description": "Write a query to retrieve the top 5 most common vulnerabilities reported in the `vulnerability_reports` table.",
+    "schema": "CREATE TABLE vulnerability_reports (id INTEGER PRIMARY KEY AUTOINCREMENT, vulnerability_type TEXT, severity TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO vulnerability_reports (vulnerability_type, severity) VALUES ('SQL Injection', 'High'), ('XSS', 'Medium'), ('Cross-site Request Forgery', 'High'), ('Privilege Escalation', 'High'), ('SQL Injection', 'High');",
+        "expectedOutput": [
+          {
+            "vulnerability_type": "SQL Injection",
+            "count": 2
+          },
+          {
+            "vulnerability_type": "Cross-site Request Forgery",
+            "count": 1
+          },
+          {
+            "vulnerability_type": "Privilege Escalation",
+            "count": 1
+          },
+          {
+            "vulnerability_type": "XSS",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO vulnerability_reports (vulnerability_type, severity) VALUES ('DDoS', 'Low'), ('SQL Injection', 'High'), ('Buffer Overflow', 'High');",
+        "expectedOutput": [
+          {
+            "vulnerability_type": "Buffer Overflow",
+            "count": 1
+          },
+          {
+            "vulnerability_type": "DDoS",
+            "count": 1
+          },
+          {
+            "vulnerability_type": "SQL Injection",
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 6
+  },
+  {
+    "id": 98,
+    "title": "Track Computer Hardware by Model",
+    "description": "Write a query to retrieve the latest version of each hardware component (e.g., CPU, GPU, RAM) from the `hardware_inventory` table.",
+    "schema": "CREATE TABLE hardware_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, model TEXT, release_date DATETIME);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hardware_inventory (component_name, model, release_date) VALUES ('CPU', 'Intel i7', '2023-01-01'), ('CPU', 'Intel i9', '2023-03-01'), ('GPU', 'NVIDIA RTX 3060', '2023-02-01');",
+        "expectedOutput": [
+          {
+            "component_name": "CPU",
+            "model": "Intel i9"
+          },
+          {
+            "component_name": "GPU",
+            "model": "NVIDIA RTX 3060"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hardware_inventory (component_name, model, release_date) VALUES ('CPU', 'AMD Ryzen 5', '2023-01-01'), ('GPU', 'AMD Radeon RX 6700', '2023-04-01');",
+        "expectedOutput": [
+          {
+            "component_name": "CPU",
+            "model": "AMD Ryzen 5"
+          },
+          {
+            "component_name": "GPU",
+            "model": "AMD Radeon RX 6700"
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 99,
+    "title": "Track Hardware Usage by User",
+    "description": "Write a query to retrieve all users who have used a specific hardware component more than twice from the `hardware_usage` table.",
+    "schema": "CREATE TABLE hardware_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, component_name TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hardware_usage (username, component_name) VALUES ('user1', 'CPU'), ('user1', 'GPU'), ('user1', 'CPU'), ('user2', 'RAM');",
+        "expectedOutput": [
+          {
+            "username": "user1"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hardware_usage (username, component_name) VALUES ('user1', 'CPU'), ('user2', 'GPU');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 100,
+    "title": "Track Hardware Component Availability",
+    "description": "Write a query to retrieve the count of available hardware components in the `hardware_inventory` table.",
+    "schema": "CREATE TABLE hardware_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, availability_status TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hardware_inventory (component_name, availability_status) VALUES ('CPU', 'available'), ('GPU', 'out_of_stock'), ('RAM', 'available');",
+        "expectedOutput": [
+          {
+            "component_name": "CPU",
+            "count": 1
+          },
+          {
+            "component_name": "RAM",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hardware_inventory (component_name, availability_status) VALUES ('CPU', 'out_of_stock'), ('GPU', 'out_of_stock');",
+        "expectedOutput": []
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 101,
+    "title": "Track Hardware Failures by Component",
+    "description": "Write a query to retrieve the count of hardware failures by component type in the `hardware_failures` table.",
+    "schema": "CREATE TABLE hardware_failures (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, failure_type TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hardware_failures (component_name, failure_type) VALUES ('CPU', 'Overheating'), ('GPU', 'Driver Crash'), ('CPU', 'Overheating');",
+        "expectedOutput": [
+          {
+            "component_name": "CPU",
+            "failure_count": 2
+          },
+          {
+            "component_name": "GPU",
+            "failure_count": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hardware_failures (component_name, failure_type) VALUES ('RAM', 'Memory Leak'), ('CPU', 'Overheating');",
+        "expectedOutput": [
+          {
+            "component_name": "RAM",
+            "failure_count": 1
+          },
+          {
+            "component_name": "CPU",
+            "failure_count": 1
+          }
+        ]
+      }
+    ],
+    "marks": 8
+  },
+  {
+    "id": 102,
+    "title": "Track Hardware Upgrades by User",
+    "description": "Write a query to retrieve all users who have upgraded to a newer hardware component from the `hardware_upgrades` table.",
+    "schema": "CREATE TABLE hardware_upgrades (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, old_component TEXT, new_component TEXT);",
+    "testCases": [
+      {
+        "id": 1,
+        "sampleData": "INSERT INTO hardware_upgrades (username, old_component, new_component) VALUES ('user1', 'CPU', 'Intel i9'), ('user2', 'GPU', 'NVIDIA RTX 3080');",
+        "expectedOutput": [
+          {
+            "username": "user1"
+          },
+          {
+            "username": "user2"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sampleData": "INSERT INTO hardware_upgrades (username, old_component, new_component) VALUES ('user1', 'RAM', '16GB DDR4');",
+        "expectedOutput": [
+          {
+            "username": "user1"
+          }
+        ]
+      }
+    ],
+    "marks": 6
   }
+
 ]

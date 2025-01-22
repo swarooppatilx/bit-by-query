@@ -44,16 +44,6 @@ function LeaderBoard() {
     return () => clearInterval(intervalId);
   }, []);
 
-  function formatTime(ms) {
-    if (isNaN(ms) || ms < 0) return "00:00"; // Return default time if ms is invalid or negative
-
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  }
-
   function formatDate(date) {
     const options = {
       year: "numeric",
@@ -70,14 +60,14 @@ function LeaderBoard() {
   return (
     <div className="w-full min-h-screen bg-gray-800 text-white flex items-center justify-center py-8">
       <div className="w-full md:w-2/3 lg:w-1/2 bg-gray-900 p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-green-400 mb-4 text-center">
+        <h2 className="text-4xl font-bold text-green-400 mb-6 text-center">
           Leaderboard
         </h2>
 
         {loading ? (
           <div className="flex justify-center items-center space-x-4">
             <FaSpinner className="animate-spin text-4xl text-green-400" />
-            <p className="text-white">Loading...</p>
+            <p className="text-lg text-white">Loading...</p>
           </div>
         ) : error ? (
           <div className="flex justify-center items-center text-red-500 space-x-2">
@@ -93,23 +83,26 @@ function LeaderBoard() {
               {lastRefreshed ? formatDate(lastRefreshed) : "N/A"}
             </div>
             <div className="overflow-y-auto max-h-[700px]">
-              <table className="w-full text-center border-collapse border border-gray-700 mt-4">
+              <table className="w-full text-center border-collapse border border-gray-700">
                 <thead>
                   <tr className="bg-gray-800 sticky top-0 shadow-md z-10">
-                    <th className="border border-gray-700 p-3 text-lg text-white">
+                    <th className="border border-gray-700 p-4 text-lg text-white">
                       Rank
                     </th>
-                    <th className="border border-gray-700 p-3 text-lg text-white">
+                    <th className="border border-gray-700 p-4 text-lg text-white">
                       Username
                     </th>
-                    <th className="border border-gray-700 p-3 text-lg text-white">
+                    <th className="border border-gray-700 p-4 text-lg text-white">
                       Name
                     </th>
-                    <th className="border border-gray-700 p-3 text-lg text-white">
+                    <th className="border border-gray-700 p-4 text-lg text-white">
                       Problems Solved
                     </th>
-                    <th className="border border-gray-700 p-3 text-lg text-white">
-                      Total Time
+                    <th className="border border-gray-700 p-4 text-lg text-white">
+                      Score
+                    </th>
+                    <th className="border border-gray-700 p-4 text-lg text-white">
+                      Last Submission
                     </th>
                   </tr>
                 </thead>
@@ -121,20 +114,25 @@ function LeaderBoard() {
                         index % 2 === 0 ? "bg-gray-700" : "bg-gray-600"
                       } border-t border-gray-700`}
                     >
-                      <td className="border border-gray-700 p-3 text-center">
+                      <td className="border border-gray-700 p-4 text-center">
                         {index + 1}
                       </td>
-                      <td className="border border-gray-700 p-3">
+                      <td className="border border-gray-700 p-4">
                         {player.username}
                       </td>
-                      <td className="border border-gray-700 p-3">
+                      <td className="border border-gray-700 p-4">
                         {player.name}
                       </td>
-                      <td className="border border-gray-700 p-3 text-center">
+                      <td className="border border-gray-700 p-4 text-center">
                         {player.problems_solved}
                       </td>
-                      <td className="border border-gray-700 p-3 text-center">
-                        {formatTime(player.total_time)}
+                      <td className="border border-gray-700 p-4 text-center">
+                        {player.score}
+                      </td>
+                      <td className="border border-gray-700 p-4 text-center">
+                        {player.last_submission
+                          ? formatDate(new Date(player.last_submission * 1000)) // Convert Unix timestamp to Date
+                          : "N/A"}
                       </td>
                     </tr>
                   ))}

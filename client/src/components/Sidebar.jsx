@@ -29,7 +29,7 @@ const Sidebar = ({
               }`}
               onClick={() => setProblemId(problem.id)}
               aria-label={`Problem ${problem.id}`}
-              title={`Problem ${problem.id}`}
+              title={`Marks ${problem.marks}`}
             >
               {`Q${problem.id}`}
             </button>
@@ -42,7 +42,7 @@ const Sidebar = ({
           <h2 className="text-2xl font-semibold text-green-400 mb-3">
             {problemDetails.title}
           </h2>
-          <p className="text-gray-300 mb-4">{problemDetails.description}</p>
+          <p className="text-gray-300 mb-4 text-lg">{problemDetails.description}</p>
           {solvedProblems.includes(problemId) && (
             <div className="flex items-center gap-2 text-sm text-yellow-400">
               <span>✅ You have already solved this problem!</span>

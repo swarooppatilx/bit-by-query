@@ -13,6 +13,7 @@
     "@monaco-editor/react": "^4.6.0",
     "axios": "^1.7.9",
     "canvas-confetti": "^1.9.3",
+    "lucide-react": "^0.473.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",

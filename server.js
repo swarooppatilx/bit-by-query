@@ -20,16 +20,16 @@ app.use(bodyParser.json());
 // Serve the Vite build (client/dist)
 app.use(express.static(path.join(__dirname, "client/dist")));
 
-const problemsDirectory = path.join(__dirname, 'problems');
-const problemsFile = path.join(problemsDirectory, 'virtual_contest.json');
+const problemsDirectory = path.join(__dirname, "problems");
+const problemsFile = path.join(problemsDirectory, "jan2025.json");
 
 let problems = [];
 
 // Check if the file exists and load the problems
 if (fs.existsSync(problemsFile)) {
-  problems = JSON.parse(fs.readFileSync(problemsFile, 'utf-8'));
+  problems = JSON.parse(fs.readFileSync(problemsFile, "utf-8"));
 } else {
-  console.error('Problems file not found.');
+  console.error("Problems file not found.");
 }
 
 // Middleware to handle errors
@@ -214,7 +214,7 @@ app.get("/api/problems/:id", authenticateToken, (req, res) => {
 
 app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   const problemId = req.params.id;
-  const { userQuery, elapsedTime } = req.body;
+  const { userQuery } = req.body;
 
   if (!userQuery) {
     return res.status(400).json({ error: "User query is required" });
@@ -226,130 +226,143 @@ app.post("/api/problems/:id/evaluate", authenticateToken, async (req, res) => {
   }
 
   const start = Date.now();
-  const db = new sqlite3.Database(":memory:");
-  const parsedSchema = mysqlToSQLiteParser(problem.schema);
-  const parsedSampleData = mysqlToSQLiteParser(problem.sampleData);
+  let allTestCasesPassed = true;
+  const testResults = [];
 
-  db.serialize(() => {
-    db.run(parsedSchema, (err) => {
-      if (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Schema creation failed",
-          details: err.message,
-        });
-      }
-    });
+  // Parse user queries once
+  const queries = userQuery
+    .split(";")
+    .map((q) => q.trim())
+    .filter((q) => q);
 
-    db.exec(parsedSampleData, (err) => {
-      if (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Sample data insertion failed",
-          details: err.message,
-        });
-      }
-    });
+  const parsedQueries = queries.map((query) => {
+    try {
+      return mysqlToSQLiteParser(query);
+    } catch (err) {
+      console.error("Error parsing query:", err);
+      throw new Error("Failed to parse query");
+    }
+  });
 
-    const queries = userQuery
-      .split(";")
-      .map((q) => q.trim())
-      .filter((q) => q);
+  // Run each test case
+  for (let i = 0; i < problem.testCases.length; i++) {
+    const testCase = problem.testCases[i];
+    const db = new sqlite3.Database(":memory:");
+    const parsedSchema = mysqlToSQLiteParser(problem.schema);
+    const parsedSampleData = mysqlToSQLiteParser(testCase.sampleData);
 
-    let lastResult;
-    const executeQueries = async () => {
-      try {
-        for (const query of queries) {
-          lastResult = await new Promise((resolve, reject) => {
-            db.all(query, [], (err, rows) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(rows);
-              }
+    try {
+      // Set up database for this test case
+      await new Promise((resolve, reject) => {
+        db.serialize(() => {
+          db.run(parsedSchema, (err) => {
+            if (err) reject(err);
+            db.exec(parsedSampleData, (err) => {
+              if (err) reject(err);
+              resolve();
             });
           });
-        }
-        db.close();
-
-        const isCorrect =
-          JSON.stringify(lastResult) === JSON.stringify(problem.expectedOutput);
-        const duration = Date.now() - start;
-
-        if (isCorrect) {
-          try {
-            const [existingSubmission] = await pool.execute(
-              "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
-              [req.user.username, problemId]
-            );
-
-            if (existingSubmission.length > 0) {
-              return res.status(400).json({
-                error: "Duplicate submission",
-                details: "You have already solved this problem",
-              });
-            }
-
-            const [userRows] = await pool.execute(
-              "SELECT name FROM users WHERE username = ?",
-              [req.user.username]
-            );
-
-            if (userRows.length === 0) {
-              return res.status(404).json({ error: "User not found" });
-            }
-
-            const userName = userRows[0].name;
-
-            await pool.execute(
-              "INSERT INTO submissions (username, name, problem_id, time_taken) VALUES (?, ?, ?, ?)",
-              [req.user.username, userName, problemId, `${elapsedTime}`]
-            );
-          } catch (dbErr) {
-            console.error("Error saving submission:", dbErr.message);
-            return res.status(500).json({
-              error: "Failed to save submission",
-              details: dbErr.message,
-            });
-          }
-        }
-
-        res.json({
-          correct: isCorrect,
-          userOutput: lastResult,
-          expectedOutput: problem.expectedOutput,
-          duration: `${duration}ms`,
         });
-      } catch (err) {
-        db.close();
-        return res.status(400).json({
-          error: "Query execution failed",
-          details: err.message,
+      });
+
+      // Execute user queries
+      let lastResult;
+      for (const query of parsedQueries) {
+        lastResult = await new Promise((resolve, reject) => {
+          db.all(query, [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+          });
         });
       }
-    };
 
-    executeQueries();
+      const isCorrect =
+        JSON.stringify(lastResult) === JSON.stringify(testCase.expectedOutput);
+      if (!isCorrect) allTestCasesPassed = false;
+
+      testResults.push({
+        testCaseNumber: i + 1,
+        passed: isCorrect,
+        userOutput: lastResult,
+        expectedOutput: testCase.expectedOutput,
+      });
+    } catch (err) {
+      testResults.push({
+        testCaseNumber: i + 1,
+        passed: false,
+        error: err.message,
+      });
+      allTestCasesPassed = false;
+    } finally {
+      db.close();
+    }
+  }
+
+  const duration = Date.now() - start;
+
+  // Handle submission if all test cases passed
+  if (allTestCasesPassed) {
+    try {
+      const [existingSubmission] = await pool.execute(
+        "SELECT * FROM submissions WHERE username = ? AND problem_id = ?",
+        [req.user.username, problemId]
+      );
+
+      if (existingSubmission.length > 0) {
+        return res.status(400).json({
+          error: "Duplicate submission",
+          details: "You have already solved this problem",
+        });
+      }
+
+      const [userRows] = await pool.execute(
+        "SELECT name FROM users WHERE username = ?",
+        [req.user.username]
+      );
+
+      if (userRows.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const userName = userRows[0].name;
+
+      await pool.execute(
+        "INSERT INTO submissions (username, name, problem_id, marks, timestamp) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP())",
+        [req.user.username, userName, problemId, problem.marks]
+      );
+    } catch (dbErr) {
+      console.error("Error saving submission:", dbErr.message);
+      return res.status(500).json({
+        error: "Failed to save submission",
+        details: dbErr.message,
+      });
+    }
+  }
+
+  res.json({
+    correct: allTestCasesPassed,
+    testResults,
+    duration: `${duration}ms`,
   });
 });
 
-// Route: Leaderboard (public)
 app.get("/api/leaderboard", async (req, res) => {
   try {
-    // Query to find the leaderboard
+    // Query to find the leaderboard including total marks
     const query = `
       SELECT 
         username,
         name,
         COUNT(DISTINCT problem_id) AS problems_solved, 
-        SUM(time_taken) AS total_time
+        SUM(marks) AS score,
+        MAX(timestamp) AS last_submission
       FROM 
         submissions
       GROUP BY 
-        username
+        username, name
       ORDER BY 
-        problems_solved DESC, 
-        SUM(time_taken) ASC;`;
+        score DESC,
+        last_submission ASC;`;
 
     const [rows] = await pool.execute(query);
 
