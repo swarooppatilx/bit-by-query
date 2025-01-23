@@ -1667,7 +1667,7 @@
   {
     "id": 75,
     "title": "Count Models per Dataset",
-    "description": "Write a query to count how many models have been trained on each dataset. The output should include the dataset name and the count of models.",
+    "description": "Write a query to count how many models have been trained on each dataset. The output should include the dataset name and the count of models from the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1689,12 +1689,12 @@
         "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Naive Bayes', 0.81, 'Sentiment Dataset'), ('Random Forest', 0.88, 'Sentiment Dataset'), ('KNN', 0.77, 'MNIST Dataset');",
         "expectedOutput": [
           {
-            "dataset_used": "Sentiment Dataset",
-            "model_count": 2
-          },
-          {
             "dataset_used": "MNIST Dataset",
             "model_count": 1
+          },
+          {
+            "dataset_used": "Sentiment Dataset",
+            "model_count": 2
           }
         ]
       }
@@ -1704,7 +1704,7 @@
   {
     "id": 76,
     "title": "Identify Models with Below-Average Accuracy",
-    "description": "Write a query to find all models with accuracy below the average accuracy of all models in the table. Return the model name, accuracy, and dataset.",
+    "description": "Write a query to find all models with accuracy below the average accuracy of all models in the table. Return the model name, accuracy, and dataset from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1731,6 +1731,11 @@
             "model_name": "Decision Tree",
             "accuracy": 0.82,
             "dataset_used": "Sentiment Dataset"
+          },
+          {
+            "model_name": "KNN",
+            "accuracy": 0.85,
+            "dataset_used": "MNIST Dataset"
           }
         ]
       }
@@ -1740,7 +1745,7 @@
   {
     "id": 77,
     "title": "Retrieve Models by Dataset Keyword",
-    "description": "Write a query to retrieve models trained on datasets where the dataset name contains the keyword 'Dataset'. Return the model name, accuracy, and dataset.",
+    "description": "Write a query to retrieve models trained on datasets where the dataset name contains the keyword 'Dataset'. Return the model name, accuracy, and dataset from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1807,7 +1812,7 @@
   {
     "id": 79,
     "title": "Identify and Remove Overtrained Models",
-    "description": "Write a query to delete models where the difference between training accuracy and testing accuracy exceeds 0.10, indicating potential overtraining.",
+    "description": "Write a query to delete models where the difference between training accuracy and testing accuracy exceeds 0.10, indicating potential overtraining from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, training_accuracy FLOAT, testing_accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1840,7 +1845,7 @@
   {
     "id": 80,
     "title": "Flag Models with Insufficient Training Data",
-    "description": "Write a query to select models trained on datasets with less than 1000 samples and mark them as 'Insufficient Data' in the `remarks` column.",
+    "description": "Write a query to select models trained on datasets with less than 1000 samples and mark them as 'Insufficient Data' in the `remarks` column in table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT, samples INTEGER, remarks TEXT);",
     "testCases": [
       {
@@ -1879,7 +1884,7 @@
   {
     "id": 81,
     "title": "Identify Popular Datasets",
-    "description": "Write a query to group models by the dataset used and find datasets used by more than two models.",
+    "description": "Write a query to group models by the dataset used and find datasets used by more than two models in the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1912,7 +1917,7 @@
   {
     "id": 82,
     "title": "Find Top-K Models",
-    "description": "Write a query to retrieve the top 2 models with the highest accuracy, sorted in descending order.",
+    "description": "Write a query to retrieve the top 2 models with the highest accuracy, sorted in descending order in table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -1953,7 +1958,7 @@
   {
     "id": 83,
     "title": "Find Models with Missing Dataset Information",
-    "description": "Write a query to retrieve models where the `dataset_used` column is NULL.",
+    "description": "Write a query to retrieve models where the `dataset_used` column is NULL in the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -2042,12 +2047,12 @@
         "sampleData": "INSERT INTO ml_models (model_name, accuracy, dataset_used) VALUES ('Neural Network', 0.88, 'ImageNet Dataset'), ('KNN', 0.90, 'CIFAR-10'), ('Decision Tree', 0.75, 'MNIST Dataset'), ('Random Forest', 0.87, 'ImageNet Dataset');",
         "expectedOutput": [
           {
-            "dataset_used": "ImageNet Dataset",
-            "model_count": 2
-          },
-          {
             "dataset_used": "CIFAR-10",
             "model_count": 1
+          },
+          {
+            "dataset_used": "ImageNet Dataset",
+            "model_count": 2
           }
         ]
       }
@@ -2057,7 +2062,7 @@
   {
     "id": 86,
     "title": "Models with the Lowest Accuracy",
-    "description": "Write a query to retrieve the model(s) with the lowest accuracy.",
+    "description": "Write a query to retrieve the model(s) with the lowest accuracy from the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
     "testCases": [
       {
@@ -2127,44 +2132,20 @@
     "marks": 8
   },
   {
-    "id": 88,
-    "title": "Server Load Analysis",
-    "description": "Write a query to find the server that processed the maximum number of requests in the last 24 hours.",
-    "schema": "CREATE TABLE server_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, server_id INTEGER, request_count INTEGER, log_date DATETIME);",
-    "testCases": [
-      {
-        "id": 1,
-        "sampleData": "INSERT INTO server_logs (server_id, request_count, log_date) VALUES (1, 200, '2023-01-20 10:00:00'), (2, 300, '2023-01-20 11:00:00'), (1, 100, '2023-01-20 12:00:00'), (3, 400, '2023-01-20 13:00:00');",
-        "expectedOutput": [
-          {
-            "server_id": 3,
-            "total_request_count": 400
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "sampleData": "INSERT INTO server_logs (server_id, request_count, log_date) VALUES (4, 150, '2023-01-21 14:00:00'), (5, 250, '2023-01-21 15:00:00'), (4, 350, '2023-01-21 16:00:00'), (5, 200, '2023-01-21 17:00:00');",
-        "expectedOutput": [
-          {
-            "server_id": 4,
-            "total_request_count": 500
-          }
-        ]
-      }
-    ],
-    "marks": 8
-  },
-  {
     "id": 89,
     "title": "Resource Usage by Service",
-    "description": "Write a query to group resource usage by service and calculate the total CPU and memory usage, ordering results by total CPU usage in descending order.",
+    "description": "Write a query to group resource usage by service and calculate the total CPU and memory usage, ordering results by total CPU usage in descending order in table `resource_usage`.",
     "schema": "CREATE TABLE resource_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, service_name TEXT, cpu_usage FLOAT, memory_usage FLOAT);",
     "testCases": [
       {
         "id": 1,
         "sampleData": "INSERT INTO resource_usage (service_name, cpu_usage, memory_usage) VALUES ('Service A', 25.0, 1024), ('Service B', 30.0, 2048), ('Service A', 20.0, 512), ('Service C', 40.0, 1024);",
         "expectedOutput": [
+          {
+            "service_name": "Service A",
+            "total_cpu_usage": 45.0,
+            "total_memory_usage": 1536
+          },
           {
             "service_name": "Service C",
             "total_cpu_usage": 40.0,
@@ -2174,11 +2155,6 @@
             "service_name": "Service B",
             "total_cpu_usage": 30.0,
             "total_memory_usage": 2048
-          },
-          {
-            "service_name": "Service A",
-            "total_cpu_usage": 45.0,
-            "total_memory_usage": 1536
           }
         ]
       },
@@ -2195,26 +2171,6 @@
             "service_name": "Service X",
             "total_cpu_usage": 40.0,
             "total_memory_usage": 1536
-          }
-        ]
-      }
-    ],
-    "marks": 8
-  },
-  {
-    "id": 90,
-    "title": "User Information Update",
-    "description": "Write a query to update the email address of a user with `user_id = 101` to 'newemail@example.com' in the `users` table.",
-    "schema": "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, date_joined DATETIME);",
-    "testCases": [
-      {
-        "id": 1,
-        "sampleData": "INSERT INTO users (username, email, date_joined) VALUES ('JohnDoe', 'johndoe@example.com', '2022-01-01');",
-        "expectedOutput": [
-          {
-            "username": "JohnDoe",
-            "email": "newemail@example.com",
-            "date_joined": "2022-01-01"
           }
         ]
       }
@@ -2324,11 +2280,11 @@
         "sampleData": "INSERT INTO security_alerts (alert_type, severity) VALUES ('Phishing', 'Low'), ('Malware', 'High'), ('DDoS', 'Medium');",
         "expectedOutput": [
           {
-            "severity": "Low",
+            "severity": "High",
             "alert_count": 1
           },
           {
-            "severity": "High",
+            "severity": "Low",
             "alert_count": 1
           },
           {
@@ -2440,7 +2396,7 @@
             "count": 2
           },
           {
-            "vulnerability_type": "Cross-site Request Forgery",
+            "vulnerability_type": "XSS",
             "count": 1
           },
           {
@@ -2448,7 +2404,7 @@
             "count": 1
           },
           {
-            "vulnerability_type": "XSS",
+            "vulnerability_type": "Cross-site Request Forgery",
             "count": 1
           }
         ]
@@ -2458,7 +2414,7 @@
         "sampleData": "INSERT INTO vulnerability_reports (vulnerability_type, severity) VALUES ('DDoS', 'Low'), ('SQL Injection', 'High'), ('Buffer Overflow', 'High');",
         "expectedOutput": [
           {
-            "vulnerability_type": "Buffer Overflow",
+            "vulnerability_type": "SQL Injection",
             "count": 1
           },
           {
@@ -2466,7 +2422,7 @@
             "count": 1
           },
           {
-            "vulnerability_type": "SQL Injection",
+            "vulnerability_type": "Buffer Overflow",
             "count": 1
           }
         ]
@@ -2587,11 +2543,11 @@
         "sampleData": "INSERT INTO hardware_failures (component_name, failure_type) VALUES ('RAM', 'Memory Leak'), ('CPU', 'Overheating');",
         "expectedOutput": [
           {
-            "component_name": "RAM",
+            "component_name": "CPU",
             "failure_count": 1
           },
           {
-            "component_name": "CPU",
+            "component_name": "RAM",
             "failure_count": 1
           }
         ]

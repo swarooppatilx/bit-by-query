@@ -1,8 +1,22 @@
+import { useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import PropTypes from "prop-types";
 
 const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey && event.key === 'Enter') {
+        handleEvaluate();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleEvaluate]);
+
   return (
     <div>
       <h2 className='text-2xl font-bold text-blue-400'>SQL Editor</h2>
@@ -22,7 +36,7 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
         className='border border-gray-700 rounded-md shadow-md my-4'
       />
 
-      <div className='flex justify-end mt-4'>
+      <div className='flex flex-col items-end justify-end mt-4'>
         <button
           onClick={handleEvaluate}
           disabled={loading}
@@ -44,6 +58,9 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
             'Evaluate'
           )}
         </button>
+        <p className='text-gray-200 my-2 text-sm'>
+          Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to execute.
+        </p>
       </div>
     </div>
   );

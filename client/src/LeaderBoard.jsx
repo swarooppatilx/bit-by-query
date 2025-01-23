@@ -34,10 +34,6 @@ function LeaderBoard() {
     };
 
     fetchLeaderboard();
-
-    const intervalId = setInterval(fetchLeaderboard, 30000);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   function formatDate(date) {
@@ -134,13 +130,20 @@ function LeaderBoard() {
                   ))}
                 </tbody>
               </table>
-              <p className='my-4 text-sm text-gray-400 text-center'>
+              <p className='mb-4 mt-20 text-sm text-gray-400 text-center'>
                 Platform designed and developed by{' '}
                 <a
                   className='text-blue-500 hover:underline'
                   href='https://github.com/swarooppatilx'
                 >
                   Swaroop Patil
+                </a>{' '}
+                with{' '}
+                <a
+                  className='text-blue-500 hover:underline'
+                  href='https://adimail.github.io'
+                >
+                  Aditya Godse
                 </a>
               </p>
             </div>
