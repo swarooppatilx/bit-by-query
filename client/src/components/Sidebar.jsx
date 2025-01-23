@@ -21,7 +21,7 @@ const Sidebar = ({
         </p>
       ) : (
         <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-[calc(5*3rem)] border border-gray-700 rounded-lg p-2 overflow-y-auto'>
-          {problems.map((problem) => (
+          {problems.map((problem, index) => (
             <button
               key={problem.id}
               className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${
@@ -35,7 +35,7 @@ const Sidebar = ({
               aria-label={`Problem ${problem.id}`}
               title={`Marks ${problem.marks}`}
             >
-              <p className='text-sm'>{`Q. ${problem.id}`}</p>
+              <p className='text-sm'>{`Q. ${index + 1}`}</p>
               <p className='text-xs'>{`Marks ${problem.marks}`}</p>
             </button>
           ))}
@@ -46,7 +46,8 @@ const Sidebar = ({
         <div className='mt-10'>
           <h2 className='text-2xl'>Problem Details</h2>
           <p className='italic text-xs'>
-            Note: Please use <code>SELECT * from TABLE_NAME</code> to view the schema.
+            Note: Please use <code>SELECT * from TABLE_NAME</code> to view the
+            schema.
           </p>
           <hr className='border-t-2 border-gray-500 my-6' />
           <h2 className='text-xl font-semibold text-gray-300 mb-3'>
