@@ -44,68 +44,110 @@ function Register() {
   };
 
   return (
-    <div className="w-full h-screen bg-gray-800 text-white flex items-center justify-center">
-      <div className="w-full md:w-1/3 bg-gray-900 p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-green-400 mb-4 text-center">
-          Register
-        </h2>
+    <div className='w-full h-screen bg-neutral-950 text-white flex items-center justify-center'>
+      <div className='w-full max-w-2xl grid grid-cols-1 p-8'>
+        <div>
+          <h2 className='text-3xl font-bold text-blue-400 mb-4 text-center'>
+            Register for Bit By Query
+          </h2>
 
-        <form onSubmit={handleRegister}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-lg">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              aria-label="Full Name"
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+          {error && (
+            <div className='bg-red-600 text-white text-center py-2 mb-4 rounded-md'>
+              {error}
+            </div>
+          )}
 
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-lg">
-              ACM ID
-            </label>
-            <input
-              type="text"
-              id="username"
-              aria-label="Username"
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+          <form onSubmit={handleRegister}>
+            <hr className='border-t-2 border-gray-500 my-6 w-20 mx-auto' />
 
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-lg">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              aria-label="Password"
-              className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div className='mb-4'>
+              <label htmlFor='name' className='block text-lg'>
+                Full Name
+              </label>
+              <input
+                type='text'
+                id='name'
+                aria-label='Full Name'
+                className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder='Enter your full name'
+                required
+              />
+            </div>
 
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            <div className='mb-4'>
+              <label htmlFor='username' className='block text-lg'>
+                ACM ID
+              </label>
+              <input
+                type='text'
+                id='username'
+                aria-label='Username'
+                className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder='Enter ACM ID'
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
+            <div className='mb-6'>
+              <label htmlFor='password' className='block text-lg'>
+                Password
+              </label>
+              <div className='relative'>
+                <input
+                  type='password'
+                  id='password'
+                  aria-label='Password'
+                  className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder='Enter password'
+                  required
+                />
+                <button
+                  type='button'
+                  className='absolute inset-y-0 right-0 px-3 py-2 text-gray-400'
+                >
+                  <i className='fas fa-eye'></i>
+                </button>
+              </div>
+            </div>
+
+            <button
+              type='submit'
+              className='w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+              disabled={loading}
+            >
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+
+            <hr className='my-6' />
+            <p className='text-center text-gray-400'>
+              Already have an account?{' '}
+              <a href='/login' className='text-blue-400 hover:underline'>
+                Login
+              </a>
+            </p>
+            <p className='text-center text-gray-400'>
+              View ACM IDs from{' '}
+              <a
+                target="_blank"
+                href='https://ioit.acm.org/membership/status'
+                className='text-blue-400 hover:underline'
+              >
+                Here
+              </a>
+              .
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
+        
 
 export default Register;

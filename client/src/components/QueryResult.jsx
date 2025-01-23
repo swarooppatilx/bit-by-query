@@ -38,7 +38,7 @@ const QueryResult = ({ queryResult }) => {
 
   return (
     <div className="mt-8">
-      <h3 className="text-2xl font-semibold text-green-400 mb-4">
+      <h3 className="text-2xl font-semibold text-blue-400 mb-4">
         Evaluation Result
       </h3>
 
@@ -46,7 +46,7 @@ const QueryResult = ({ queryResult }) => {
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg text-gray-300">Overall Result:</span>
           {queryResult.correct ? (
-            <span className="flex items-center gap-1 text-green-400">
+            <span className="flex items-center gap-1 text-blue-400">
               <Check className="w-5 h-5" /> All Test Cases Passed
             </span>
           ) : (
@@ -88,7 +88,7 @@ const QueryResult = ({ queryResult }) => {
                   Test Case {queryResult.testResults[activeTab].testCaseNumber}
                 </h4>
                 {queryResult.testResults[activeTab].passed ? (
-                  <span className="flex items-center gap-1 text-green-400">
+                  <span className="flex items-center gap-1 text-blue-400">
                     <Check className="w-5 h-5" /> Passed
                   </span>
                 ) : (

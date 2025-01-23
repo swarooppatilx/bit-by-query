@@ -8,7 +8,7 @@ const Table = ({ data, isCorrect }) => {
   const headers = Object.keys(data[0]);
 
   return (
-    <table className="min-w-full bg-gray-800 border border-gray-700 rounded-md shadow-md">
+    <table className="min-w-full bg-neutral-950 border border-gray-700 rounded-md shadow-md">
       <thead>
         <tr className={isCorrect ? "bg-green-500" : "bg-red-600"}>
           {headers.map((header) => (

@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const Sidebar = ({
   problems,
@@ -8,43 +8,55 @@ const Sidebar = ({
   solvedProblems,
 }) => {
   return (
-    <aside className="w-full md:w-1/3 p-6 border-r border-gray-700 bg-gray-800">
-      <h1 className="text-3xl font-bold text-green-400 mb-6">Questions</h1>
+    <aside className='w-full md:w-1/3 p-6 border-r border-gray-700 bg-neutral-950 overflow-y-auto'>
+      <h1 className='text-2xl font-bold text-blue-400'>Questions</h1>
+
+      <p className='mb-6 text-gray-200'>
+        {solvedProblems.length} / {problems.length}
+      </p>
 
       {problems.length === 0 ? (
-        <p className="text-gray-400 italic">
+        <p className='text-gray-400 italic'>
           No problems available. Try again later.
         </p>
       ) : (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-[calc(5*3rem)] overflow-y-auto border border-gray-700 rounded-lg p-2">
+        <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-[calc(5*3rem)] border border-gray-700 rounded-lg p-2 overflow-y-auto'>
           {problems.map((problem) => (
             <button
               key={problem.id}
-              className={`p-3 rounded-lg border text-sm font-medium transition-transform transform hover:scale-105 focus:outline-none ${
+              className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${
                 problemId === problem.id
-                  ? "border-green-400 bg-green-500 text-white shadow-md"
+                  ? 'border-green-500 bg-green-600 text-white shadow-md'
                   : solvedProblems.includes(problem.id)
-                  ? "border-blue-400 bg-blue-500 text-white shadow-sm" // Solved problems
-                  : "border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  ? 'border-blue-400 bg-blue-500 text-white shadow-sm' // Solved problems
+                  : 'border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
               onClick={() => setProblemId(problem.id)}
               aria-label={`Problem ${problem.id}`}
               title={`Marks ${problem.marks}`}
             >
-              {`Q${problem.id}`}
+              <p className='text-sm'>{`Q. ${problem.id}`}</p>
+              <p className='text-xs'>{`Marks ${problem.marks}`}</p>
             </button>
           ))}
         </div>
       )}
 
       {problemDetails && (
-        <div className="mt-8 p-4 bg-gray-700 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-green-400 mb-3">
+        <div className='mt-10'>
+          <h2 className='text-2xl'>Problem Details</h2>
+          <p className='italic text-xs'>
+            Note: Please use <code>SELECT * from TABLE_NAME</code> to view the schema.
+          </p>
+          <hr className='border-t-2 border-gray-500 my-6' />
+          <h2 className='text-xl font-semibold text-gray-300 mb-3'>
             {problemDetails.title}
           </h2>
-          <p className="text-gray-300 mb-4 text-lg">{problemDetails.description}</p>
+          <p className='text-gray-500 mb-4 text-lg'>
+            {problemDetails.description}
+          </p>
           {solvedProblems.includes(problemId) && (
-            <div className="flex items-center gap-2 text-sm text-yellow-400">
+            <div className='flex items-center gap-2 text-sm text-yellow-400'>
               <span>✅ You have already solved this problem!</span>
             </div>
           )}
