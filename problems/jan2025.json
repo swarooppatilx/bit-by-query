@@ -148,7 +148,7 @@
     "marks": 10
   },
   {
-    "id": 8,
+    "id": 7,
     "title": "Premium Customer Analysis",
     "description": "Write a query to identify customers whose average order value is at least 50% higher than the overall average order value from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -170,7 +170,7 @@
     "marks": 10
   },
   {
-    "id": 9,
+    "id": 8,
     "title": "Department Diversity",
     "description": "Write a query to find departments that have employees with at least 3 different salary levels, ordered by salary range (max - min) from the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary INTEGER);",
@@ -201,7 +201,7 @@
     "marks": 10
   },
   {
-    "id": 11,
+    "id": 9,
     "title": "Total Orders by Customer",
     "description": "Write a query to find the total number of orders placed by each customer from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -226,7 +226,7 @@
     "marks": 6
   },
   {
-    "id": 13,
+    "id": 10,
     "title": "Average Amount of Orders",
     "description": "Write a query to calculate the average order amount from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -245,7 +245,7 @@
     "marks": 6
   },
   {
-    "id": 15,
+    "id": 11,
     "title": "Find Duplicate Employees",
     "description": "Write a query to find employees who have the same name and belong to the same department in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
@@ -264,7 +264,7 @@
     "marks": 8
   },
   {
-    "id": 16,
+    "id": 12,
     "title": "Orders Over a Threshold",
     "description": "Write a query to find all orders where the total amount is greater than a given threshold (200) from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -286,7 +286,7 @@
     "marks": 6
   },
   {
-    "id": 17,
+    "id": 13,
     "title": "Most Expensive Order",
     "description": "Write a query to find the most expensive order from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -305,7 +305,7 @@
     "marks": 6
   },
   {
-    "id": 18,
+    "id": 14,
     "title": "Find Oldest Employee",
     "description": "Write a query to find the oldest employee by their hire date from the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, hire_date DATE);",
@@ -324,7 +324,7 @@
     "marks": 8
   },
   {
-    "id": 19,
+    "id": 15,
     "title": "Find Orders by Customer",
     "description": "Write a query to find all orders placed by a specific customer from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
@@ -349,7 +349,7 @@
     "marks": 6
   },
   {
-    "id": 20,
+    "id": 16,
     "title": "Find Orders by Date",
     "description": "Write a query to find all orders placed on a specific date from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
@@ -373,7 +373,7 @@
     "marks": 8
   },
   {
-    "id": 21,
+    "id": 17,
     "title": "Find Total Sales Per Day",
     "description": "Write a query to calculate the total sales per day from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
@@ -395,7 +395,7 @@
     "marks": 8
   },
   {
-    "id": 22,
+    "id": 18,
     "title": "Find Customers with Maximum Order Amount",
     "description": "Write a query to find customers who have placed the maximum amount order in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -414,7 +414,7 @@
     "marks": 6
   },
   {
-    "id": 23,
+    "id": 19,
     "title": "Find Duplicate Orders",
     "description": "Write a query to find duplicate orders placed by the same customer in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL, order_date DATE);",
@@ -437,7 +437,7 @@
     "marks": 8
   },
   {
-    "id": 24,
+    "id": 20,
     "title": "Count Employees in Each Department",
     "description": "Write a query to find the number of employees in each department from the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT);",
@@ -464,7 +464,7 @@
     "marks": 6
   },
   {
-    "id": 25,
+    "id": 21,
     "title": "Find Orders with Discounts",
     "description": "Write a query to find all orders that are eligible for discounts (greater than $100) from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -486,7 +486,7 @@
     "marks": 6
   },
   {
-    "id": 26,
+    "id": 22,
     "title": "Find Customers with Total Purchase Greater Than 500",
     "description": "Write a query to find customers who have made total purchases greater than $500 from the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, amount REAL);",
@@ -508,7 +508,7 @@
     "marks": 8
   },
   {
-    "id": 27,
+    "id": 23,
     "title": "Get Students with Grades Above 80",
     "description": "Write a query to retrieve the names of students whose grades are greater than 80 from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -527,7 +527,7 @@
     "marks": 6
   },
   {
-    "id": 28,
+    "id": 24,
     "title": "Increase Grades by 5",
     "description": "Write a query to increase the grades of all students by 5 points from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -553,7 +553,7 @@
     "marks": 8
   },
   {
-    "id": 29,
+    "id": 25,
     "title": "Remove Students with Grades Below 60",
     "description": "Write a query to delete students who have grades below 60 from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -572,7 +572,7 @@
     "marks": 8
   },
   {
-    "id": 30,
+    "id": 26,
     "title": "Get Students Not in a List",
     "description": "Write a query to retrieve the names of students whose grades are not in (50, 60, 70) from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -591,7 +591,7 @@
     "marks": 8
   },
   {
-    "id": 31,
+    "id": 27,
     "title": "Find Students with Missing Grades",
     "description": "Write a query to retrieve the names of students whose grades are NULL from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -610,7 +610,7 @@
     "marks": 8
   },
   {
-    "id": 32,
+    "id": 28,
     "title": "Find Average Grade",
     "description": "Write a query to calculate the average grade of all students from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -629,7 +629,7 @@
     "marks": 8
   },
   {
-    "id": 33,
+    "id": 29,
     "title": "Get the Top Scoring Student",
     "description": "Write a query to find the name and grade of the student with the highest grade from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -648,7 +648,7 @@
     "marks": 8
   },
   {
-    "id": 35,
+    "id": 30,
     "title": "Count Students in Grade Ranges",
     "description": "Write a query to count the number of students in each grade range: 0-60, 61-80, and 81-100 in the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -675,7 +675,7 @@
     "marks": 10
   },
   {
-    "id": 37,
+    "id": 31,
     "title": "List Students Without Grades",
     "description": "Write a query to retrieve the names of students who do not have a grade (NULL) from the `students` table.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, grade INTEGER);",
@@ -694,7 +694,7 @@
     "marks": 8
   },
   {
-    "id": 38,
+    "id": 32,
     "title": "Find Employees Who Are in Multiple Departments",
     "description": "Write a query to find employees who are assigned to more than one department. The `employees` table has employee names and department IDs they belong to.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, department_id INTEGER);",
@@ -713,7 +713,7 @@
     "marks": 10
   },
   {
-    "id": 39,
+    "id": 33,
     "title": "Find Employees with Same Salary",
     "description": "Write a query to find employees who have the same salary as other employees in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, employee_name TEXT, salary REAL);",
@@ -738,7 +738,7 @@
     "marks": 8
   },
   {
-    "id": 40,
+    "id": 34,
     "title": "Find Products Not in Specific Categories",
     "description": "Write a query to find products that are not in specific categories, such as 'Electronics' or 'Furniture'. The `products` table contains product names and their categories.",
     "schema": "CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT);",
@@ -761,7 +761,7 @@
     "marks": 8
   },
   {
-    "id": 41,
+    "id": 35,
     "title": "Find Students With Specific Grades or Subjects",
     "description": "Write a query to find students who have either a grade of 'A' or are enrolled in the subject 'Mathematics'. The `students` table contains student names, grades, and subjects.",
     "schema": "CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, student_name TEXT, grade TEXT, subject TEXT);",
@@ -787,7 +787,7 @@
     "marks": 8
   },
   {
-    "id": 42,
+    "id": 36,
     "title": "Exclude Products Sold to Specific Customers",
     "description": "Write a query to find products that have not been sold to specific customers. Exclude sales to customers with IDs 1 and 3 from the results. The `sales` table contains the product names and customer IDs.",
     "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, customer_id INTEGER);",
@@ -812,7 +812,7 @@
     "marks": 8
   },
   {
-    "id": 43,
+    "id": 37,
     "title": "Employee Department Analysis",
     "description": "Find departments where the average salary is above the company-wide average salary, ordered by department average salary descending in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, department TEXT, salary REAL);",
@@ -837,7 +837,7 @@
     "marks": 8
   },
   {
-    "id": 44,
+    "id": 38,
     "title": "Product Sales Rankings",
     "description": "Rank products by their total sales amount and show only the top 3 products in each category from the `sales` table.",
     "schema": "CREATE TABLE sales (id INTEGER PRIMARY KEY AUTOINCREMENT, product_name TEXT, category TEXT, sale_amount REAL);",
@@ -906,7 +906,7 @@
     "marks": 8
   },
   {
-    "id": 45,
+    "id": 39,
     "title": "Customer Purchase Analysis",
     "description": "Find the total purchase amount and number of orders for each customer who has made at least 2 orders, ordered by total purchase amount descending in the `orders` table.",
     "schema": "CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_name TEXT, order_amount REAL, order_date DATE);",
@@ -939,7 +939,7 @@
     "marks": 8
   },
   {
-    "id": 48,
+    "id": 40,
     "title": "Employee Performance Analysis",
     "description": "Find employees who have received a performance rating of 'Excellent' and have a salary above the company-wide average salary in the `employees` table.",
     "schema": "CREATE TABLE employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, salary REAL, performance_rating TEXT);",
@@ -964,7 +964,7 @@
     "marks": 8
   },
   {
-    "id": 51,
+    "id": 41,
     "title": "Get All Hogwarts Students",
     "description": "Write a query to retrieve all students' names and their house points from the `hogwarts_students` table in ascending order of house points.",
     "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house_points INTEGER);",
@@ -991,7 +991,7 @@
     "marks": 6
   },
   {
-    "id": 52,
+    "id": 42,
     "title": "Insert New Characters",
     "description": "Write a query to insert new characters into the `marvel_characters` table and return the inserted values.",
     "schema": "CREATE TABLE marvel_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
@@ -1020,7 +1020,7 @@
     "marks": 8
   },
   {
-    "id": 53,
+    "id": 43,
     "title": "Select Characters with Specific Affiliation",
     "description": "Write a query to retrieve all characters from the `star_wars_characters` table who are part of the 'Jedi' affiliation.",
     "schema": "CREATE TABLE star_wars_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, affiliation TEXT);",
@@ -1045,7 +1045,7 @@
     "marks": 6
   },
   {
-    "id": 54,
+    "id": 44,
     "title": "Select Characters Not in a List",
     "description": "Write a query to retrieve all characters from the `marvel_characters` table who are not 'Iron Man' or 'Thor'.",
     "schema": "CREATE TABLE marvel_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
@@ -1070,7 +1070,7 @@
     "marks": 6
   },
   {
-    "id": 55,
+    "id": 45,
     "title": "Select Characters with NULL Power Level",
     "description": "Write a query to retrieve all characters from the `dc_characters` table who have a NULL power level.",
     "schema": "CREATE TABLE dc_characters (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, power_level INTEGER);",
@@ -1094,7 +1094,7 @@
     "marks": 6
   },
   {
-    "id": 56,
+    "id": 46,
     "title": "Find All Professors with More Than 10 Years of Experience",
     "description": "Write a query to retrieve all professors' names and their years of experience from the `hogwarts_professors` table, but only for professors with more than 10 years of experience.",
     "schema": "CREATE TABLE hogwarts_professors (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, years_of_experience INTEGER);",
@@ -1119,7 +1119,7 @@
     "marks": 6
   },
   {
-    "id": 57,
+    "id": 47,
     "title": "Get All House Points Total for Each House",
     "description": "Write a query to calculate the total house points for each house from the `hogwarts_students` table and show the house name alongside the total points.",
     "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
@@ -1145,7 +1145,7 @@
     "marks": 8
   },
   {
-    "id": 58,
+    "id": 48,
     "title": "Get All Students with More Than 100 House Points",
     "description": "Write a query to retrieve all students' names and house points from the `hogwarts_students` table, but only for students with more than 100 house points.",
     "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
@@ -1170,7 +1170,7 @@
     "marks": 8
   },
   {
-    "id": 59,
+    "id": 49,
     "title": "Find All Items with Prices Above a Specific Threshold",
     "description": "Write a query to find all magical items from the `hogwarts_store` table where the price is above a given threshold (e.g., 50 Galleons).",
     "schema": "CREATE TABLE hogwarts_store (id INTEGER PRIMARY KEY AUTOINCREMENT, item_name TEXT, price INTEGER);",
@@ -1195,7 +1195,7 @@
     "marks": 6
   },
   {
-    "id": 60,
+    "id": 50,
     "title": "Calculate the Average House Points per Student",
     "description": "Write a query to calculate the average number of house points earned per student for each house from the `hogwarts_students` table.",
     "schema": "CREATE TABLE hogwarts_students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, house TEXT, house_points INTEGER);",
@@ -1220,7 +1220,7 @@
     "marks": 8
   },
   {
-    "id": 61,
+    "id": 51,
     "title": "Get All Movies Released After a Certain Year",
     "description": "Write a query to retrieve all movie titles and their release years from the `movies` table where the release year is after a specified year (e.g. 2008).",
     "schema": "CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, release_year INTEGER);",
@@ -1246,7 +1246,7 @@
     "marks": 6
   },
   {
-    "id": 62,
+    "id": 52,
     "title": "Get Top 3 Highest Grossing Movies",
     "description": "Write a query to retrieve the top 3 highest-grossing movies along with their gross earnings from the `movies` table.",
     "schema": "CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, gross_earnings INTEGER);",
@@ -1273,7 +1273,7 @@
     "marks": 8
   },
   {
-    "id": 63,
+    "id": 53,
     "title": "List Actors Who Have Acted in More Than One Movie",
     "description": "Write a query to retrieve all actor names who have acted in more than one movie from the `actors_movies` table.",
     "schema": "CREATE TABLE actors_movies (actor_name TEXT, movie_title TEXT);",
@@ -1298,7 +1298,7 @@
     "marks": 8
   },
   {
-    "id": 64,
+    "id": 54,
     "title": "Find Movies with Multiple Genres",
     "description": "Write a query to find all movies that belong to more than one genre (e.g., Action and Sci-Fi) from the `movie_genres` table.",
     "schema": "CREATE TABLE movie_genres (movie_title TEXT, genre TEXT);",
@@ -1323,7 +1323,7 @@
     "marks": 8
   },
   {
-    "id": 65,
+    "id": 55,
     "title": "Find Most Prolific Directors",
     "description": "Write a query to find the directors who have directed the most number of movies from the `directors_movies` table.",
     "schema": "CREATE TABLE directors_movies (director_name TEXT, movie_title TEXT);",
@@ -1345,7 +1345,7 @@
     "marks": 8
   },
   {
-    "id": 66,
+    "id": 56,
     "title": "Find All Episodes in a Web Series",
     "description": "Write a query to retrieve all episode titles and their release dates from the `web_series_episodes` table for a specific web series.",
     "schema": "CREATE TABLE web_series_episodes (id INTEGER PRIMARY KEY AUTOINCREMENT, series_name TEXT, episode_title TEXT, release_date DATE);",
@@ -1386,7 +1386,7 @@
     "marks": 6
   },
   {
-    "id": 67,
+    "id": 57,
     "title": "List All Web Series in a Specific Genre",
     "description": "Write a query to retrieve all web series names that belong to a specific genre (e.g., Sci-Fi or Comedy) from the `web_series` table.",
     "schema": "CREATE TABLE web_series (id INTEGER PRIMARY KEY AUTOINCREMENT, series_name TEXT, genre TEXT);",
@@ -1409,7 +1409,7 @@
     "marks": 6
   },
   {
-    "id": 68,
+    "id": 58,
     "title": "Find Major Scientific Discoveries by Year",
     "description": "Write a query to retrieve all scientific discoveries and their corresponding years from the `scientific_discoveries` table.",
     "schema": "CREATE TABLE scientific_discoveries (id INTEGER PRIMARY KEY AUTOINCREMENT, discovery_name TEXT, discovery_year INTEGER);",
@@ -1439,7 +1439,7 @@
     "marks": 6
   },
   {
-    "id": 69,
+    "id": 59,
     "title": "List Notable Scientists by Field of Study",
     "description": "Write a query to retrieve notable scientists and their respective fields of study from the `scientists` table.",
     "schema": "CREATE TABLE scientists (id INTEGER PRIMARY KEY AUTOINCREMENT, scientist_name TEXT, field_of_study TEXT);",
@@ -1468,7 +1468,7 @@
     "marks": 6
   },
   {
-    "id": 70,
+    "id": 60,
     "title": "Identify Inventions and Their Inventors",
     "description": "Write a query to list inventions and the inventors responsible for them from the `inventions` table.",
     "schema": "CREATE TABLE inventions (id INTEGER PRIMARY KEY AUTOINCREMENT, invention_name TEXT, inventor_name TEXT);",
@@ -1506,7 +1506,7 @@
     "marks": 6
   },
   {
-    "id": 71,
+    "id": 61,
     "title": "List Scientific Fields and Their Founders",
     "description": "Write a query to retrieve all scientific fields and the individuals credited with founding them from the `scientific_fields` table.",
     "schema": "CREATE TABLE scientific_fields (id INTEGER PRIMARY KEY AUTOINCREMENT, field_name TEXT, founder_name TEXT);",
@@ -1532,7 +1532,7 @@
     "marks": 6
   },
   {
-    "id": 72,
+    "id": 62,
     "title": "Find Nobel Prize Winners by Year and Category",
     "description": "Write a query to retrieve Nobel Prize winners, their award category, and the year they received it from the `nobel_prizes` table.",
     "schema": "CREATE TABLE nobel_prizes (id INTEGER PRIMARY KEY AUTOINCREMENT, winner_name TEXT, category TEXT, award_year INTEGER);",
@@ -1578,7 +1578,7 @@
     "marks": 8
   },
   {
-    "id": 73,
+    "id": 63,
     "title": "Retrieve Models and Their Accuracy",
     "description": "Write a query to retrieve machine learning model names, their accuracy scores, and the dataset used for training from the `ml_models` table.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1624,7 +1624,7 @@
     "marks": 8
   },
   {
-    "id": 74,
+    "id": 64,
     "title": "Retrieve the Most Accurate Model for Each Dataset",
     "description": "Write a query to retrieve the dataset name, model name, and the highest accuracy achieved for each dataset from the `ml_models` table.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1665,7 +1665,7 @@
     "marks": 8
   },
   {
-    "id": 75,
+    "id": 65,
     "title": "Count Models per Dataset",
     "description": "Write a query to count how many models have been trained on each dataset. The output should include the dataset name and the count of models from the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1702,7 +1702,7 @@
     "marks": 8
   },
   {
-    "id": 76,
+    "id": 66,
     "title": "Identify Models with Below-Average Accuracy",
     "description": "Write a query to find all models with accuracy below the average accuracy of all models in the table. Return the model name, accuracy, and dataset from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1743,7 +1743,7 @@
     "marks": 8
   },
   {
-    "id": 77,
+    "id": 67,
     "title": "Retrieve Models by Dataset Keyword",
     "description": "Write a query to retrieve models trained on datasets where the dataset name contains the keyword 'Dataset'. Return the model name, accuracy, and dataset from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1779,7 +1779,7 @@
     "marks": 8
   },
   {
-    "id": 78,
+    "id": 68,
     "title": "Delete Low-Accuracy Models",
     "description": "Write a query to delete models with an accuracy below 0.80 from the `ml_models` table.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1810,7 +1810,7 @@
     "marks": 6
   },
   {
-    "id": 79,
+    "id": 69,
     "title": "Identify and Remove Overtrained Models",
     "description": "Write a query to delete models where the difference between training accuracy and testing accuracy exceeds 0.10, indicating potential overtraining from table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, training_accuracy FLOAT, testing_accuracy FLOAT, dataset_used TEXT);",
@@ -1843,7 +1843,7 @@
     "marks": 8
   },
   {
-    "id": 80,
+    "id": 70,
     "title": "Flag Models with Insufficient Training Data",
     "description": "Write a query to select models trained on datasets with less than 1000 samples and mark them as 'Insufficient Data' in the `remarks` column in table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT, samples INTEGER, remarks TEXT);",
@@ -1882,7 +1882,7 @@
     "marks": 8
   },
   {
-    "id": 81,
+    "id": 71,
     "title": "Identify Popular Datasets",
     "description": "Write a query to group models by the dataset used and find datasets used by more than two models in the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, dataset_used TEXT);",
@@ -1915,7 +1915,7 @@
     "marks": 10
   },
   {
-    "id": 82,
+    "id": 72,
     "title": "Find Top-K Models",
     "description": "Write a query to retrieve the top 2 models with the highest accuracy, sorted in descending order in table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1956,7 +1956,7 @@
     "marks": 10
   },
   {
-    "id": 83,
+    "id": 73,
     "title": "Find Models with Missing Dataset Information",
     "description": "Write a query to retrieve models where the `dataset_used` column is NULL in the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -1987,7 +1987,7 @@
     "marks": 8
   },
   {
-    "id": 84,
+    "id": 74,
     "title": "Update Model Performance",
     "description": "Write a query to update the accuracy of models trained on the 'Iris Dataset' by adding 0.05 to their existing accuracy.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -2023,7 +2023,7 @@
     "marks": 8
   },
   {
-    "id": 85,
+    "id": 75,
     "title": "Models with High Performance Across Datasets",
     "description": "Write a query to find models with accuracy greater than 0.85 and group them by `dataset_used`. Return the dataset and the count of such models for each dataset.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -2060,7 +2060,7 @@
     "marks": 10
   },
   {
-    "id": 86,
+    "id": 76,
     "title": "Models with the Lowest Accuracy",
     "description": "Write a query to retrieve the model(s) with the lowest accuracy from the table `ml_models`.",
     "schema": "CREATE TABLE ml_models (id INTEGER PRIMARY KEY AUTOINCREMENT, model_name TEXT, accuracy FLOAT, dataset_used TEXT);",
@@ -2091,7 +2091,7 @@
     "marks": 6
   },
   {
-    "id": 87,
+    "id": 77,
     "title": "Most Active Users in a Distributed System",
     "description": "Write a query to find the top 3 users who performed the most number of operations (insert, update, delete) on the `operations_log` table.",
     "schema": "CREATE TABLE operations_log (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, operation_type TEXT, timestamp DATETIME);",
@@ -2132,7 +2132,7 @@
     "marks": 8
   },
   {
-    "id": 89,
+    "id": 78,
     "title": "Resource Usage by Service",
     "description": "Write a query to group resource usage by service and calculate the total CPU and memory usage, ordering results by total CPU usage in descending order in table `resource_usage`.",
     "schema": "CREATE TABLE resource_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, service_name TEXT, cpu_usage FLOAT, memory_usage FLOAT);",
@@ -2178,7 +2178,7 @@
     "marks": 8
   },
   {
-    "id": 91,
+    "id": 79,
     "title": "Track Software Versions",
     "description": "Write a query to retrieve the latest version of each software from the `software_versions` table.",
     "schema": "CREATE TABLE software_versions (id INTEGER PRIMARY KEY AUTOINCREMENT, software_name TEXT, version TEXT, release_date DATETIME);",
@@ -2219,7 +2219,7 @@
     "marks": 6
   },
   {
-    "id": 92,
+    "id": 80,
     "title": "Track Failed Login Attempts by IP",
     "description": "Write a query to retrieve the count of failed login attempts for each IP address in the `login_attempts` table.",
     "schema": "CREATE TABLE login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, ip_address TEXT, status TEXT);",
@@ -2256,7 +2256,7 @@
     "marks": 8
   },
   {
-    "id": 93,
+    "id": 81,
     "title": "Track Security Alerts by Severity",
     "description": "Write a query to retrieve the count of security alerts for each severity level in the `security_alerts` table.",
     "schema": "CREATE TABLE security_alerts (id INTEGER PRIMARY KEY AUTOINCREMENT, alert_type TEXT, severity TEXT);",
@@ -2297,7 +2297,7 @@
     "marks": 6
   },
   {
-    "id": 94,
+    "id": 82,
     "title": "Track Suspicious IP Access Attempts",
     "description": "Write a query to retrieve all IP addresses that have more than 5 failed login attempts in the `login_attempts` table.",
     "schema": "CREATE TABLE login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, ip_address TEXT, status TEXT);",
@@ -2320,7 +2320,7 @@
     "marks": 8
   },
   {
-    "id": 95,
+    "id": 83,
     "title": "Track Unique Security Breaches",
     "description": "Write a query to retrieve all unique types of security breaches reported in the `security_breach_reports` table.",
     "schema": "CREATE TABLE security_breach_reports (id INTEGER PRIMARY KEY AUTOINCREMENT, breach_type TEXT, severity TEXT);",
@@ -2359,7 +2359,7 @@
     "marks": 8
   },
   {
-    "id": 96,
+    "id": 84,
     "title": "Track Multiple Failed Login Attempts",
     "description": "Write a query to retrieve all users who have made more than 3 failed login attempts in the `user_login_attempts` table.",
     "schema": "CREATE TABLE user_login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, status TEXT);",
@@ -2382,7 +2382,7 @@
     "marks": 8
   },
   {
-    "id": 97,
+    "id": 85,
     "title": "Track Top 5 Most Common Vulnerabilities",
     "description": "Write a query to retrieve the top 5 most common vulnerabilities reported in the `vulnerability_reports` table.",
     "schema": "CREATE TABLE vulnerability_reports (id INTEGER PRIMARY KEY AUTOINCREMENT, vulnerability_type TEXT, severity TEXT);",
@@ -2431,7 +2431,7 @@
     "marks": 6
   },
   {
-    "id": 98,
+    "id": 86,
     "title": "Track Computer Hardware by Model",
     "description": "Write a query to retrieve the latest version of each hardware component (e.g., CPU, GPU, RAM) from the `hardware_inventory` table.",
     "schema": "CREATE TABLE hardware_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, model TEXT, release_date DATETIME);",
@@ -2468,7 +2468,7 @@
     "marks": 8
   },
   {
-    "id": 99,
+    "id": 87,
     "title": "Track Hardware Usage by User",
     "description": "Write a query to retrieve all users who have used a specific hardware component more than twice from the `hardware_usage` table.",
     "schema": "CREATE TABLE hardware_usage (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, component_name TEXT);",
@@ -2491,7 +2491,7 @@
     "marks": 8
   },
   {
-    "id": 100,
+    "id": 88,
     "title": "Track Hardware Component Availability",
     "description": "Write a query to retrieve the count of available hardware components in the `hardware_inventory` table.",
     "schema": "CREATE TABLE hardware_inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, availability_status TEXT);",
@@ -2519,7 +2519,7 @@
     "marks": 8
   },
   {
-    "id": 101,
+    "id": 89,
     "title": "Track Hardware Failures by Component",
     "description": "Write a query to retrieve the count of hardware failures by component type in the `hardware_failures` table.",
     "schema": "CREATE TABLE hardware_failures (id INTEGER PRIMARY KEY AUTOINCREMENT, component_name TEXT, failure_type TEXT);",
@@ -2556,7 +2556,7 @@
     "marks": 8
   },
   {
-    "id": 102,
+    "id": 90,
     "title": "Track Hardware Upgrades by User",
     "description": "Write a query to retrieve all users who have upgraded to a newer hardware component from the `hardware_upgrades` table.",
     "schema": "CREATE TABLE hardware_upgrades (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, old_component TEXT, new_component TEXT);",
