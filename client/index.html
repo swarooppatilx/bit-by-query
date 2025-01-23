@@ -2,9 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bit By Query</title>
+    <title>Bit By Query | IOIT ACM Student Chapter</title>
 
     <!-- Basic Meta Tags -->
     <meta
@@ -17,7 +21,6 @@
       content="SQL, database, query, competition, coding, challenges, programming, developers"
     />
     <meta name="robots" content="index, follow" />
-    <meta name="language" content="en" />
     <meta name="theme-color" content="#0d6efd" />
     <meta name="color-scheme" content="light dark" />
 
@@ -68,7 +71,6 @@
     />
     <meta name="apple-mobile-web-app-title" content="Bit By Query" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
 
     <!-- Additional Verification Tags -->
     <meta
@@ -82,20 +84,20 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-JYMB86WEYG"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-JYMB86WEYG');
+    </script>
   </body>
-
-  <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-JYMB86WEYG"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-JYMB86WEYG");
-  </script>
 </html>

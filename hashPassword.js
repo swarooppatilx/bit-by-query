@@ -6,7 +6,7 @@ const password = process.argv[2];
 
 // Check if the password is provided
 if (!password) {
-  console.log("Please provide a password as an argument.");
+  // console.log("Please provide a password as an argument.");
   process.exit(1);
 }
 
@@ -18,5 +18,5 @@ bcrypt.hash(password, 10, (err, hash) => {
   }
 
   // Print the hashed password
-  console.log("Hashed password:", hash);
+  // console.log("Hashed password:", hash);
 });

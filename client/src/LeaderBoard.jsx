@@ -15,7 +15,7 @@ function LeaderBoard() {
         setError(null);
         const response = await axios.get('/api/leaderboard');
 
-        console.log('Leaderboard Data:', response.data);
+        // console.log('Leaderboard Data:', response.data);
 
         if (Array.isArray(response.data)) {
           setLeaderboard(response.data);
@@ -134,6 +134,15 @@ function LeaderBoard() {
                   ))}
                 </tbody>
               </table>
+              <p className='my-4 text-sm text-gray-400 text-center'>
+                Platform designed and developed by{' '}
+                <a
+                  className='text-blue-500 hover:underline'
+                  href='https://github.com/swarooppatilx'
+                >
+                  Swaroop Patil
+                </a>
+              </p>
             </div>
           </>
         )}

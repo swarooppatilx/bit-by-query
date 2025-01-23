@@ -399,10 +399,10 @@ app.listen(PORT, () => {
 process.on("SIGINT", async () => {
   try {
     await pool.end();
-    console.log("MySQL connection pool closed.");
+    // console.log("MySQL connection pool closed.");
     process.exit(0);
   } catch (err) {
-    console.error("Error closing MySQL connection pool:", err.message);
+    // console.error("Error closing MySQL connection pool:", err.message);
     process.exit(1);
   }
 });
