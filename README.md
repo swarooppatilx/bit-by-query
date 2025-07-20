@@ -1,13 +1,12 @@
 # Bit By Query
 
-**Bit By Query** is a web-based platform where users can compete in SQL competitions. It offers a variety of challenges and a leaderboard to track participants' progress.
+**Bit By Query** is a full-stack web platform where users can participate in SQL competitions. The system uses an **Express.js backend** with an **in-memory SQLite database** and a **React (Vite + Tailwind CSS)** frontend.
 
-## Features
-
-- **User Authentication**: Secure user registration and login.
-- **SQL Challenges**: Solve curated SQL problems of varying difficulty.
-- **Leaderboards**: Compete with others and see your ranking.
-- **Real-time Countdown**: Timed challenges to keep the competition intense.
+Users can:
+- Compete by solving SQL challenges.
+- Track their progress on leaderboards.
+- Solve problems under time pressure with real-time countdowns.
+- Register/login securely with hashed passwords.
 
 ---
 
@@ -39,5 +38,116 @@
 │   └── virtual_contest.json   # Virtual contest problem set
 ├── users.json                 # Sample user data
 ├── hashPassword.js            # Password hashing utility
-└── README.md                  # Project documentation
+├── LICENSE.md                 # MIT License
+├── CODE_OF_CONDUCT.md         # Community guidelines
+└── README.md                  # This file
+````
+
+---
+
+## Tech Stack
+
+* **Backend:** Node.js, Express, SQLite
+* **Frontend:** React, Vite, Tailwind CSS
+* **Auth:** JWT, bcrypt
+* **Database Layer:** In-memory SQLite
+* **Utilities:** MySQL to SQLite query parser
+
+---
+
+## Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/swarooppatilx/bit-by-query.git
+cd bit-by-query
 ```
+
+### 2. Install backend dependencies
+
+```bash
+npm install
+```
+
+### 3. Install frontend dependencies
+
+```bash
+cd client
+npm install
+cd ..
+```
+
+### 4. Run in Development Mode
+
+This builds the frontend and starts the backend with live-reloading:
+
+```bash
+npm run local
+```
+
+* The backend runs on: **[http://localhost:5000](http://localhost:3000)**
+* The frontend runs on: **[http://localhost:5173](http://localhost:5173)**
+
+### 5. Run Frontend & Backend Separately
+
+In separate terminals:
+
+```bash
+# Terminal 1: start backend
+npm run dev
+
+# Terminal 2:
+cd client
+npm run dev
+```
+
+### 6. Production Build
+
+To build the frontend for production:
+
+```bash
+npm run build
+```
+
+Then run the backend:
+
+```bash
+npm start
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the root (MySQL credentials)
+
+```env
+DB_HOST=""
+DB_NAME=""
+DB_USER=""
+DB_PASSWORD=""
+```
+
+---
+
+## Scripts
+
+| Command         | Description                        |
+| --------------- | ---------------------------------- |
+| `npm start`     | Run backend server (production)    |
+| `npm run dev`   | Run backend server with nodemon    |
+| `npm run build` | Build frontend (React app)         |
+| `npm run local` | Build frontend + start backend dev |
+
+---
+
+## License
+
+[MIT](LICENSE) — Feel free to use, modify, and share!
+
+---
+
+## Acknowledgments
+
+* Built with ❤️ by the IOIT ACM Web team.
