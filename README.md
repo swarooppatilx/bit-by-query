@@ -34,14 +34,14 @@ bit-by-query/
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/swarooppatilx/bit-by-query.git
    cd bit-by-query
    ```
 
 2. **Install all dependencies**
 
    ```bash
-   npm run install:all
+   npm install
    ```
 
 3. **Start development servers**
@@ -81,8 +81,6 @@ This will start both the backend server and frontend development server concurre
 - User authentication and registration
 - Real-time query execution
 - Leaderboard system
-- Problem management
-- Mobile-responsive interface
 
 ## Contributing
 
