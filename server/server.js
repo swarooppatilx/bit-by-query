@@ -10,17 +10,29 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
 // Middleware
 app.use(bodyParser.json());
 
-// Serve the Vite build (client/dist)
-app.use(express.static(path.join(__dirname, "client/dist")));
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
-const problemsDirectory = path.join(__dirname, "problems");
+// Serve the Vite build (client/dist) - corrected path
+app.use(express.static(path.join(__dirname, "..", "client/dist")));
+
+const problemsDirectory = path.join(__dirname, "data", "problems");
 const problemsFile = path.join(problemsDirectory, "jan2025.json");
 
 let problems = [];
@@ -379,12 +391,12 @@ app.get("/api/leaderboard", async (req, res) => {
 
 // Fallback to serve `index.html` for non-API routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/dist/index.html"));
+  res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+// 404 handler for API routes
+app.use("/api/*", (req, res) => {
+  res.status(404).json({ error: "API route not found" });
 });
 
 // Error handling middleware
