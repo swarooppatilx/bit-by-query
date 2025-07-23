@@ -17,7 +17,6 @@ server/
 │   └── users.json         # User data
 ├── scripts/               # Utility scripts
 │   ├── hashPassword.js    # Password hashing utility
-│   ├── init-db.js         # Database initialization
 │   └── README.md          # Scripts documentation
 └── package.json           # Dependencies
 ```
