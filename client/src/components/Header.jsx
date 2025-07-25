@@ -16,7 +16,7 @@ const Header = ({ userInfo }) => {
     setShowLogoutModal(false);
     setTimeout(() => {
       navigate("/login");
-    }, 2000);
+    }, 3000);
   };
 
   return (

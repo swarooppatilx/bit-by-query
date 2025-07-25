@@ -33,7 +33,7 @@ function Login() {
       toast.success("Login successful!");
       setTimeout(() => {
         navigate("/home");
-      }, 2000);
+      }, 3000);
     } catch (err) {
       const message =
         err.response?.data?.error || "Unable to login. Please try again.";
@@ -47,7 +47,7 @@ function Login() {
     <div className="w-full h-screen bg-neutral-950 text-white flex items-center justify-center">
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={4000}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover
