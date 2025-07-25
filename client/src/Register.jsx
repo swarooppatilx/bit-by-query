@@ -76,7 +76,7 @@ function Register() {
       toast.success("Registration successful!");
       setTimeout(() => {
         navigate("/login");
-      }, 3000);
+      }, 3500);
     } catch (err) {
       const message =
         err.response?.data?.error || "Unable to register. Please try again.";
