@@ -9,6 +9,9 @@ import ErrorDisplay from './components/ErrorDisplay';
 import MobileWarning from './components/MobileWarning';
 import { endTime } from './config/date';
 import { Navigate } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget this line!
+
 
 function Home() {
   const [problems, setProblems] = useState([]);
@@ -157,6 +160,15 @@ function Home() {
           <QueryResult queryResult={queryResult} />
         </main>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover={true}
+        draggable
+        pauseOnFocusLoss
+      />
     </div>
   );
 }
