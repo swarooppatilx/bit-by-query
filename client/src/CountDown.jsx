@@ -13,7 +13,6 @@ function CountDown() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date().getTime();
-
       if (now < startTime) {
         setTimeRemaining(startTime - now);
         setMessage("Get Ready, the Competition Begins Soon!");
@@ -23,12 +22,11 @@ function CountDown() {
         setMessage("Competition is Live!");
         setShowStartButton(true);
       } else {
-        clearInterval(interval);
+        setTimeRemaining(0);
         setMessage("Times Up!");
         setShowStartButton(false);
       }
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -40,7 +38,7 @@ function CountDown() {
     return { days, hours, minutes, seconds };
   };
 
-  const { days, hours, minutes, seconds } = formatTime(timeRemaining);
+  const { days, hours, minutes, seconds } = formatTime(Math.max(0, timeRemaining));
 
   return (
     <div className="w-full h-screen bg-neutral-950 text-white flex items-center justify-center">
