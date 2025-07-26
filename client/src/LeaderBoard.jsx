@@ -2,38 +2,37 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
 
+
 function LeaderBoard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lastRefreshed, setLastRefreshed] = useState(null);
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await axios.get('/api/leaderboard');
-
-        // console.log('Leaderboard Data:', response.data);
-
-        if (Array.isArray(response.data)) {
-          setLeaderboard(response.data);
-          setLastRefreshed(new Date());
-        } else {
-          throw new Error('Unexpected response format');
-        }
-      } catch (err) {
-        console.error('Error fetching leaderboard:', err);
-        const message =
-          err.response?.data?.error || 'Failed to fetch leaderboard.';
-        setError(message);
-      } finally {
-        setLoading(false);
+  const fetchLeaderboard = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get('/api/leaderboard');
+      if (Array.isArray(response.data)) {
+        setLeaderboard(response.data);
+        setLastRefreshed(new Date());
+      } else {
+        throw new Error('Unexpected response format');
       }
-    };
+    } catch (err) {
+      console.error('Error fetching leaderboard:', err);
+      const message =
+        err.response?.data?.error || 'Failed to fetch leaderboard.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchLeaderboard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function formatDate(date) {
@@ -70,9 +69,18 @@ function LeaderBoard() {
           <p className='text-center text-gray-400'>No data available.</p>
         ) : (
           <>
-            <div className='text-sm text-gray-400 text-center mb-4'>
-              Last Refreshed:{' '}
-              {lastRefreshed ? formatDate(lastRefreshed) : 'N/A'}
+            <div className='flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-gray-400 text-center mb-4'>
+              <span>
+                Last Refreshed: {lastRefreshed ? formatDate(lastRefreshed) : 'N/A'}
+              </span>
+              <button
+                className='px-4 py-2 bg-blue-500 text-white rounded-lg font-bold hover:bg-blue-600 transition text-sm mt-2 md:mt-0'
+                onClick={fetchLeaderboard}
+                disabled={loading}
+                aria-label='Refresh Leaderboard'
+              >
+                {loading ? 'Refreshing...' : 'Refresh'}
+              </button>
             </div>
             <div className='overflow-y-auto max-h-[700px]'>
               <table className='w-full text-center border-collapse border border-gray-800 rounded-t-xl overflow-hidden'>
