@@ -2,37 +2,36 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
 
+
 function LeaderBoard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lastRefreshed, setLastRefreshed] = useState(null);
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await axios.get('/api/leaderboard');
-
-        // console.log('Leaderboard Data:', response.data);
-
-        if (Array.isArray(response.data)) {
-          setLeaderboard(response.data);
-          setLastRefreshed(new Date());
-        } else {
-          throw new Error('Unexpected response format');
-        }
-      } catch (err) {
-        console.error('Error fetching leaderboard:', err);
-        const message =
-          err.response?.data?.error || 'Failed to fetch leaderboard.';
-        setError(message);
-      } finally {
-        setLoading(false);
+  // Fetch leaderboard function for both mount and manual refresh
+  const fetchLeaderboard = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get('/api/leaderboard');
+      if (Array.isArray(response.data)) {
+        setLeaderboard(response.data);
+        setLastRefreshed(new Date());
+      } else {
+        throw new Error('Unexpected response format');
       }
-    };
+    } catch (err) {
+      console.error('Error fetching leaderboard:', err);
+      const message =
+        err.response?.data?.error || 'Failed to fetch leaderboard.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchLeaderboard();
   }, []);
 
@@ -56,6 +55,24 @@ function LeaderBoard() {
           Leaderboard
         </h2>
 
+        {/* Manual Refresh Button */}
+        <div className='flex justify-center mb-4'>
+          <button
+            onClick={fetchLeaderboard}
+            className={`flex items-center px-6 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed`}
+            disabled={loading}
+            aria-label='Refresh Leaderboard'
+          >
+            {loading ? (
+              <>
+                <FaSpinner className='animate-spin mr-2' />
+                Refreshing...
+              </>
+            ) : (
+              'Refresh'
+            )}
+          </button>
+        </div>
         {loading ? (
           <div className='flex justify-center items-center space-x-4'>
             <FaSpinner className='animate-spin text-4xl text-blue-400' />
@@ -71,8 +88,7 @@ function LeaderBoard() {
         ) : (
           <>
             <div className='text-sm text-gray-400 text-center mb-4'>
-              Last Refreshed:{' '}
-              {lastRefreshed ? formatDate(lastRefreshed) : 'N/A'}
+              Last Refreshed: {lastRefreshed ? formatDate(lastRefreshed) : 'N/A'}
             </div>
             <div className='overflow-y-auto max-h-[700px]'>
               <table className='w-full text-center border-collapse border border-gray-800 rounded-t-xl overflow-hidden'>
@@ -102,7 +118,7 @@ function LeaderBoard() {
                   {leaderboard.map((player, index) => (
                     <tr
                       key={player.username}
-                      className={`${
+                      className={`$
                         index % 2 === 0 ? 'bg-gray-600' : 'bg-gray-500'
                       } border-t border-gray-300`}
                     >
