@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.Toastify__toast {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+  border-radius: 0.5rem !important;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.Toastify__toast--success {
+  border-left: 5px solid #22c55e !important;
+}
+
+.Toastify__toast--error {
+  border-left: 5px solid #ef4444 !important;
+}
+
+.Toastify__toast--info {
+  border-left: 5px solid #3b82f6 !important;
+}
+
+.Toastify__close-button {
+  color: #f9fafb !important;
+}
+
+.Toastify__progress-bar {
+  background: #22c55e !important;
+}
+
