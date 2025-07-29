@@ -1,3 +1,7 @@
+body{
+  background-color: rgb(255, 255, 255);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -40,3 +44,52 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Toggle Button Styling */
+body {
+  transition: background 0.8s ease, color 0.8s ease;
+}
+
+.toggle {
+  margin-left: 80%;
+  transform: translateY(-25px);
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  box-shadow: 0 0 20px rgba(166, 119, 227, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.toggle:hover::before {
+  transform: scale(1);
+}
+
+.toggle.night {
+  background: linear-gradient(135deg, #232526, #414345);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+body.night-mode {
+  background:black;
+  color: #f5f5f5;
+}
+
