@@ -22,19 +22,24 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
       <h2 className='text-2xl font-bold text-blue-400'>SQL Editor</h2>
       <p className='text-gray-200 mb-6 text-lg'>Write your SQL query here</p>
 
-      <Editor
-        height='300px'
-        language='sql'
-        value={userQuery}
-        onChange={(value) => setUserQuery(value)}
-        options={{
-          minimap: { enabled: false },
-          fontSize: 22,
-          theme: 'vs-dark',
-          lineNumbers: 'off',
-        }}
-        className='border border-gray-700 rounded-md shadow-md my-4'
-      />
+      <div className='border border-gray-700 rounded-md shadow-md my-4 bg-gray-800'>
+        <Editor
+          height='300px'
+          language='sql'
+          value={userQuery}
+          onChange={(value) => setUserQuery(value)}
+          theme='vs-dark'
+          options={{
+            minimap: { enabled: false },
+            fontSize: 22,
+            lineNumbers: 'off',
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            renderWhitespace: 'none',
+            fontFamily: 'Consolas, "Courier New", monospace',
+          }}
+        />
+      </div>
 
       <div className='flex flex-col items-end justify-end mt-4'>
         <button

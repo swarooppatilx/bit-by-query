@@ -23,32 +23,95 @@ function Home() {
   const [error, setError] = useState(null);
   const [sqlError, setSqlError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [solvedProblems, setSolvedProblems] = useState([]);
+  const [solvedProblems, setSolvedProblems] = useState(() => {
+    const savedSolvedProblems = localStorage.getItem('solvedProblems');
+    return savedSolvedProblems ? JSON.parse(savedSolvedProblems) : [];
+  });
 
   const isMobile = useScreenSize();
+
+  // Wrapper function to save problemId to localStorage when it changes
+  const handleSetProblemId = (newProblemId) => {
+    const normalizedId = newProblemId ? String(newProblemId) : '';
+    setProblemId(normalizedId);
+    if (normalizedId) {
+      localStorage.setItem('selectedProblemId', normalizedId);
+    } else {
+      localStorage.removeItem('selectedProblemId');
+    }
+  };
+
+  // Wrapper function to save userQuery to localStorage when it changes
+  const handleSetUserQuery = (newQuery) => {
+    setUserQuery(newQuery);
+    if (problemId) {
+      localStorage.setItem(`userQuery_${problemId}`, newQuery);
+    }
+  };
+
+  // Helper function to extract and normalize solved problem IDs
+  const extractSolvedIds = (submissions) => {
+    return submissions.map(submission => {
+      const id = submission.problem_id;
+      return typeof id === 'string' ? parseInt(id, 10) : Number(id);
+    }).filter(id => !isNaN(id));
+  };
+
+  // Wrapper function to save solved problems to localStorage when they change
+  const handleSetSolvedProblems = (newSolvedProblems) => {
+    setSolvedProblems(newSolvedProblems);
+    localStorage.setItem('solvedProblems', JSON.stringify(newSolvedProblems));
+  };
 
   useEffect(() => {
     apiClient
       .get('/api/userinfo')
       .then((response) => {
         setUserInfo(response.data);
+        
+        return Promise.all([
+          apiClient.get('/api/problems'),
+          apiClient.get('/api/submissions')
+        ]);
       })
-      .catch((error) => {
-        console.error('Error fetching user info:', error);
-        setError('Failed to load user information. Please try again.');
-      });
-  }, []);
-
-  useEffect(() => {
-    apiClient
-      .get('/api/problems')
-      .then((response) => {
-        setProblems(response.data);
+      .then(([problemsResponse, submissionsResponse]) => {
+        setProblems(problemsResponse.data);
+        
+        const solvedIds = extractSolvedIds(submissionsResponse.data);
+        handleSetSolvedProblems(solvedIds);
+        
+        const savedProblemId = localStorage.getItem('selectedProblemId');
+        if (savedProblemId && problemsResponse.data.some(p => Number(p.id) === Number(savedProblemId))) {
+          setProblemId(String(savedProblemId));
+        }
+        
         setError(null);
       })
       .catch((error) => {
-        console.error('Error fetching problems:', error);
-        setError('Failed to load problems. Please try again.');
+        console.error('Error fetching initial data:', error);
+        
+        const cachedSolvedProblems = localStorage.getItem('solvedProblems');
+        if (cachedSolvedProblems) {
+          try {
+            const parsedSolvedProblems = JSON.parse(cachedSolvedProblems);
+            handleSetSolvedProblems(parsedSolvedProblems);
+          } catch (parseError) {
+            console.error('Error parsing cached solved problems:', parseError);
+          }
+        }
+        
+        const savedProblemId = localStorage.getItem('selectedProblemId');
+        if (savedProblemId) {
+          setProblemId(String(savedProblemId));
+        }
+        
+        if (error.config?.url?.includes('/userinfo')) {
+          setError('Failed to load user information. Please try again.');
+        } else if (error.config?.url?.includes('/problems')) {
+          setError('Failed to load problems. Please try again.');
+        } else {
+          setError('Failed to load data. Please try again.');
+        }
       });
   }, []);
 
@@ -56,7 +119,10 @@ function Home() {
     if (problemId) {
       setProblemDetails(null);
       setError(null);
-      setUserQuery('');
+      
+      const savedQuery = localStorage.getItem(`userQuery_${problemId}`) || '';
+      setUserQuery(savedQuery);
+      
       setQueryResult(null);
       setSqlError(null);
       setLoading(false);
@@ -66,30 +132,6 @@ function Home() {
         .catch((error) => {
           console.error('Error fetching problem details:', error);
           setError('Error fetching problem details. Please try again.');
-        });
-    }
-  }, [problemId]);
-
-  useEffect(() => {
-    if (problemId) {
-      setProblemDetails(null);
-      setError(null);
-      setUserQuery('');
-      setQueryResult(null);
-      setSqlError(null);
-      setLoading(false);
-
-      // Fetch and update the list of solved problems
-      apiClient
-        .get('/api/submissions')
-        .then((response) => {
-          const solvedIds = response.data.map(
-            (submission) => submission.problem_id
-          );
-          setSolvedProblems(solvedIds);
-        })
-        .catch((error) => {
-          console.error('Error fetching solved problems:', error);
         });
     }
   }, [problemId]);
@@ -116,6 +158,18 @@ function Home() {
       .then((response) => {
         setQueryResult(response.data);
         setLoading(false);
+        
+        if (response.data.correct) {
+          apiClient
+            .get('/api/submissions')
+            .then((submissionsResponse) => {
+              const solvedIds = extractSolvedIds(submissionsResponse.data);
+              handleSetSolvedProblems(solvedIds);
+            })
+            .catch((error) => {
+              console.error('Error refreshing solved problems:', error);
+            });
+        }
       })
       .catch((error) => {
         console.error('Error evaluating query:', error);
@@ -144,7 +198,7 @@ function Home() {
         <Sidebar
           problems={problems}
           problemId={problemId}
-          setProblemId={setProblemId}
+          setProblemId={handleSetProblemId}
           problemDetails={problemDetails}
           solvedProblems={solvedProblems}
           className='w-full md:w-1/3 min-h-0 overflow-y-auto'
@@ -152,7 +206,7 @@ function Home() {
         <main className='flex-1 p-6 overflow-y-auto min-h-0'>
           <QueryEditor
             userQuery={userQuery}
-            setUserQuery={setUserQuery}
+            setUserQuery={handleSetUserQuery}
             handleEvaluate={handleEvaluate}
             loading={loading}
           />

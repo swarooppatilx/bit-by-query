@@ -7,6 +7,19 @@ const Sidebar = ({
   problemDetails,
   solvedProblems,
 }) => {
+  // Helper function to compare IDs
+  const isSelectedProblem = (problem) => {
+    if (!problemId || !problem) return false;
+    return String(problemId) === String(problem.id);
+  };
+
+  // Helper function to check if problem is solved
+  const isSolvedProblem = (problem) => {
+    if (!problem || !solvedProblems.length) return false;
+    const problemIdAsNumber = Number(problem.id);
+    return solvedProblems.includes(problemIdAsNumber);
+  };
+
   return (
     <aside className='w-full md:w-1/3 p-6 border-r border-gray-700 bg-neutral-950 overflow-y-auto'>
       <h1 className='text-2xl font-bold text-blue-400'>Questions</h1>
@@ -25,12 +38,19 @@ const Sidebar = ({
             <button
               key={problem.id}
               className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${
-                problemId === problem.id
+                isSelectedProblem(problem)
                   ? 'border-green-500 bg-green-600 text-white shadow-md'
-                  : solvedProblems.includes(problem.id)
+                  : isSolvedProblem(problem)
                   ? 'border-blue-400 bg-blue-500 text-white shadow-sm' // Solved problems
                   : 'border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
+              style={{
+                backgroundColor: isSelectedProblem(problem) 
+                  ? '#059669'
+                  : isSolvedProblem(problem) 
+                  ? '#3b82f6'
+                  : '#374151'
+              }}
               onClick={() => setProblemId(problem.id)}
               aria-label={`Problem ${problem.id}`}
               title={`Marks ${problem.marks}`}
@@ -56,7 +76,7 @@ const Sidebar = ({
           <p className='text-gray-500 mb-4 text-lg'>
             {problemDetails.description}
           </p>
-          {solvedProblems.includes(problemId) && (
+          {problemId && solvedProblems.includes(Number(problemId)) && (
             <div className='flex items-center gap-2 text-sm text-yellow-400'>
               <span>✅ You have already solved this problem!</span>
             </div>
@@ -70,7 +90,7 @@ const Sidebar = ({
 Sidebar.propTypes = {
   problems: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       title: PropTypes.string.isRequired,
     })
   ).isRequired,
