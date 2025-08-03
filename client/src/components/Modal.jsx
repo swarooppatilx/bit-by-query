@@ -5,7 +5,8 @@ function Modal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 md:w-1/2">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 md:w-1/2 
+                max-h-[80vh] overflow-y-auto">
         <h3 className="text-xl font-bold mb-4 text-blue-800">Instructions</h3>
         <ul className="list-disc pl-5 text-gray-800">
           <li>
