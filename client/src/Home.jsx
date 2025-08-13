@@ -191,18 +191,6 @@ function Home() {
     return <Navigate to='/countdown' replace />;
   }
 
-  // Reset handler for the Reset button
-  const handleReset = () => {
-    setUserQuery("");
-    setQueryResult(null);
-    setError(null);
-    setSqlError(null);
-    setLoading(false);
-    if (problemId) {
-      localStorage.setItem(`userQuery_${problemId}`, "");
-    }
-  };
-
   return (
     <div className='flex flex-col h-screen'>
       <Header userInfo={userInfo} />
@@ -221,7 +209,6 @@ function Home() {
             setUserQuery={handleSetUserQuery}
             handleEvaluate={handleEvaluate}
             loading={loading}
-            handleReset={handleReset}
           />
           <ErrorDisplay error={error} sqlError={sqlError} />
           <QueryResult queryResult={queryResult} />

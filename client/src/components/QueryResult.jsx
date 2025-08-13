@@ -108,19 +108,23 @@ const QueryResult = ({ queryResult }) => {
                     <h5 className="text-lg font-medium text-green-300 mb-2">
                       Your Output:
                     </h5>
-                    <Table
-                      data={queryResult.testResults[activeTab].userOutput}
-                      isCorrect={queryResult.testResults[activeTab].passed}
-                    />
+                    <div className="result-table-scroll-wrapper">
+                      <Table
+                        data={queryResult.testResults[activeTab].userOutput}
+                        isCorrect={queryResult.testResults[activeTab].passed}
+                      />
+                    </div>
                   </div>
                   <div className="flex-1">
                     <h5 className="text-lg font-medium text-green-300 mb-2">
                       Expected Output:
                     </h5>
-                    <Table
-                      data={queryResult.testResults[activeTab].expectedOutput}
-                      isCorrect={true}
-                    />
+                    <div className="result-table-scroll-wrapper">
+                      <Table
+                        data={queryResult.testResults[activeTab].expectedOutput}
+                        isCorrect={true}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
