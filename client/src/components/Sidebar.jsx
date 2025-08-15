@@ -24,7 +24,7 @@ const Sidebar = ({
     <aside className='w-full md:w-1/3 p-6 border-r border-gray-700 bg-neutral-950 overflow-y-auto'>
       <h1 className='text-2xl font-bold text-blue-400'>Questions</h1>
 
-      <p className='mb-6 text-gray-200'>
+      <p className='mb-2 text-gray-200'>
         {solvedProblems.length} / {problems.length}
       </p>
 
@@ -33,7 +33,7 @@ const Sidebar = ({
           No problems available. Try again later.
         </p>
       ) : (
-        <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-[calc(5*3rem)] border border-gray-700 rounded-lg p-2 overflow-y-auto'>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-[calc(2.5*3rem)] border border-gray-700 rounded-lg p-2 overflow-y-auto">
           {problems.map((problem, index) => (
             <button
               key={problem.id}
@@ -63,12 +63,7 @@ const Sidebar = ({
       )}
 
       {problemDetails && (
-        <div className='mt-10'>
-          <h2 className='text-2xl'>Problem Details</h2>
-          <p className='italic text-xs'>
-            Note: Please use <code>SELECT * from TABLE_NAME</code> to view the
-            schema.
-          </p>
+        <div className='mt-0'>
           <hr className='border-t-2 border-gray-500 my-6' />
           <h2 className='text-xl font-semibold text-gray-300 mb-3'>
             {problemDetails.title}
@@ -81,6 +76,10 @@ const Sidebar = ({
               <span>✅ You have already solved this problem!</span>
             </div>
           )}
+          <p className='italic text-xs text-gray-200 mt-4'>
+            Note: Please use <code>SELECT * from TABLE_NAME</code> to view the
+            schema.
+          </p>
         </div>
       )}
     </aside>
