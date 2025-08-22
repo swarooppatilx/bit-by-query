@@ -10,7 +10,7 @@ import MobileWarning from './components/MobileWarning';
 import { endTime } from './config/date';
 import { Navigate } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Don't forget this line!
+import "react-toastify/dist/ReactToastify.css";
 
 
 function Home() {
@@ -27,6 +27,14 @@ function Home() {
     const savedSolvedProblems = localStorage.getItem('solvedProblems');
     return savedSolvedProblems ? JSON.parse(savedSolvedProblems) : [];
   });
+
+  const [currentTime, setCurrentTime] = useState(() => new Date().getTime());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date().getTime());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const isMobile = useScreenSize();
 
@@ -68,7 +76,7 @@ function Home() {
       .get('/api/userinfo')
       .then((response) => {
         setUserInfo(response.data);
-        
+
         return Promise.all([
           apiClient.get('/api/problems'),
           apiClient.get('/api/submissions')
@@ -76,20 +84,20 @@ function Home() {
       })
       .then(([problemsResponse, submissionsResponse]) => {
         setProblems(problemsResponse.data);
-        
+
         const solvedIds = extractSolvedIds(submissionsResponse.data);
         handleSetSolvedProblems(solvedIds);
-        
+
         const savedProblemId = localStorage.getItem('selectedProblemId');
         if (savedProblemId && problemsResponse.data.some(p => Number(p.id) === Number(savedProblemId))) {
           setProblemId(String(savedProblemId));
         }
-        
+
         setError(null);
       })
       .catch((error) => {
         console.error('Error fetching initial data:', error);
-        
+
         const cachedSolvedProblems = localStorage.getItem('solvedProblems');
         if (cachedSolvedProblems) {
           try {
@@ -99,12 +107,12 @@ function Home() {
             console.error('Error parsing cached solved problems:', parseError);
           }
         }
-        
+
         const savedProblemId = localStorage.getItem('selectedProblemId');
         if (savedProblemId) {
           setProblemId(String(savedProblemId));
         }
-        
+
         if (error.config?.url?.includes('/userinfo')) {
           setError('Failed to load user information. Please try again.');
         } else if (error.config?.url?.includes('/problems')) {
@@ -119,10 +127,10 @@ function Home() {
     if (problemId) {
       setProblemDetails(null);
       setError(null);
-      
+
       const savedQuery = localStorage.getItem(`userQuery_${problemId}`) || '';
       setUserQuery(savedQuery);
-      
+
       setQueryResult(null);
       setSqlError(null);
       setLoading(false);
@@ -158,7 +166,7 @@ function Home() {
       .then((response) => {
         setQueryResult(response.data);
         setLoading(false);
-        
+
         if (response.data.correct) {
           apiClient
             .get('/api/submissions')
@@ -186,7 +194,8 @@ function Home() {
     return <MobileWarning />;
   }
 
-  const currentTime = new Date().getTime();
+
+  const remainingTime = Math.max(0, endTime - currentTime);
   if (currentTime > endTime) {
     return <Navigate to='/countdown' replace />;
   }
@@ -201,6 +210,7 @@ function Home() {
           setProblemId={handleSetProblemId}
           problemDetails={problemDetails}
           solvedProblems={solvedProblems}
+          remainingTime={remainingTime}
           className='w-full md:w-1/3 min-h-0 overflow-y-auto'
         />
         <main className='flex-1 p-6 overflow-y-auto min-h-0'>

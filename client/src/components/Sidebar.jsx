@@ -7,7 +7,17 @@ const Sidebar = ({
   setProblemId,
   problemDetails,
   solvedProblems,
+  remainingTime,
 }) => {
+
+  const formatDuration = (ms) => {
+    if (ms <= 0) return "00:00:00";
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  };
   // Helper function to compare IDs
   const isSelectedProblem = (problem) => {
     if (!problemId || !problem) return false;
@@ -25,9 +35,13 @@ const Sidebar = ({
 
   return (
     <aside className='w-full md:w-1/3 px-6 py-4 border-r border-gray-700 bg-neutral-950 overflow-y-auto'>
-      <h1 className='text-2xl font-bold text-blue-400'>Questions</h1>
-
-
+      <div className="flex items-center justify-between mb-2">
+        <h1 className='text-2xl font-bold text-blue-400'>Questions</h1>
+        <span className="flex items-center gap-1 bg-neutral-900 border border-blue-700 rounded px-2 py-1 font-mono text-blue-300 font-bold text-base shadow-sm" title="Time left">
+          <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" /></svg>
+          {formatDuration(remainingTime)}
+        </span>
+      </div>
       <p className='mb-2 text-gray-200'>
         {solvedProblems.length} / {problems.length}
       </p>
@@ -42,19 +56,18 @@ const Sidebar = ({
           {problems.map((problem, index) => (
             <button
               key={problem.id}
-              className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${
-                isSelectedProblem(problem)
+              className={`p-3 rounded-lg border text-sm font-medium transition-transform transform focus:outline-none ${isSelectedProblem(problem)
                   ? 'border-green-500 bg-green-600 text-white shadow-md'
                   : isSolvedProblem(problem)
-                  ? 'border-blue-400 bg-blue-500 text-white shadow-sm' // Solved problems
-                  : 'border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
+                    ? 'border-blue-400 bg-blue-500 text-white shadow-sm' // Solved problems
+                    : 'border-gray-500 bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
               style={{
                 backgroundColor: isSelectedProblem(problem)
                   ? '#059669'
                   : isSolvedProblem(problem)
-                  ? '#3b82f6'
-                  : '#374151'
+                    ? '#3b82f6'
+                    : '#374151'
               }}
               onClick={() => setProblemId(problem.id)}
               aria-label={`Problem ${problem.id}`}
@@ -107,6 +120,7 @@ Sidebar.propTypes = {
     description: PropTypes.string.isRequired,
   }),
   solvedProblems: PropTypes.arrayOf(PropTypes.number).isRequired,
+  remainingTime: PropTypes.number,
 };
 
 
