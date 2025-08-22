@@ -24,19 +24,16 @@ function Login() {
 
   // Simulate API call
   setTimeout(() => {
-    if (username === "test" && password === "123") {
-      // 🔑 Store token so Middleware knows you're logged in
-      localStorage.setItem("authToken", "demo-token");
+  
+    localStorage.setItem("authToken", "demo-token"); 
 
-      navigate("/home");
-      setUsername("");
-      setPassword("");
-    } else {
-      setError("Invalid credentials. Please try again.");
-    }
+    navigate("/home");
+    setUsername("");
+    setPassword("");
     setLoading(false);
   }, 1500);
 };
+
 
 
   return (
