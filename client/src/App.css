@@ -1,3 +1,8 @@
+@keyframes resetPulse {
+  0% { box-shadow: 0 0 0 0 #fbbf24; }
+  70% { box-shadow: 0 0 0 8px #fbbf2433; }
+  100% { box-shadow: 0 0 0 0 #fbbf2400; }
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
