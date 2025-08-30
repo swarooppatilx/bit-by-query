@@ -7,13 +7,14 @@ import NotFound from "./NotFound";
 import Register from "./Register";
 import Middleware from "./middleware";
 import ForgotPassword from "./FotgotPassword";
-
+import LandingPage from "./LandingPage";
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route
-          path="/"
+          path="/home"
           element={
             <Middleware>
               <Home />
