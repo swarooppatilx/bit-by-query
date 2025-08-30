@@ -3,7 +3,20 @@ import Editor from "@monaco-editor/react";
 import { ClipLoader } from "react-spinners";
 import PropTypes from "prop-types";
 
-const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
+const QueryEditor = ({ problems,problemId,setProblemId,userQuery, setUserQuery, handleEvaluate, loading }) => {
+  const currentIndex = problems.findIndex((p) => String(p.id) === String(problemId));
+  const handleNext = () => {
+    if (currentIndex < problems.length - 1) {
+      setProblemId(problems[currentIndex + 1].id);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setProblemId(problems[currentIndex - 1].id);
+    }
+  };
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.ctrlKey && event.key === 'Enter') {
@@ -19,8 +32,38 @@ const QueryEditor = ({ userQuery, setUserQuery, handleEvaluate, loading }) => {
 
   return (
     <div>
-      <h2 className='text-2xl font-bold text-blue-400'>SQL Editor</h2>
-      <p className='text-gray-200 mb-6 text-lg'>Write your SQL query here</p>
+      <div className="flex justify-between items-center mb-6">
+        {/* Title */}
+        <div>
+          <h2 className="text-2xl font-bold text-blue-400">SQL Editor</h2>
+          <p className="text-gray-200 text-lg">Write your SQL query here</p>
+        </div>
+
+        {/* Navigation buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={handlePrev}
+            disabled={currentIndex <= 0}
+            className={`px-4 py-2 rounded-md font-semibold text-white
+              ${currentIndex <= 0 
+                ? 'bg-blue-400 opacity-50 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-800 shadow-md transition duration-200'}`}
+          >
+            Previous
+          </button>
+
+          <button
+            onClick={handleNext}
+            disabled={currentIndex >= problems.length - 1}
+            className={`px-4 py-2 rounded-md font-semibold text-white
+              ${currentIndex >= problems.length - 1 
+                ? 'bg-blue-400 opacity-50 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-800 shadow-md transition duration-200'}`}
+          >
+            Next
+          </button>
+        </div>
+      </div>
 
       <div className='border border-gray-700 rounded-md shadow-md my-4 bg-gray-800'>
         <Editor

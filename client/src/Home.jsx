@@ -215,6 +215,9 @@ function Home() {
         />
         <main className='flex-1 p-6 overflow-y-auto min-h-0'>
           <QueryEditor
+            problems={problems}
+            problemId={problemId}
+            setProblemId={handleSetProblemId}
             userQuery={userQuery}
             setUserQuery={handleSetUserQuery}
             handleEvaluate={handleEvaluate}
