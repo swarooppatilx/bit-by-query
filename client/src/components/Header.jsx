@@ -3,14 +3,23 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import { toast } from "react-toastify";
+import { logout } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import apiClient from "../apiClient";
 
 const Header = ({ userInfo }) => {
   const navigate = useNavigate();
   const [showInstructions, setShowInstructions] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const dispatch = useDispatch();
 
-  const confirmLogout = () => {
-    localStorage.removeItem("authToken");
+  const confirmLogout = async() => {
+    const res=await apiClient.post("/api/logout",{},{
+      withCredentials:true
+    });
+    if(res.status == 201){
+      dispatch(logout());
+    }
     toast.success("Logging Out!");
     setShowLogoutModal(false);
     setTimeout(() => {

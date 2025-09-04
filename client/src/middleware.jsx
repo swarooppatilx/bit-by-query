@@ -1,13 +1,14 @@
 import { Navigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { startTime, endTime } from "./config/date";
+import { useSelector } from "react-redux";
 
 function Middleware({ children }) {
-  const token = localStorage.getItem("authToken");
+  
   const location = useLocation();
 
   const currentTime = new Date().getTime();
-  const isLoggedIn = Boolean(token);
+  const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn);
 
   const publicRoutes = ["/", "/leaderboard", "/countdown"];
   const authRoutes = ["/login", "/register"];
