@@ -7,6 +7,7 @@ const cors = require("./middleware/cors");
 const errorHandler = require("./middleware/errorHandler");
 const loadProblems = require("./utils/loadProblems");
 const db = require("./utils/db");
+const solve_db = require("./utils/solver.js").solvePool;
 
 // Import Routes
 const authRoutes = require("./routes/authRoutes");
@@ -37,7 +38,7 @@ app.use("/api", leaderboardRoutes);
 
 // Fallback to frontend
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
+	res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
 });
 
 // Error handler
@@ -48,6 +49,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Graceful shutdown
 process.on("SIGINT", async () => {
-  await db.end();
-  process.exit(0);
+	await db.end();
+	await solve_db.end();
+	process.exit(0);
 });
