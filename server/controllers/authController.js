@@ -15,8 +15,14 @@ exports.login = async (req, res) => {
     if (!isValid) return res.status(400).json({ error: "Invalid password" });
 
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: "3h" });
-    res.json({ token });
+    res.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 3 * 60 * 60 * 1000 
+    });
+
+    res.status(201).json({ message: "Login successful" });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ error: "Internal server error", details: err.message });
   }
 };
@@ -35,4 +41,9 @@ exports.register = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Internal server error", details: err.message });
   }
+};
+
+exports.logout=async (req,res) => {
+  res.clearCookie("token");
+  return res.status(201).json({message:"LogOut Successful"});
 };
