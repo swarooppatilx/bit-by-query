@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import apiClient from "./apiClient";
 import { ToastContainer, toast } from "react-toastify";
+import { login } from "./redux/slices/authSlice";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -22,13 +25,13 @@ function Login() {
     setError(null);
 
     try {
-      const response = await axios.post("/api/login", {
+      const response = await apiClient.post("/api/login", {
         username,
         password,
       });
 
-      const { token } = response.data;
-      localStorage.setItem("authToken", token);
+      const user=response.data.user;
+      dispatch(login(user));
 
       toast.success("Login successful!");
       setTimeout(() => {
