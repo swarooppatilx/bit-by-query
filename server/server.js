@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const cookieParser=require("cookie-parser");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const cors = require("./middleware/cors");
@@ -16,6 +16,9 @@ const userRoutes = require("./routes/userRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
+
+// import Limiter
+const { authRateLimiter, apiRateLimiter } = require('./middleware/rateLimiting/index');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,15 +35,24 @@ app.use(express.static(path.join(__dirname, "..", "client/dist")));
 app.locals.problems = loadProblems();
 
 // API Routes
-app.use("/api", authRoutes);
+
+// app.use("/api", authRoutes);
+app.use("/api", authRateLimiter, authRoutes);
+
+app.use("/api", apiRateLimiter, leaderboardRoutes);
+
+// for these all routes i have made a separate api limiter so for that 'id' is needed 
+// so i used in routes separtely  
+
 app.use("/api", userRoutes);
 app.use("/api", problemRoutes);
 app.use("/api", submissionRoutes);
-app.use("/api", leaderboardRoutes);
+
+
 
 // Fallback to frontend
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
+    res.sendFile(path.join(__dirname, "..", "client/dist/index.html"));
 });
 
 // Error handler
@@ -50,8 +62,8 @@ app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Graceful shutdown
-process.on("SIGINT", async () => {
-	await db.end();
-	await solve_db.end();
-	process.exit(0);
+process.on("SIGINT", async() => {
+    await db.end();
+    await solve_db.end();
+    process.exit(0);
 });
