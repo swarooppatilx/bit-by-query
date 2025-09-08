@@ -68,6 +68,7 @@ const LandingPage = () => {
             <div className="mt-6">
               <button
                 disabled={!rulesAccepted}
+                onClick={() => navigate("/home")}
                 className={`w-full py-3 rounded-md shadow-lg ${
                   rulesAccepted
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
@@ -76,6 +77,7 @@ const LandingPage = () => {
               >
                 Start Contest
               </button>
+      
             </div>
           </div>
         </div>

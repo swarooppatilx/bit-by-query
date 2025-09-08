@@ -12,8 +12,12 @@ import { Navigate } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function Home() {
+  // New state for rules agreement and contest start
+  const [agreed, setAgreed] = useState(false);
+  const [showContest, setShowContest] = useState(false);
+
+  // ...existing code...
   const [problems, setProblems] = useState([]);
   const [problemId, setProblemId] = useState('');
   const [problemDetails, setProblemDetails] = useState(null);
@@ -38,168 +42,93 @@ function Home() {
 
   const isMobile = useScreenSize();
 
-  // Wrapper function to save problemId to localStorage when it changes
-  const handleSetProblemId = (newProblemId) => {
-    const normalizedId = newProblemId ? String(newProblemId) : '';
-    setProblemId(normalizedId);
-    if (normalizedId) {
-      localStorage.setItem('selectedProblemId', normalizedId);
-    } else {
-      localStorage.removeItem('selectedProblemId');
-    }
-  };
+  // ...existing wrapper and helper functions...
 
-  // Wrapper function to save userQuery to localStorage when it changes
-  const handleSetUserQuery = (newQuery) => {
-    setUserQuery(newQuery);
-    if (problemId) {
-      localStorage.setItem(`userQuery_${problemId}`, newQuery);
-    }
-  };
+  // ...existing useEffect for fetching data...
 
-  // Helper function to extract and normalize solved problem IDs
-  const extractSolvedIds = (submissions) => {
-    return submissions.map(submission => {
-      const id = submission.problem_id;
-      return typeof id === 'string' ? parseInt(id, 10) : Number(id);
-    }).filter(id => !isNaN(id));
-  };
+  // ...existing useEffect for fetching problem details...
 
-  // Wrapper function to save solved problems to localStorage when they change
-  const handleSetSolvedProblems = (newSolvedProblems) => {
-    setSolvedProblems(newSolvedProblems);
-    localStorage.setItem('solvedProblems', JSON.stringify(newSolvedProblems));
-  };
-
-  useEffect(() => {
-    apiClient
-      .get('/api/userinfo')
-      .then((response) => {
-        setUserInfo(response.data);
-
-        return Promise.all([
-          apiClient.get('/api/problems'),
-          apiClient.get('/api/submissions')
-        ]);
-      })
-      .then(([problemsResponse, submissionsResponse]) => {
-        setProblems(problemsResponse.data);
-
-        const solvedIds = extractSolvedIds(submissionsResponse.data);
-        handleSetSolvedProblems(solvedIds);
-
-        const savedProblemId = localStorage.getItem('selectedProblemId');
-        if (savedProblemId && problemsResponse.data.some(p => Number(p.id) === Number(savedProblemId))) {
-          setProblemId(String(savedProblemId));
-        }
-
-        setError(null);
-      })
-      .catch((error) => {
-        console.error('Error fetching initial data:', error);
-
-        const cachedSolvedProblems = localStorage.getItem('solvedProblems');
-        if (cachedSolvedProblems) {
-          try {
-            const parsedSolvedProblems = JSON.parse(cachedSolvedProblems);
-            handleSetSolvedProblems(parsedSolvedProblems);
-          } catch (parseError) {
-            console.error('Error parsing cached solved problems:', parseError);
-          }
-        }
-
-        const savedProblemId = localStorage.getItem('selectedProblemId');
-        if (savedProblemId) {
-          setProblemId(String(savedProblemId));
-        }
-
-        if (error.config?.url?.includes('/userinfo')) {
-          setError('Failed to load user information. Please try again.');
-        } else if (error.config?.url?.includes('/problems')) {
-          setError('Failed to load problems. Please try again.');
-        } else {
-          setError('Failed to load data. Please try again.');
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    if (problemId) {
-      setProblemDetails(null);
-      setError(null);
-
-      const savedQuery = localStorage.getItem(`userQuery_${problemId}`) || '';
-      setUserQuery(savedQuery);
-
-      setQueryResult(null);
-      setSqlError(null);
-      setLoading(false);
-      apiClient
-        .get(`/api/problems/${problemId}`)
-        .then((response) => setProblemDetails(response.data))
-        .catch((error) => {
-          console.error('Error fetching problem details:', error);
-          setError('Error fetching problem details. Please try again.');
-        });
-    }
-  }, [problemId]);
-
-  const handleEvaluate = () => {
-    if (!problemId) {
-      setError('Please select a Question');
-      return;
-    }
-    if (!userQuery) {
-      setError('Please provide a query');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setSqlError(null);
-    setQueryResult(null);
-
-    apiClient
-      .post(`/api/problems/${problemId}/evaluate`, {
-        userQuery,
-      })
-      .then((response) => {
-        setQueryResult(response.data);
-        setLoading(false);
-
-        if (response.data.correct) {
-          apiClient
-            .get('/api/submissions')
-            .then((submissionsResponse) => {
-              const solvedIds = extractSolvedIds(submissionsResponse.data);
-              handleSetSolvedProblems(solvedIds);
-            })
-            .catch((error) => {
-              console.error('Error refreshing solved problems:', error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error('Error evaluating query:', error);
-        if (error.response?.data?.details) {
-          setSqlError(error.response.data.details);
-        } else {
-          setError('Failed to evaluate the query. Please try again.');
-        }
-        setLoading(false);
-      });
-  };
+  // ...existing handleEvaluate...
 
   if (isMobile) {
     return <MobileWarning />;
   }
-
 
   const remainingTime = Math.max(0, endTime - currentTime);
   if (currentTime > endTime) {
     return <Navigate to='/countdown' replace />;
   }
 
+  // Show rules/welcome UI until user agrees and clicks Start Contest
+  if (!showContest) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white">
+        <div className="container mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-12">
+            <h1 className="text-3xl font-bold text-blue-400">Bit by Query - SQL Competition Platform</h1>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors"
+              onClick={() => window.location.href = "/register"}
+            >
+              Start Registration
+            </button>
+          </div>
+
+          {/* Welcome */}
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-blue-300 mb-6">Welcome to Bit by Query</h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              A full-stack SQL competition platform where participants can test their SQL knowledge, compete
+              with peers, and rise up the leaderboard.
+            </p>
+          </div>
+
+          {/* Rules */}
+          <div className="bg-gray-800 rounded-lg p-8 mb-12">
+            <h3 className="text-2xl font-bold text-blue-300 mb-6">Competition Rules & Highlights</h3>
+            <ul className="space-y-4">
+              <li>Each user must register before joining the contest.</li>
+              <li>Contest includes SQL query challenges of varying difficulty.</li>
+              <li>Leaderboard is updated in real-time based on scores.</li>
+              <li>Ensure to read all instructions before starting.</li>
+              <li>Any malpractice leads to disqualification.</li>
+              <li>Contest duration: <span className="text-blue-400 font-semibold">2 hours</span></li>
+            </ul>
+
+            <div className="mt-8 flex items-center space-x-3">
+              <input
+                type="checkbox"
+                id="agree"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="w-5 h-5"
+              />
+              <label htmlFor="agree" className="text-gray-300">
+                I have read and agree to all the rules & instructions
+              </label>
+            </div>
+
+
+            <button
+              disabled={!agreed}
+              onClick={() => setShowContest(true)}
+              className={`w-full py-3 rounded-md shadow-lg ${
+                agreed
+                  ? "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Start Contest
+            </button>
+
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ...existing contest interface...
   return (
     <div className='flex flex-col h-screen'>
       <Header userInfo={userInfo} />

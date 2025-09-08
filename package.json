@@ -1,8 +1,20 @@
 {
   "name": "bit-by-query",
   "version": "1.0.0",
-  "description": "SQL Competition Platform",
   "private": true,
+  "description": "SQL Competition Platform",
+  "homepage": "https://github.com/Bhaskara05/bit-by-query-bhaskara#readme",
+  "bugs": {
+    "url": "https://github.com/Bhaskara05/bit-by-query-bhaskara/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bhaskara05/bit-by-query-bhaskara.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
   "workspaces": [
     "client",
     "server"
@@ -16,11 +28,11 @@
     "install:all": "npm install",
     "test": "jest"
   },
+  "dependencies": {
+    "mysql2": "^3.14.3"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "jest": "^30.1.1"
-  },
-  "dependencies": {
-    "mysql2": "^3.14.3"
   }
 }
