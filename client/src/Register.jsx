@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import {FaEyeSlash,FaEye} from "react-icons/fa";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -120,7 +122,7 @@ function Register() {
               <input
                 type="text"
                 id="name"
-                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
+                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md "
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your full name"
@@ -155,21 +157,27 @@ function Register() {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text":"password"}
                   id="password"
-                  className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
+                  className=" pr-10 w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md "
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
                 />
-                <button
+                   <button
                   type="button"
+                  onClick={()=>setShowPassword(!showPassword)}
+
                   className="absolute inset-y-0 right-0 px-3 py-2 text-gray-400"
                   tabIndex={-1}
                 >
-                  <i className="fas fa-eye"></i>
+                 {showPassword ? 
+                   <FaEyeSlash/> :<FaEye/>
+                 }
+                
                 </button>
+             
               </div>
               {password && (
                 <p
