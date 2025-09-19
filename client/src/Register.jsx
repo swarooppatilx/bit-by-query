@@ -173,7 +173,7 @@ function Register() {
                   tabIndex={-1}
                 >
                  {showPassword ? 
-                   <FaEyeSlash/> :<FaEye/>
+                   <FaEye/> :<FaEyeSlash/>
                  }
                 
                 </button>
