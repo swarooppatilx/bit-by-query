@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "./redux/slices/authSlice"; // adjust path
+import { Check } from "lucide-react"; 
 
 const LandingPage = () => {
   const [rulesAccepted, setRulesAccepted] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Fetch user info on mount
+  useEffect(() => {
+    fetch("/api/userinfo", { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        console.log("userinfo response:", data);
+        if (data && !data.error) {
+          setUserInfo(data);
+          dispatch(login(data));   // 🔥 update Redux state
+        }
+      })
+      .catch(() => setUserInfo(null));
+  }, [dispatch]);
 
   const handleCheckbox = (e) => {
     setRulesAccepted(e.target.checked);
+  };
+
+  const handleStartContest = () => {
+    if (!rulesAccepted) return;
+    if (userInfo) {
+      navigate("/home"); // logged in → contest
+    } else {
+      navigate("/login"); // not logged in → login
+    }
   };
 
   return (
@@ -16,12 +44,25 @@ const LandingPage = () => {
         <h1 className="text-2xl font-bold text-blue-400">
           Bit by Query - SQL Competition Platform
         </h1>
-        <button
-          onClick={() => navigate("/register")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md"
-        >
-          Start Registration
-        </button>
+
+        {userInfo ? (
+          <div className="flex items-center bg-blue-800/30 text-white px-4 py-2 rounded-lg shadow-md">
+            <Check className="w-4 h-4 mr-2 text-blue-400" />
+            <span className="text-gray-300">
+              Logged in as{" "}
+              <span className="text-blue-400 font-semibold">
+                {userInfo.username}
+              </span>
+            </span>
+          </div>
+        ) : (
+          <button
+            onClick={() => navigate("/register")}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md shadow-md"
+          >
+            Start Registration
+          </button>
+        )}
       </header>
 
       {/* Main Content */}
@@ -47,7 +88,10 @@ const LandingPage = () => {
               <li>Leaderboard is updated in real-time based on scores.</li>
               <li>Ensure to read all instructions before starting.</li>
               <li>Any attempt of malpractice will lead to disqualification.</li>
-              <li>Contest duration: <span className="text-blue-400">2 hours</span></li>
+              <li>
+                Contest duration:{" "}
+                <span className="text-blue-400">2 hours</span>
+              </li>
             </ul>
 
             {/* Rules Checkbox */}
@@ -67,6 +111,7 @@ const LandingPage = () => {
             {/* Start Contest Button */}
             <div className="mt-6">
               <button
+                onClick={handleStartContest}
                 disabled={!rulesAccepted}
                 className={`w-full py-3 rounded-md shadow-lg ${
                   rulesAccepted
@@ -90,4 +135,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
