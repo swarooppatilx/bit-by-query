@@ -21,6 +21,7 @@
     "jest": "^30.1.1"
   },
   "dependencies": {
-    "mysql2": "^3.14.3"
+    "mysql2": "^3.14.3",
+    "react-icons": "^5.5.0"
   }
 }
