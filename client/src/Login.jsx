@@ -10,7 +10,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const dispatch=useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -30,7 +31,7 @@ function Login() {
         password,
       });
 
-      const user=response.data.user;
+      const user = response.data.user;
       dispatch(login(user));
 
       toast.success("Login successful!");
@@ -40,10 +41,14 @@ function Login() {
     } catch (err) {
       const message =
         err.response?.data?.error || "Unable to login. Please try again.";
-      setError(message); // show error in UI
+      setError(message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -80,7 +85,7 @@ function Login() {
               <input
                 type="text"
                 id="username"
-                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
+                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter ACM ID"
@@ -94,21 +99,44 @@ function Login() {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
-                  className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md"
+                  className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
                 />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 px-3 py-2 text-gray-400"
-                  tabIndex={-1}
-                >
-                  <i className="fas fa-eye"></i>
-                </button>
+              <button
+  type="button"
+  className="absolute inset-y-0 right-0 px-4 flex items-center justify-center text-white hover:text-blue-400 transition-colors duration-200"
+  onClick={togglePasswordVisibility}
+  tabIndex={-1}
+>
+  {showPassword ? (
+    // Password is visible → show EYE icon
+    <svg
+      className="w-6 h-6"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+      <path fillRule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 4 12.001 4c4.97 0 9.185 2.975 10.675 7.552.12.362.12.752 0 1.113-1.487 4.471-5.705 7.447-10.677 7.447-4.97 0-9.186-2.975-10.675-7.552a1.54 1.54 0 0 1 0-1.113ZM17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" clipRule="evenodd"/>
+    </svg>
+  ) : (
+    // Password is hidden → show EYE SLASH icon
+    <svg
+      className="w-6 h-6"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+      <path fillRule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 4 12.001 4c4.97 0 9.185 2.975 10.675 7.552.12.362.12.752 0 1.113-1.487 4.471-5.705 7.447-10.677 7.447-4.97 0-9.186-2.975-10.675-7.552a1.54 1.54 0 0 1 0-1.113ZM17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" clipRule="evenodd"/>
+      <path d="m3.707 2.293 18 18 1.414-1.414-18-18-1.414 1.414Z"/>
+    </svg>
+  )}
+</button>
+
               </div>
               <div className="text-right mt-2">
                 <a
@@ -122,23 +150,23 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200 font-medium"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            <hr className="my-6" />
-            <p className="text-center text-gray-400">
+            <hr className="my-6 border-gray-700" />
+            <p className="text-center text-gray-400 mb-2">
               New user?{" "}
-              <a href="/register" className="text-blue-400 hover:underline">
+              <a href="/register" className="text-blue-400 hover:underline font-medium">
                 Sign up
               </a>
             </p>
-            <p className="text-center text-gray-400">
+            <p className="text-center text-gray-400 text-sm mb-2">
               Difficulties logging in? Contact team members.
             </p>
-            <p className="text-center text-gray-400">
+            <p className="text-center text-gray-400 text-sm">
               <span className="text-green-400">Dummy Credentials:</span>
               <br />
               ACM ID: <strong>test</strong>, Pass: <strong>123</strong>
