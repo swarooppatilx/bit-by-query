@@ -31,20 +31,22 @@ bit-by-query/
 
 ### Installation
 
-1. **Clone the repository**
+1. **Fork the repository**
+
+2. **Clone the repository**
 
    ```bash
-   git clone https://github.com/swarooppatilx/bit-by-query.git
+   git clone https://github.com/<your-username>/bit-by-query.git
    cd bit-by-query
    ```
 
-2. **Install all dependencies**
+3. **Install all dependencies**
 
    ```bash
    npm install
    ```
 
-3. **Start development servers**
+4. **Start development servers**
    ```bash
    npm run dev
    ```
